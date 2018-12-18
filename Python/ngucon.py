@@ -18,8 +18,8 @@ ITOPODENTERX = 625
 ITOPODENTERY = 330
 ITOPODAUTOX = 710
 ITOPODAUTOY = 250
-CROWNX = 715
-CROWNY = 275
+CROWNX = 712
+CROWNY = 276
 HEALTHX = 706
 HEALTHY = 392
 ABILITY_ATTACKX = 430
@@ -46,7 +46,7 @@ TITAN_ZONE = {"GRB": 7, "GCT": 9, "jake": 12, "UUG": 15, "walderp": 17,
 ABILITY_ROW1X = 426
 ABILITY_ROW2X = 321
 ABILITY_ROW3X = 321
-ABILITY_OFFSETX = 105
+ABILITY_OFFSETX = 106
 ABILITY_ROW1Y = 113
 ABILITY_ROW2Y = 150
 ABILITY_ROW3Y = 186
@@ -61,8 +61,8 @@ ABILITY_PRIORITY = {1: 6,  # Strong
                     4: 10,  # Ultimate
                     5: 4,  # Block
                     6: 5,  # Defensive
-                    9: 12 # Charge
-                    }  # Paralyze
+                    9: 12, # Charge
+                    11: 3}  # Paralyze
 
 PLAYER_HEAL_THRESHOLDX = 512
 PLAYER_HEAL_THRESHOLDY = 392
@@ -113,15 +113,20 @@ WANADOOSMENUOFFSETY = 315
 NGUMENUOFFSETY = 345
 YGGDRASILMENUOFFSETY = 375
 BEARDMENUOFFSETY = 405
-NUMBERINPUTBOXX = 375
-NUMBERINPUTBOXY = 65
+
 EXPX = 90
 EXPY = 450
 SAVEX = 23
 SAVEY = 483
 SAVE_READY_COLOR = "99FF99"
-#FIGHT BOSS OFFSETS
 
+#ENERGY/MAGIC SIZE SELECTOR
+NUMBERINPUTBOXX = 375
+NUMBERINPUTBOXY = 65
+MAXENERGYX = 500
+MAXENERGYY = 70
+
+#FIGHT BOSS OFFSETS
 NUKEX = 620
 NUKEY = 110
 FIGHTX = 620
@@ -132,6 +137,7 @@ EQUIPMENTSLOTS = {"accessory1" : {"x": 480, "y": 65},
                   "accessory2": {"x": 480, "y": 115},
                   "accessory3": {"x": 480, "y": 165},
                   "accessory4": {"x": 480, "y": 215},
+				  "accessory5": {"x": 430, "y": 215},
                   "head": {"x": 525, "y": 65},
                   "chest": {"x": 527, "y": 114},
                   "legs": {"x": 527, "y": 163},

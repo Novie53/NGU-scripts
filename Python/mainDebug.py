@@ -52,7 +52,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 	return False, 0
 
-def Nov_SpeedRun_Two(duration):
+def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
 	GoldClearLevels = -1 #1=The2DUniverse,2=AncientBattlefield,3=AVeryStrangePlace,4=MegaLands,5=TheBeardverse
 	TM_Done = False
@@ -98,7 +98,10 @@ def Nov_SpeedRun_Two(duration):
 				Digger_Activated = True
 				
 			if not Aug_Assigned:
-				feature.augments({"SS": 0.565, "DS": 0.435}, 39e6)
+				print("assigning Augment energy")
+				#feature.augments({"SS": 0.565, "DS": 0.435}, 39e6)
+				feature.augments({"SS": 1}, 15e6)
+				input("is it correct?")
 				Aug_Assigned = True
 				
 			if not Blood_Assigned:
@@ -119,6 +122,12 @@ def Nov_SpeedRun_Two(duration):
 		time.sleep(1)
 		#feature.boost_equipment() #boostar också Cube
 	
+	
+	nav.menu("augmentations")
+	i.click(10, 10)
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\augment" + str(counter) + ".png")
+	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
 	feature.speedrun_bloodpill()
@@ -138,10 +147,14 @@ def Nov_SpeedRun_Two(duration):
 	
 	while time.time() < end:
 		time.sleep(0.1)
+		
+	nav.rebirth()
+	i.click(10, 10)
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\rebirth" + str(counter) + ".png")
 
 
-
-w = Window()
+w = Window(debug=True)
 i = Inputs()
 nav = Navigation()
 feature = Features()
@@ -150,11 +163,13 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2, 2, 5) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
-tracker = Tracker(10)		#Progress tracker int val = tid för run
+tracker = Tracker(7)		#Progress tracker int val = tid för run
+
 
 #c = Challenge()
 #print("Current challenge : " + str(c.check_challenge()))
 #c.start_challenge(1)
+
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard"]
@@ -162,6 +177,8 @@ tracker = Tracker(10)		#Progress tracker int val = tid för run
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
 
 
+
+runCounter = 0
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
@@ -175,7 +192,8 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	#använd blood magic Gold upgrade för några sec
 	
-	Nov_SpeedRun_Two(10)
+	Nov_SpeedRun_Two(7, runCounter)
 	#Beard	=	The Fu manchu
 	#Blood	=	Blood numbers boost
 	#TM		=	0/0
+	runCounter += 1
