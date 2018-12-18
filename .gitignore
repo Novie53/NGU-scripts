@@ -4,7 +4,7 @@ main.ahk
 debug.py
 debug_ocr.png
 local_env.py
-.ink
+*.ink
 
 Python/Scripts/ngu_icon\.ico
 
