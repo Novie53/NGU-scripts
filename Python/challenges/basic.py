@@ -1,174 +1,213 @@
 """Contains functions for running a basic challenge."""
 from classes.features import Features
-from classes.stats import Tracker
 import ngucon as ncon
 import usersettings as userset
 import time
 
 
 class Basic(Features):
-    """Contains functions for running a basic challenge."""
+	"""Contains functions for running a basic challenge."""
 
-    def first_rebirth(self):
-        """Procedure for first rebirth after number reset."""
-        end = time.time() + 3 * 60
-        tm_unlocked = False
-        bm_unlocked = False
-        ci_assigned = False
-        diggers = [2, 3, 8]
-        self.loadout(1)
-        self.nuke()
-        time.sleep(2)
-        self.fight()
-        self.adventure(highest=True)
-        while not tm_unlocked:
-            if not ci_assigned:
-                time.sleep(1)
-                self.augments({"CI": 1}, 1e6)
-                ci_assigned = True
-            self.wandoos(True)
-            self.nuke()
-            time.sleep(2)
-            self.fight()
+	def first_rebirth(self, duration, counter):
+		"""Procedure for first rebirth after number reset."""
+		start = time.time()
+		end = time.time() + (duration * 60) + 1
+		augemnt_assigned = 0
+		currentBoss = 0
+		GoldClearLevels = 0 #1=Sewers,2=Forest
+		TM_assigned = False
 
-            tm_color = self.get_pixel_color(ncon.TMLOCKEDX, ncon.TMLOCKEDY)
-            if tm_color != ncon.TMLOCKEDCOLOR:
-                self.send_string("r")
-                self.send_string("t")
-                self.time_machine(True)
-                self.loadout(2)
-                tm_unlocked = True
+		self.loadout(1)
+		
+		while time.time() < (end - 2):
+			self.nuke()
+			time.sleep(0.5)
+			self.fight()
+			
+			try:
+				currentBoss = int(self.get_current_boss())
+			except:
+				print("Failed to get boss level")
+			
+			if (GoldClearLevels == 0 and currentBoss > 7) or (GoldClearLevels == 1 and currentBoss > 17):
+				self.adventure(highest=True)
+				GoldClearLevels += 1
+			if currentBoss > 17 and augemnt_assigned == 0:
+				self.menu("augmentations")
+				self.click(630, 260 + 70 * 0)
+				self.send_string(2)
+				self.click(630, 260 + 70 * 1)
+				self.send_string(2)
+				
+				self.augments({"SS": 1}, 1e3)
+				augemnt_assigned += 1
+			elif currentBoss > 18 and augemnt_assigned == 1:
+				self.augments({"MI": 1}, 1e4)
+				augemnt_assigned += 1
+			elif currentBoss > 20 and augemnt_assigned == 2:
+				self.augments({"CI": 1}, 1e4)
+				augemnt_assigned += 1
+				
+			if currentBoss > 30 and not TM_assigned:
+				self.reclaim_all_energy()
+				self.time_machine(5e6, magic=True)
+				self.augments({"EB": 1}, 20e6)
+				TM_assigned = True
+				
+			self.wandoos(True)
+		
+		self.menu("augmentations")
+		self.click(630, 260 + 70 * 0)
+		self.send_string(0)
+		self.click(630, 260 + 70 * 1)
+		self.send_string(0)
+		
+		self.rebirth()
+		self.click(10, 10)
+		aaa = self.get_bitmap()
+		aaa.save("Pic\\" + "challenge" + str(counter) + ".png")
+		
+		while time.time() < end:
+			time.sleep(0.1)
 
-        time.sleep(15)
-        self.augments({"CI": 1}, 1e8)
-        self.gold_diggers(diggers, True)
-        self.adventure(highest=True)
-        time.sleep(4)
-        self.adventure(itopod=True, itopodauto=True)
-        while not bm_unlocked:
-            self.wandoos(True)
-            self.nuke()
-            time.sleep(2)
-            self.fight()
-            self.gold_diggers(diggers)
-            time.sleep(5)
+	def speedrun(self, duration, counter):
+		#Start a speedrun.
+		
+		self.do_rebirth()
+		start = time.time()
+		end = time.time() + (duration * 60) + 1
+		currentBoss = 0
+		GoldClearLevels = 1 #1=Sewers,2=Forest
+		TM_assigned = 0
+		augemnt_assigned = -1
+		blood_assigned = False
+		digger_activated = False
+		
+		self.nuke()
+		time.sleep(2)
+		self.loadout(1)
+		
+		while time.time() < (end - 10) and currentBoss <= 58:
+			self.nuke()
+			time.sleep(0.5)
+			self.fight()			
+			try:
+				currentBoss = int(self.get_current_boss())
+			except:
+				print("Failed to get boss level")
 
-            bm_color = self.get_pixel_color(ncon.BMLOCKEDX, ncon.BMLOCKEDY)
-            if bm_color != ncon.BMLOCKEDCOLOR:
-                self.menu("bloodmagic")
-                time.sleep(0.2)
-                self.send_string("t")
-                self.send_string("r")
-                self.blood_magic(5)
-                bm_unlocked = True
-                self.augments({"SS": 0.7, "DS": 0.3}, 5e8)
+			if currentBoss > 30 and TM_assigned <= 3:
+				if TM_assigned == 0:
+					self.loadout(2)
+					self.reclaim_all_energy()
+					self.reclaim_all_magic()
+				self.time_machine(1e9, magic=True)
+				TM_assigned += 1
+			
+			if (GoldClearLevels == 1 and currentBoss > 17) or (GoldClearLevels == 2 and currentBoss > 37) \
+										or (GoldClearLevels == 3 and currentBoss > 48):
+				if GoldClearLevels >= 2:
+					self.loadout(1)
+					self.adventure(highest=True)
+					time.sleep(8)
+					self.loadout(2)  # Bar/power equimpent
+					self.adventure(itopod=True, itopodauto=True)
+				else:
+					self.adventure(highest=True)
+				GoldClearLevels += 1
+			
+			
+			if currentBoss > 37 and augemnt_assigned != 2:
+				self.menu("augmentations")
+				time.sleep(5)
+				#print("Augment 2")
+				self.click(575, 390)
+				self.click(575, 525)
+				self.augments({"SS": 0.95, "DS": 0.5}, 5e6)
+				augemnt_assigned = 2
+			elif currentBoss > 31 and augemnt_assigned < 1:
+				self.menu("augmentations")
+				time.sleep(5)
+				#print("Augment 1")
+				self.click(575, 390)
+				self.augments({"EB": 1}, 20e6)
+				augemnt_assigned = 1
+			elif augemnt_assigned == -1:
+				self.menu("augmentations")
+				time.sleep(5)
+				#print("Augment 0")
+				self.augments({"CI": 1}, 20e6)
+				augemnt_assigned = 0
 
-        while time.time() < end:
-            self.wandoos(True)
-            self.nuke()
-            time.sleep(2)
-            self.fight()
-            self.gold_diggers(diggers)
-            time.sleep(5)
+			if currentBoss > 37 and not blood_assigned:
+				self.menu("wandoos")
+				self.click(590, 350)
+				self.blood_magic(3)
+				blood_assigned = True
+			
+			if currentBoss > 35 and not digger_activated \
+				and time.time() > (start + 80):
+				#print("digger on")
+				self.gold_diggers([2], True)
+				digger_activated = True
+				
+			self.gold_diggers([2])
+			self.wandoos(True)
+			time.sleep(3)
+		
+		if currentBoss >= 59:
+			#print("Already done :)")
+			while (time.time() - start) <= 180:
+				time.sleep(0.25)
+		else:
+			self.reclaim_all_magic()
+			self.reclaim_all_energy()
+			if digger_activated:
+				self.gold_diggers([2], activate=True)
+			self.gold_diggers([3], activate=True)
+			for x in range(5):
+				self.nuke()
+				self.fight()
+				time.sleep(0.5)
+			
+			'''
+			self.rebirth()
+			self.click(10, 10)
+			aaa = self.get_bitmap()
+			aaa.save("Pic\\" + "challenge" + str(counter) + ".png")
+			'''
+			
+			while time.time() < end:
+				time.sleep(0.1)
 
-    def speedrun(self, duration, target):
-        """Start a speedrun.
+	def check_challenge(self):
+		"""Check if a challenge is active."""
+		self.rebirth()
+		self.click(ncon.CHALLENGEBUTTONX, ncon.CHALLENGEBUTTONY)
+		time.sleep(userset.LONG_SLEEP)
+		color = self.get_pixel_color(ncon.CHALLENGEACTIVEX,
+									 ncon.CHALLENGEACTIVEY)
 
-        Keyword arguments
-        duration -- duration in minutes to run
-        f -- feature object
-        """
-        self.do_rebirth()
-        start = time.time()
-        end = time.time() + (duration * 60)
-        blood_digger_active = False
-        self.nuke(125)
-        time.sleep(2)
-        self.loadout(1)  # Gold drop equipment
-        self.adventure(highest=True)
-        time.sleep(7)
-        self.loadout(2)  # Bar/power equimpent
-        self.adventure(itopod=True, itopodauto=True)
-        self.time_machine(True)
-        self.augments({"EB": 0.7, "CS": 0.3}, 4.5e9)
+		return True if color == ncon.CHALLENGEACTIVECOLOR else False
+	
+	def basic(self):
+		"""Defeat target boss."""
+		
+		#spend all exp
+		#spend all perk points
+		#set augment to 0 in everything
+		
+		self.first_rebirth(5, 1)
+		self.do_rebirth()
+		self.first_rebirth(5, 2)
+		self.do_rebirth()
+		self.first_rebirth(5, 3)
+		#self.do_rebirth()
+		#self.first_rebirth(5, val = 4)
 
-        self.blood_magic(8)
-        self.boost_equipment()
-        self.wandoos(True)
-        self.gold_diggers([2, 5, 8, 9], True)
-
-        while time.time() < end - 20:
-            self.wandoos(True)
-            self.gold_diggers([2, 5, 8, 9, 11])
-            if time.time() > start + 60 and not blood_digger_active:
-                blood_digger_active = True
-                self.gold_diggers([11], True)
-            if time.time() > start + 90:
-                try:
-                    NGU_energy = int(self.remove_letters(self.ocr(ncon.OCR_ENERGY_X1,ncon.OCR_ENERGY_Y1,ncon.OCR_ENERGY_X2,ncon.OCR_ENERGY_Y2)))
-                    self.assign_ngu(NGU_energy, [1, 2, 4, 5, 6])
-                    NGU_magic = int(self.remove_letters(self.ocr(ncon.OCR_MAGIC_X1, ncon.OCR_MAGIC_Y1, ncon.OCR_MAGIC_X2, ncon.OCR_MAGIC_Y2)))
-                    self.assign_ngu(NGU_magic, [2], magic=True)
-                except ValueError:
-                    print("couldn't assign e/m to NGUs")
-                time.sleep(0.5)
-        self.gold_diggers([2, 3, 5, 9, 12], True)
-        self.nuke()
-        time.sleep(2)
-        self.fight()
-        self.pit()
-        self.spin()
-        self.tracker.progress()
-        #tracker.adjustxp()
-        while time.time() < end:
-            try:
-                """If current rebirth is scheduled for more than 3 minutes and
-                we already finished the rebirth, we will return here, instead
-                of waiting for the duration. Since we cannot start a new
-                challenge if less than 3 minutes have passed, we must always
-                wait at least 3 minutes."""
-
-                current_boss = int(self.get_current_boss())
-                if duration > 3 and current_boss > target:
-                    if not self.check_challenge():
-                        while time.time() < start + 180:
-                            time.sleep(1)
-                        return
-                if current_boss < 101:
-                    self.fight()
-
-            except ValueError:
-                print("OCR couldn't find current boss")
-        return
-
-    def check_challenge(self):
-        """Check if a challenge is active."""
-        self.rebirth()
-        self.click(ncon.CHALLENGEBUTTONX, ncon.CHALLENGEBUTTONY)
-        time.sleep(userset.LONG_SLEEP)
-        color = self.get_pixel_color(ncon.CHALLENGEACTIVEX,
-                                     ncon.CHALLENGEACTIVEY)
-
-        return True if color == ncon.CHALLENGEACTIVECOLOR else False
-
-    def basic(self, target):
-        """Defeat target boss."""
-        self.first_rebirth()
-
-        for x in range(8):
-            self.speedrun(3, target)
-            if not self.check_challenge():
-                return
-        for x in range(5):
-            self.speedrun(7, target)
-            if not self.check_challenge():
-                return
-        for x in range(5):
-            self.speedrun(12, target)
-            if not self.check_challenge():
-                return
-        for x in range(5):
-            self.speedrun(60, target)
-            if not self.check_challenge():
-                return
-        return
+		abc = 4
+		for x in range(8):
+			self.speedrun(5, abc)
+			abc += 1
+			if not self.check_challenge():
+				return
