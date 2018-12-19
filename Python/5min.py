@@ -17,11 +17,14 @@ import time
 
 
 LOWEST_SLEEP_TO_KILL = 3.8
-ADVENTURE_ZONE = {2: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
-				  3: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.1},
-				  4: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
-				  5: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 4 and it will avoid Beardverse and onwards
+ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
+				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
+				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
+				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
+				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.1},
+				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
+				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
+MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -34,7 +37,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 	room = 0
 	newBossToKill = False
 
-	for i in range(MAX_KILL_ADVENTURE_ZONE,1,-1):
+	for i in range(MAX_KILL_ADVENTURE_ZONE,-1,-1):
 		if GoldClearLevels >= i:
 			break
 		if currentBoss > ADVENTURE_ZONE[i]["boss"]:
@@ -49,17 +52,16 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 			feature.loadout(2)  # Bar/power equimpent
 
 			return True, i
-
 	return False, 0
 
-def Nov_SpeedRun_Two(duration):
+def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = -1 #1=The2DUniverse,2=AncientBattlefield,3=AVeryStrangePlace,4=MegaLands,5=TheBeardverse
+	GoldClearLevels = -1
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
 	Digger_Activated = False
-	ONLY_DO_ONCE = False
+	#ONLY_DO_ONCE = False
 	half_energy_WANDOOS = False
 	
 	
@@ -68,7 +70,8 @@ def Nov_SpeedRun_Two(duration):
 	end = time.time() + (duration * 60) + 1
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	feature.augments({"SS": 0.9, "DS": 0.1}, 1e6)
+	time.sleep(2)
+	feature.augments({"SS": 0.8, "DS": 0.2}, 1e6)
 
 	while time.time() < (end - 10): 
 		feature.nuke()
@@ -79,11 +82,11 @@ def Nov_SpeedRun_Two(duration):
 		if var1:
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
-
+		'''
 		if time.time() > (start + 100) and not ONLY_DO_ONCE:
 			ONLY_DO_ONCE = True
 			GoldClearLevels -= 1
-
+		'''
 		if (start + duration * 60 * 0.25) > time.time() and not TM_Done: #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
@@ -92,13 +95,16 @@ def Nov_SpeedRun_Two(duration):
 				i.click(570,235)
 				i.click(570,335)
 				TM_Done = True
-			
+
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [28,5], activate=True)
+				feature.NOV_gold_diggers([2,5], [20,1], activate=True)
 				Digger_Activated = True
-				
+
 			if not Aug_Assigned:
+				nav.menu("augmentations")
+				time.sleep(1) #For some fucking reason this one buggs out without a sleep here
 				feature.augments({"SS": 0.565, "DS": 0.435}, 39e6)
+				#time.sleep(5)
 				Aug_Assigned = True
 				
 			if not Blood_Assigned:
@@ -114,10 +120,16 @@ def Nov_SpeedRun_Two(duration):
 			else:
 				feature.assign_ngu(1e9, [1])
 
-		feature.NOV_boost_equipment("weapon")
+		#feature.NOV_boost_equipment("weapon")
 		feature.NOV_boost_equipment("cube")
 		time.sleep(1)
 		#feature.boost_equipment() #boostar också Cube
+	
+	if counter != 0:
+		nav.menu("augmentations")
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\augment" + str(counter) + ".png")
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
@@ -138,7 +150,12 @@ def Nov_SpeedRun_Two(duration):
 	
 	while time.time() < end:
 		time.sleep(0.1)
-
+	
+	if counter != 0:
+		nav.rebirth()
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\rebirth" + str(counter) + ".png")
 
 
 w = Window()
@@ -150,11 +167,13 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2, 2, 5) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
-tracker = Tracker(10)		#Progress tracker int val = tid för run
+tracker = Tracker(7)		#Progress tracker int val = tid för run
+
 
 #c = Challenge()
 #print("Current challenge : " + str(c.check_challenge()))
 #c.start_challenge(1)
+
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard"]
@@ -162,6 +181,8 @@ tracker = Tracker(10)		#Progress tracker int val = tid för run
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
 
 
+
+runCounter = 1
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
@@ -175,7 +196,9 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	#använd blood magic Gold upgrade för några sec
 	
-	Nov_SpeedRun_Two(10)
+	
+	Nov_SpeedRun_Two(7, 0)
 	#Beard	=	The Fu manchu
 	#Blood	=	Blood numbers boost
 	#TM		=	0/0
+	runCounter += 1

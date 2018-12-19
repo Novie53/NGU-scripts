@@ -37,7 +37,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 	room = 0
 	newBossToKill = False
 
-	for i in range(MAX_KILL_ADVENTURE_ZONE,1,-1):
+	for i in range(MAX_KILL_ADVENTURE_ZONE,-1,-1):
 		if GoldClearLevels >= i:
 			break
 		if currentBoss > ADVENTURE_ZONE[i]["boss"]:
@@ -52,7 +52,6 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 			feature.loadout(2)  # Bar/power equimpent
 
 			return True, i
-
 	return False, 0
 
 def Nov_SpeedRun_Two(duration, counter):
@@ -126,11 +125,11 @@ def Nov_SpeedRun_Two(duration, counter):
 		time.sleep(1)
 		#feature.boost_equipment() #boostar också Cube
 	
-	
-	nav.menu("augmentations")
-	i.click(10, 10)
-	aaa = i.get_bitmap()
-	aaa.save("Pic\\augment" + str(counter) + ".png")
+	if counter != 0:
+		nav.menu("augmentations")
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\augment" + str(counter) + ".png")
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
@@ -151,14 +150,15 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	while time.time() < end:
 		time.sleep(0.1)
-		
-	nav.rebirth()
-	i.click(10, 10)
-	aaa = i.get_bitmap()
-	aaa.save("Pic\\rebirth" + str(counter) + ".png")
+	
+	if counter != 0:
+		nav.rebirth()
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\rebirth" + str(counter) + ".png")
 
 
-w = Window(debug=True)
+w = Window()
 i = Inputs()
 nav = Navigation()
 feature = Features()
@@ -182,7 +182,7 @@ tracker = Tracker(7)		#Progress tracker int val = tid för run
 
 
 
-runCounter = 0
+runCounter = 1
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
@@ -196,7 +196,8 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	#använd blood magic Gold upgrade för några sec
 	
-	Nov_SpeedRun_Two(7, runCounter)
+	
+	Nov_SpeedRun_Two(7, 0)
 	#Beard	=	The Fu manchu
 	#Blood	=	Blood numbers boost
 	#TM		=	0/0
