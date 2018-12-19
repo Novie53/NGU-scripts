@@ -26,7 +26,7 @@ class Navigation(Inputs):
 		"""Click input box."""
 		self.click(ncon.NUMBERINPUTBOXX, ncon.NUMBERINPUTBOXY)
 		time.sleep(userset.SHORT_SLEEP)
-		
+
 	def max_energy(self):
 		"""Clicks the max Energy button"""
 		self.click(ncon.MAXENERGYX, ncon.MAXENERGYY)

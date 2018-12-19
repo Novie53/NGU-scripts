@@ -17,11 +17,14 @@ import time
 
 
 LOWEST_SLEEP_TO_KILL = 3.8
-ADVENTURE_ZONE = {2: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
-				  3: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.1},
-				  4: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
-				  5: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 4 and it will avoid Beardverse and onwards
+ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
+				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
+				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
+				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
+				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.1},
+				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
+				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
+MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -54,12 +57,12 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = -1 #1=The2DUniverse,2=AncientBattlefield,3=AVeryStrangePlace,4=MegaLands,5=TheBeardverse
+	GoldClearLevels = -1
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
 	Digger_Activated = False
-	ONLY_DO_ONCE = False
+	#ONLY_DO_ONCE = False
 	half_energy_WANDOOS = False
 	
 	
@@ -68,7 +71,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60) + 1
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	feature.augments({"SS": 0.97, "DS": 0.03}, 1e6)
+	time.sleep(2)
+	feature.augments({"SS": 0.8, "DS": 0.2}, 1e6)
 
 	while time.time() < (end - 10): 
 		feature.nuke()
@@ -79,11 +83,11 @@ def Nov_SpeedRun_Two(duration, counter):
 		if var1:
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
-
+		'''
 		if time.time() > (start + 100) and not ONLY_DO_ONCE:
 			ONLY_DO_ONCE = True
 			GoldClearLevels -= 1
-
+		'''
 		if (start + duration * 60 * 0.25) > time.time() and not TM_Done: #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
@@ -92,16 +96,16 @@ def Nov_SpeedRun_Two(duration, counter):
 				i.click(570,235)
 				i.click(570,335)
 				TM_Done = True
-			
+
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [28,5], activate=True)
+				feature.NOV_gold_diggers([2,5], [20,1], activate=True)
 				Digger_Activated = True
-				
+
 			if not Aug_Assigned:
-				print("assigning Augment energy")
-				#feature.augments({"SS": 0.565, "DS": 0.435}, 39e6)
-				feature.augments({"SS": 1}, 15e6)
-				input("is it correct?")
+				nav.menu("augmentations")
+				time.sleep(1) #For some fucking reason this one buggs out without a sleep here
+				feature.augments({"SS": 0.565, "DS": 0.435}, 39e6)
+				#time.sleep(5)
 				Aug_Assigned = True
 				
 			if not Blood_Assigned:
@@ -117,7 +121,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			else:
 				feature.assign_ngu(1e9, [1])
 
-		feature.NOV_boost_equipment("weapon")
+		#feature.NOV_boost_equipment("weapon")
 		feature.NOV_boost_equipment("cube")
 		time.sleep(1)
 		#feature.boost_equipment() #boostar också Cube

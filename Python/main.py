@@ -68,7 +68,7 @@ def Nov_SpeedRun_Two(duration):
 	end = time.time() + (duration * 60) + 1
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	feature.augments({"SS": 0.97, "DS": 0.03}, 1e6)
+	feature.augments({"SS": 0.9, "DS": 0.1}, 1e6)
 
 	while time.time() < (end - 10): 
 		feature.nuke()

@@ -282,7 +282,7 @@ class Features(Navigation, Inputs):
 		for k in augments:
 			val = math.floor(augments[k] * energy)
 			self.input_box()
-			self.send_string(str(val))
+			self.send_string(val)
 			# Scroll down if we have to.
 			bottom_augments = ["AE", "ES", "LS", "QSL"]
 			i = 0
@@ -492,19 +492,7 @@ class Features(Navigation, Inputs):
 			diggerValue = targetValues[i]
 			page = ((diggerTarget-1)//4)
 			item = diggerTarget - (page * 4)
-			
-			'''
-			currentVal = -1
-			success = False
-			try:
-				currentVal = self.ocr(ncon.DIG_CAP[diggerTarget]["x"] - 128, ncon.DIG_CAP[diggerTarget]["y"] - 10,
-									ncon.DIG_CAP[diggerTarget]["x"] - 90, ncon.DIG_CAP[diggerTarget]["y"] + 10, debug=False)
-				currentVal = int(self.remove_letters(currentVal))
-				success = True
-			except:
-				print("Failed to get gold digger value at " + str(diggerTarget))
-			'''
-			
+
 			self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
 			self.click(ncon.DIG_CAP[item]["x"] - 110, ncon.DIG_CAP[item]["y"])
 			self.send_string(str(diggerValue))
