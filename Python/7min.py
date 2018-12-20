@@ -82,12 +82,8 @@ def Nov_SpeedRun_Two(duration, counter):
 		if var1:
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
-		'''
-		if time.time() > (start + 100) and not ONLY_DO_ONCE:
-			ONLY_DO_ONCE = True
-			GoldClearLevels -= 1
-		'''
-		if (start + duration * 60 * 0.25) > time.time() and not TM_Done: #the first 25% of the run
+
+		if (start + duration * 60 * 0.25) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
 			if not TM_Done:
@@ -101,10 +97,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				nav.menu("augmentations")
-				time.sleep(1) #For some fucking reason this one buggs out without a sleep here
 				feature.augments({"SS": 0.565, "DS": 0.435}, 39e6)
-				#time.sleep(5)
 				Aug_Assigned = True
 				
 			if not Blood_Assigned:
