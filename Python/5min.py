@@ -82,11 +82,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		if var1:
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
-		'''
-		if time.time() > (start + 100) and not ONLY_DO_ONCE:
-			ONLY_DO_ONCE = True
-			GoldClearLevels -= 1
-		'''
+
 		if (start + duration * 60 * 0.25) > time.time() and not TM_Done: #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
@@ -101,23 +97,30 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				nav.menu("augmentations")
-				time.sleep(1) #For some fucking reason this one buggs out without a sleep here
+				#nav.menu("augmentations")
+				#time.sleep(1) #For some fucking reason this one buggs out without a sleep here
 				feature.augments({"SS": 0.565, "DS": 0.435}, 39e6)
-				#time.sleep(5)
 				Aug_Assigned = True
-				
+			
+			'''
 			if not Blood_Assigned:
 				nav.menu("bloodmagic")
 				i.click(ncon.BMX, ncon.BMY[3])
 				Blood_Assigned = True
+			'''
+			nav.menu("bloodmagic")
+			i.click(ncon.BMX, ncon.BMY[3])
 			
-			feature.wandoos(True)
-			if not half_energy_WANDOOS:
-				idle_color = i.get_pixel_color(426, 250)
-				if idle_color == "59CF81":
-					half_energy_WANDOOS = True
+			if (start + 70) < time.time():
+				feature.wandoos(True)
 			else:
+				feature.wandoos(False)
+			if not half_energy_WANDOOS and (start + 90) < time.time():
+				idle_color = i.get_pixel_color(393, 250) #100% = 525, 50% = 426, 25% = 393
+				if idle_color == "59CF81":
+					print("wandos is at 25%, enabling NGU")
+					half_energy_WANDOOS = True
+			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
 		#feature.NOV_boost_equipment("weapon")
@@ -130,6 +133,16 @@ def Nov_SpeedRun_Two(duration, counter):
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\augment" + str(counter) + ".png")
+		
+		nav.menu("bloodmagic")
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\blood" + str(counter) + ".png")
+		
+		nav.menu("wandoos")
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\wandoos" + str(counter) + ".png")
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
@@ -167,7 +180,7 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2, 2, 5) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
-tracker = Tracker(7)		#Progress tracker int val = tid för run
+tracker = Tracker(5)		#Progress tracker int val = tid för run
 
 
 #c = Challenge()
@@ -179,6 +192,10 @@ tracker = Tracker(7)		#Progress tracker int val = tid för run
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
+
+
+
+
 
 
 
@@ -197,7 +214,7 @@ while True:
 	#använd blood magic Gold upgrade för några sec
 	
 	
-	Nov_SpeedRun_Two(7, 0)
+	Nov_SpeedRun_Two(5, runCounter)
 	#Beard	=	The Fu manchu
 	#Blood	=	Blood numbers boost
 	#TM		=	0/0
