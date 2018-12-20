@@ -83,7 +83,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
 
-		if (start + duration * 60 * 0.25) > time.time() and not TM_Done: #the first 25% of the run
+		if (start + duration * 60 * 0.25) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
 			if not TM_Done:
@@ -97,9 +97,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				#nav.menu("augmentations")
-				#time.sleep(1) #For some fucking reason this one buggs out without a sleep here
-				feature.augments({"SS": 0.565, "DS": 0.435}, 39e6)
+				feature.augments({"SS": 0.565, "DS": 0.435}, 38e6)
 				Aug_Assigned = True
 			
 			'''
@@ -115,10 +113,10 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
-			if not half_energy_WANDOOS and (start + 90) < time.time():
+			if not half_energy_WANDOOS and (start + 100) < time.time():
 				idle_color = i.get_pixel_color(393, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
-					print("wandos is at 25%, enabling NGU")
+					#print("wandos is at 25%, enabling NGU")
 					half_energy_WANDOOS = True
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
@@ -134,10 +132,10 @@ def Nov_SpeedRun_Two(duration, counter):
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\augment" + str(counter) + ".png")
 		
-		nav.menu("bloodmagic")
-		i.click(10, 10)
-		aaa = i.get_bitmap()
-		aaa.save("Pic\\blood" + str(counter) + ".png")
+		#nav.menu("bloodmagic")
+		#i.click(10, 10)
+		#aaa = i.get_bitmap()
+		#aaa.save("Pic\\blood" + str(counter) + ".png")
 		
 		nav.menu("wandoos")
 		i.click(10, 10)
