@@ -21,7 +21,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
-				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.1},
+				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.2},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
@@ -97,17 +97,30 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"SS": 0.565, "DS": 0.435}, 38e6)
+				feature.augments({"SS": 0.565, "DS": 0.435}, 30e6)
 				Aug_Assigned = True
 			
-			'''
-			if not Blood_Assigned:
-				nav.menu("bloodmagic")
-				i.click(ncon.BMX, ncon.BMY[3])
-				Blood_Assigned = True
-			'''
+
+
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
+			
+			
+			if not Blood_Assigned:
+				nav.spells()
+				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
+				time.sleep(5)
+				i.click(700,310)
+				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
+				
+				
+				#nav.menu("bloodmagic")
+				#i.click(ncon.BMX, ncon.BMY[3])
+				Blood_Assigned = True
+			
+			
+			
+			
 			
 			if (start + 70) < time.time():
 				feature.wandoos(True)
@@ -121,26 +134,28 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-		#feature.NOV_boost_equipment("weapon")
+		feature.NOV_boost_equipment("accessory2")
 		feature.NOV_boost_equipment("cube")
 		time.sleep(1)
 		#feature.boost_equipment() #boostar också Cube
 	
+	'''
 	if counter != 0:
 		nav.menu("augmentations")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\augment" + str(counter) + ".png")
 		
-		#nav.menu("bloodmagic")
-		#i.click(10, 10)
-		#aaa = i.get_bitmap()
-		#aaa.save("Pic\\blood" + str(counter) + ".png")
+		nav.menu("bloodmagic")
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\blood" + str(counter) + ".png")
 		
 		nav.menu("wandoos")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\wandoos" + str(counter) + ".png")
+	'''
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
@@ -162,11 +177,11 @@ def Nov_SpeedRun_Two(duration, counter):
 	while time.time() < end:
 		time.sleep(0.1)
 	
-	if counter != 0:
-		nav.rebirth()
-		i.click(10, 10)
-		aaa = i.get_bitmap()
-		aaa.save("Pic\\rebirth" + str(counter) + ".png")
+#	if counter != 0:
+#		nav.rebirth()
+#		i.click(10, 10)
+#		aaa = i.get_bitmap()
+#		aaa.save("Pic\\rebirth" + str(counter) + ".png")
 
 
 w = Window()
@@ -190,10 +205,6 @@ tracker = Tracker(5)		#Progress tracker int val = tid för run
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
-
-
-
-
 
 
 
