@@ -73,7 +73,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(2)
 	feature.augments({"SS": 0.8, "DS": 0.2}, 1e6)
 
-	while time.time() < (end - 10): 
+	while time.time() < (end - 11): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
@@ -134,7 +134,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-		feature.NOV_boost_equipment("accessory2")
+		feature.NOV_boost_equipment("accessory4")
 		feature.NOV_boost_equipment("cube")
 		time.sleep(1)
 		#feature.boost_equipment() #boostar också Cube
@@ -176,12 +176,6 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	while time.time() < end:
 		time.sleep(0.1)
-	
-#	if counter != 0:
-#		nav.rebirth()
-#		i.click(10, 10)
-#		aaa = i.get_bitmap()
-#		aaa.save("Pic\\rebirth" + str(counter) + ".png")
 
 
 w = Window()
@@ -220,11 +214,7 @@ while True:
 	
 	
 	#Börja använda Magic beard digger när jag har GPS till det
-	#använd blood magic Gold upgrade för några sec
 	
 	
-	Nov_SpeedRun_Two(5, runCounter)
-	#Beard	=	The Fu manchu
-	#Blood	=	Blood numbers boost
-	#TM		=	0/0
+	Nov_SpeedRun_Two(5, 0)
 	runCounter += 1
