@@ -127,17 +127,16 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-		feature.NOV_boost_equipment("accessory5")
+		#feature.NOV_boost_equipment("accessory5")
 		feature.NOV_boost_equipment("cube")
 		#feature.boost_equipment() #boostar också Cube
 	
-	'''
 	if counter != 0:
 		nav.menu("augmentations")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\augment" + str(counter) + ".png")
-		
+		'''
 		nav.menu("bloodmagic")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
@@ -147,7 +146,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\wandoos" + str(counter) + ".png")
-	'''
+		'''
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
@@ -177,7 +176,7 @@ feature = Features()
 
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
 nav.menu("inventory")
-u = Upgrade(37500, 37500, 2, 2, 5) #Hur den ska spendare EXP inom Energy & Magic caps
+u = Upgrade(37500, 37500, 2.3, 2.4, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
 tracker = Tracker(5)		#Progress tracker int val = tid för run
 
@@ -208,5 +207,9 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	Nov_SpeedRun_Two(5, 0)
+	Nov_SpeedRun_Two(5, runCounter)
+	
+	if runCounter % 10 == 0:
+		u.em()
+		tracker.adjustxp()
 	runCounter += 1
