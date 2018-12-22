@@ -100,11 +100,8 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.augments({"SS": 0.565, "DS": 0.435}, 30e6)
 				Aug_Assigned = True
 			
-
-			if (start + 180) > time.time():
-				nav.menu("bloodmagic")
-				i.click(ncon.BMX, ncon.BMY[3])
-			
+			nav.menu("bloodmagic")
+			i.click(ncon.BMX, ncon.BMY[3])
 			
 			if not Blood_Assigned:
 				nav.spells()
@@ -117,10 +114,6 @@ def Nov_SpeedRun_Two(duration, counter):
 				#nav.menu("bloodmagic")
 				#i.click(ncon.BMX, ncon.BMY[3])
 				Blood_Assigned = True
-			
-			
-			
-			
 			
 			if (start + 70) < time.time():
 				feature.wandoos(True)
