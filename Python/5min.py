@@ -73,7 +73,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(2)
 	feature.augments({"SS": 0.8, "DS": 0.2}, 1e6)
 
-	while time.time() < (end - 11): 
+	while time.time() < (end - 12): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
@@ -93,7 +93,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [20,1], activate=True)
+				feature.NOV_gold_diggers([2,5], [20,2], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
@@ -101,9 +101,9 @@ def Nov_SpeedRun_Two(duration, counter):
 				Aug_Assigned = True
 			
 
-
-			nav.menu("bloodmagic")
-			i.click(ncon.BMX, ncon.BMY[3])
+			if (start + 180) > time.time():
+				nav.menu("bloodmagic")
+				i.click(ncon.BMX, ncon.BMY[3])
 			
 			
 			if not Blood_Assigned:
@@ -134,9 +134,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-		feature.NOV_boost_equipment("accessory4")
+		feature.NOV_boost_equipment("accessory5")
 		feature.NOV_boost_equipment("cube")
-		time.sleep(1)
 		#feature.boost_equipment() #boostar också Cube
 	
 	'''
