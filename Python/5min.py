@@ -15,7 +15,6 @@ import ngucon as ncon
 import time
 
 
-
 LOWEST_SLEEP_TO_KILL = 3.8
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -24,7 +23,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.2},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -102,19 +101,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
-			
-			if not Blood_Assigned:
-				nav.spells()
-				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
-				time.sleep(5)
-				i.click(700,310)
-				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
-				
-				
-				#nav.menu("bloodmagic")
-				#i.click(ncon.BMX, ncon.BMY[3])
-				Blood_Assigned = True
-			
+
 			if (start + 70) < time.time():
 				feature.wandoos(True)
 			else:
@@ -126,10 +113,20 @@ def Nov_SpeedRun_Two(duration, counter):
 					half_energy_WANDOOS = True
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
+				
+			if not Blood_Assigned:
+				nav.spells()
+				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
+				time.sleep(5)
+				i.click(700,310)
+				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
+				Blood_Assigned = True
 
+		
 		#feature.NOV_boost_equipment("accessory5")
 		feature.NOV_boost_equipment("cube")
 		#feature.boost_equipment() #boostar också Cube
+	
 	
 	if counter != 0:
 		nav.menu("augmentations")
@@ -178,6 +175,7 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2.3, 2.4, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
+print(str(w.id))
 tracker = Tracker(5)		#Progress tracker int val = tid för run
 
 
@@ -208,8 +206,11 @@ while True:
 	
 	
 	Nov_SpeedRun_Two(5, runCounter)
-	
+	'''
+	print(str(w.id))
+	print(str(Window.id))
 	if runCounter % 10 == 0:
 		u.em()
 		tracker.adjustxp()
+	'''
 	runCounter += 1
