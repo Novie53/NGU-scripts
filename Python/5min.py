@@ -77,7 +77,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		var1, var2 = kill_bosses(currentBoss, time.time() - start, GoldClearLevels)
+		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 		if var1:
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
