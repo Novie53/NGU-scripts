@@ -202,8 +202,6 @@ class Basic(Features):
 		self.first_rebirth(5, 2)
 		self.do_rebirth()
 		self.first_rebirth(5, 3)
-		#self.do_rebirth()
-		#self.first_rebirth(5, val = 4)
 
 		abc = 4
 		for x in range(8):
