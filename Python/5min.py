@@ -20,7 +20,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
-				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.2},
+				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.3},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
@@ -72,7 +72,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(2)
 	feature.augments({"SS": 0.8, "DS": 0.2}, 1e6)
 
-	while time.time() < (end - 12): 
+	while time.time() < (end - 13): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
@@ -92,7 +92,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [20,2], activate=True)
+				feature.NOV_gold_diggers([2,5], [21,3], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
@@ -102,7 +102,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 70) < time.time():
+			if (start + 80) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
@@ -203,6 +203,10 @@ while True:
 	
 	
 	#Börja använda Magic beard digger när jag har GPS till det
+	
+	
+	#kolla ifall den cappar blood magic annars öka tiden så det gör det
+	#Kolla ifall jag har för mkt guld
 	
 	
 	Nov_SpeedRun_Two(5, runCounter)
