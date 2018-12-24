@@ -110,7 +110,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
-			if not half_energy_WANDOOS and (start + 100) < time.time():
+			if not half_energy_WANDOOS and (start + 105) < time.time():
 				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
 					#print("wandos is at 25%, enabling NGU")
