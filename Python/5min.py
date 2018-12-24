@@ -183,13 +183,7 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2.3, 2.4, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
-print(str(w.id))
-tracker = Tracker(5)		#Progress tracker int val = tid för run
-
-
-#c = Challenge()
-#print("Current challenge : " + str(c.check_challenge()))
-#c.start_challenge(1)
+tracker = Tracker(5)
 
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
@@ -217,9 +211,8 @@ while True:
 	#Kolla ifall jag har för mkt guld
 	
 	
+	#432
 	Nov_SpeedRun_Two(5, runCounter)
-	print(str(w.id))
-	print(str(Window.id))
 	'''
 	if runCounter % 10 == 0:
 		u.em()
