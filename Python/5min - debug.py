@@ -98,6 +98,8 @@ def Nov_SpeedRun_Two(duration, counter):
 
 			if not Aug_Assigned:
 				feature.augments({"MI": 1}, 30e6)
+				i.click(575,265)
+				i.click(570,290)
 				feature.augments({"DTMT": 1}, 15e6)
 				Aug_Assigned = True
 			
