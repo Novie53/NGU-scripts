@@ -169,6 +169,12 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	while time.time() < end:
 		time.sleep(0.1)
+	
+	nav.rebirth()
+	i.click(10, 10)
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\debug\\rebirth" + str(counter) + ".png")
+		
 
 
 
