@@ -23,7 +23,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.3},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -78,7 +78,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+		var1, var2 = kill_bosses(currentBoss, time.time() - start, GoldClearLevels)
 		if var1:
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
@@ -97,7 +97,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 30e6)
+				feature.augments({"MI": 1}, 36e6)
 				i.click(575,265)
 				i.click(570,290)
 				feature.augments({"DTMT": 1}, 15e6)
@@ -138,6 +138,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\debug\\augment" + str(counter) + ".png")
 
+		'''
 		nav.menu("bloodmagic")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
@@ -147,6 +148,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\debug\\wandoos" + str(counter) + ".png")
+		'''
 	
 	#nav.reclaim_all_magic()
 	#nav.reclaim_all_energy()
