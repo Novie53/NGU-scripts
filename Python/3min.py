@@ -92,29 +92,30 @@ def Nov_SpeedRun_Two(duration, counter):
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [22,4], activate=True)
+				feature.NOV_gold_diggers([2,5], [16,1], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"SS": 0.565, "DS": 0.435}, 30e6)
+				feature.augments({"SS": 0.565, "DS": 0.435}, 17e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 90) < time.time():
+			if (start + 60) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
-			if not half_energy_WANDOOS and (start + 100) < time.time():
-				idle_color = i.get_pixel_color(393, 250) #100% = 525, 50% = 426, 25% = 393
+
+			if not half_energy_WANDOOS and (start + 60) < time.time():
+				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
 					#print("wandos is at 25%, enabling NGU")
 					half_energy_WANDOOS = True
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
-				
-			if not Blood_Assigned and (start + 90) < time.time():
+
+			if not Blood_Assigned and (start + 60) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
@@ -132,18 +133,17 @@ def Nov_SpeedRun_Two(duration, counter):
 		nav.menu("augmentations")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\augment" + str(counter) + ".png")
-		'''
+		aaa.save("Pic\\debug\\augment" + str(counter) + ".png")
+
 		nav.menu("bloodmagic")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\blood" + str(counter) + ".png")
+		aaa.save("Pic\\debug\\blood" + str(counter) + ".png")
 		
 		nav.menu("wandoos")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\wandoos" + str(counter) + ".png")
-		'''
+		aaa.save("Pic\\debug\\wandoos" + str(counter) + ".png")
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
@@ -164,9 +164,14 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	while time.time() < end:
 		time.sleep(0.1)
+	
+	#nav.rebirth()
+	#i.click(10, 10)
+	#aaa = i.get_bitmap()
+	#aaa.save("Pic\\debug\\rebirth" + str(counter) + ".png")
 
 
-w = Window()
+w = Window(debug=True)
 i = Inputs()
 nav = Navigation()
 feature = Features()
@@ -176,7 +181,7 @@ nav.menu("inventory")
 u = Upgrade(37500, 37500, 2.3, 2.4, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
 print(str(w.id))
-tracker = Tracker(5)		#Progress tracker int val = tid för run
+tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
 #c = Challenge()
@@ -191,7 +196,7 @@ tracker = Tracker(5)		#Progress tracker int val = tid för run
 
 
 
-runCounter = 1
+runCounter = 1001
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
@@ -209,7 +214,7 @@ while True:
 	#Kolla ifall jag har för mkt guld
 	
 	
-	Nov_SpeedRun_Two(5, runCounter)
+	Nov_SpeedRun_Two(3, runCounter)
 	print(str(w.id))
 	print(str(Window.id))
 	'''
