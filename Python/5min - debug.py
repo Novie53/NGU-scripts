@@ -147,7 +147,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		aaa.save("Pic\\debug\\wandoos" + str(counter) + ".png")
 	
 	#nav.reclaim_all_magic()
-	nav.reclaim_all_energy()
+	#nav.reclaim_all_energy()
 	feature.speedrun_bloodpill()
 	
 	if Digger_Activated:

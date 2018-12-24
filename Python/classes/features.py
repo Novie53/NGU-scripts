@@ -366,6 +366,10 @@ class Features(Navigation, Inputs):
 		"""Check if bloodpill is ready to cast."""
 		bm_color = self.get_pixel_color(ncon.BMLOCKEDX, ncon.BMLOCKEDY)
 		if bm_color == ncon.BM_PILL_READY:
+		
+			self.reclaim_all_magic()
+			self.reclaim_all_energy()
+			
 			start = time.time()
 			self.blood_magic(8)
 			self.spells()
