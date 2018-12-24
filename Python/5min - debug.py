@@ -55,12 +55,11 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = -1
+	GoldClearLevels = 2
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
 	Digger_Activated = False
-	#ONLY_DO_ONCE = False
 	half_energy_WANDOOS = False
 	
 	
@@ -69,7 +68,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60) + 1
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(2)
+	time.sleep(1.8)
+	feature.adventure(highest=True)
+	feature.time_machine(1e9, magic=True)
 	feature.augments({"SS": 0.8, "DS": 0.2}, 1e6)
 
 	while time.time() < (end - 13): 
@@ -96,25 +97,26 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"SS": 0.565, "DS": 0.435}, 30e6)
+				feature.augments({"MI": 1}, 30e6)
+				feature.augments({"DTMT": 1}, 15e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 90) < time.time():
+			if (start + 85) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
 			if not half_energy_WANDOOS and (start + 100) < time.time():
-				idle_color = i.get_pixel_color(393, 250) #100% = 525, 50% = 426, 25% = 393
+				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
 					#print("wandos is at 25%, enabling NGU")
 					half_energy_WANDOOS = True
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 				
-			if not Blood_Assigned and (start + 90) < time.time():
+			if not Blood_Assigned and (start + 85) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
@@ -132,18 +134,17 @@ def Nov_SpeedRun_Two(duration, counter):
 		nav.menu("augmentations")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\augment" + str(counter) + ".png")
-		'''
+		aaa.save("Pic\\debug\\augment" + str(counter) + ".png")
+
 		nav.menu("bloodmagic")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\blood" + str(counter) + ".png")
+		aaa.save("Pic\\debug\\blood" + str(counter) + ".png")
 		
 		nav.menu("wandoos")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\wandoos" + str(counter) + ".png")
-		'''
+		aaa.save("Pic\\debug\\wandoos" + str(counter) + ".png")
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
@@ -166,7 +167,10 @@ def Nov_SpeedRun_Two(duration, counter):
 		time.sleep(0.1)
 
 
-w = Window()
+
+
+
+w = Window(debug=True)
 i = Inputs()
 nav = Navigation()
 feature = Features()
