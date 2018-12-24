@@ -23,7 +23,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.3},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -55,12 +55,11 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = -1
+	GoldClearLevels = 2
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
 	Digger_Activated = False
-	#ONLY_DO_ONCE = False
 	half_energy_WANDOOS = False
 	
 	
@@ -69,15 +68,17 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60) + 1
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(2)
+	time.sleep(1.8)
+	feature.adventure(highest=True)
+	feature.time_machine(1e9, magic=True)
 	feature.augments({"SS": 0.8, "DS": 0.2}, 1e6)
 
-	while time.time() < (end - 13): 
+	while time.time() < (end - 13):
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+		var1, var2 = kill_bosses(currentBoss, time.time() - start, GoldClearLevels)
 		if var1:
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
@@ -96,25 +97,28 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"SS": 0.565, "DS": 0.435}, 30e6)
+				feature.augments({"MI": 1}, 36e6)
+				i.click(575,265)
+				i.click(570,290)
+				feature.augments({"DTMT": 1}, 15e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 90) < time.time():
+			if (start + 85) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
-			if not half_energy_WANDOOS and (start + 100) < time.time():
-				idle_color = i.get_pixel_color(393, 250) #100% = 525, 50% = 426, 25% = 393
+			if not half_energy_WANDOOS and (start + 105) < time.time():
+				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
 					#print("wandos is at 25%, enabling NGU")
 					half_energy_WANDOOS = True
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 				
-			if not Blood_Assigned and (start + 90) < time.time():
+			if not Blood_Assigned and (start + 85) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
@@ -133,7 +137,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\augment" + str(counter) + ".png")
-		'''
+		
 		nav.menu("bloodmagic")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
@@ -143,10 +147,9 @@ def Nov_SpeedRun_Two(duration, counter):
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\wandoos" + str(counter) + ".png")
-		'''
 	
 	#nav.reclaim_all_magic()
-	nav.reclaim_all_energy()
+	#nav.reclaim_all_energy()
 	feature.speedrun_bloodpill()
 	
 	if Digger_Activated:
@@ -164,6 +167,11 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	while time.time() < end:
 		time.sleep(0.1)
+	
+	nav.rebirth()
+	i.click(10, 10)
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\rebirth" + str(counter) + ".png")
 
 
 w = Window()
@@ -171,7 +179,7 @@ i = Inputs()
 nav = Navigation()
 feature = Features()
 
-Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
+Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2.3, 2.4, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
