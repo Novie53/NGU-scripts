@@ -66,6 +66,11 @@ class Inputs():
 		win32gui.PostMessage(window.id, wcon.WM_KEYUP, wcon.VK_CONTROL, 0)
 		time.sleep(userset.MEDIUM_SLEEP)
 
+	def NOV_send_text(self, string):
+		for c in str(string):
+			win32gui.PostMessage(window.id, wcon.WM_CHAR, ord(c), 0)
+		time.sleep(userset.SHORT_SLEEP)
+		
 	def send_string(self, string):
 		"""Send one or multiple characters to the window."""
 		if type(string) == float:  # Remove decimal
