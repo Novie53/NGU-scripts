@@ -3,33 +3,33 @@ import win32gui
 
 
 class Window():
-    """This class contains game window coordinates."""
+	"""This class contains game window coordinates."""
 
-    id = 0
-    x = 0
-    y = 0
-    dc = 0
+	id = 0
+	x = 0
+	y = 0
+	dc = 0
 
-    def __init__(self, debug=False):
-        """Keyword arguments.
+	def __init__(self, debug=False):
+		"""Keyword arguments.
 
-        hwnd -- The window ID
-        x -- The x-coordinate for the top left corner of the game window.
-        y -- The y-coordinate for the top left corner of the game window.
-        """
-        def window_enumeration_handler(hwnd, top_windows):
-            """Add window title and ID to array."""
-            top_windows.append((hwnd, win32gui.GetWindowText(hwnd)))
+		hwnd -- The window ID
+		x -- The x-coordinate for the top left corner of the game window.
+		y -- The y-coordinate for the top left corner of the game window.
+		"""
+		def window_enumeration_handler(hwnd, top_windows):
+			"""Add window title and ID to array."""
+			top_windows.append((hwnd, win32gui.GetWindowText(hwnd)))
 
-        if debug:
-            window_name = "debugg"
-        else:
-            window_name = "play ngu idle"
+		if debug:
+			window_name = "debugg"
+		else:
+			window_name = "play ngu idle"
 
-        top_windows = []
-        win32gui.EnumWindows(window_enumeration_handler, top_windows)
-        for i in top_windows:
-            if window_name in i[1].lower():
-                Window.id = i[0]
-        if Window.id == 0:
-            raise RuntimeError(f"Couldn't find game window")
+		top_windows = []
+		win32gui.EnumWindows(window_enumeration_handler, top_windows)
+		for i in top_windows:
+			if window_name in i[1].lower():
+				Window.id = i[0]
+		if Window.id == 0:
+			raise RuntimeError(f"Couldn't find game window")
