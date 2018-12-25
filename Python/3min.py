@@ -16,7 +16,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
-				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4.3},
+				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
@@ -36,7 +36,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 		if GoldClearLevels >= i:
 			break
 		if currentBoss > ADVENTURE_ZONE[i]["boss"]:
-			highestBoss = currentBoss < ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
+			highestBoss = currentBoss <= ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
 			
 			feature.loadout(1)  # Gold drop equipment
 			if timeSinceStart >= 100: #before 100sec the game does not have the ability to manually attack
@@ -93,8 +93,8 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 20e6)
-				feature.augments({"DTMT": 1}, 10e6)
+				feature.augments({"MI": 1}, 25e6)
+				feature.augments({"DTMT": 1}, 9e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
