@@ -100,7 +100,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 55) < time.time():
+			if (start + 60) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
@@ -114,7 +114,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 55) < time.time():
+			if not Blood_Assigned and (start + 60) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
@@ -123,9 +123,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Blood_Assigned = True
 
 		
-		#feature.NOV_boost_equipment("accessory5")
 		feature.NOV_boost_equipment("cube")
-		#feature.boost_equipment() #boostar också Cube
 	
 	
 	if counter != 0:
@@ -179,7 +177,6 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2.3, 2.4, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
-print(str(w.id))
 tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
@@ -204,14 +201,5 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	#kolla ifall den cappar blood magic annars öka tiden så det gör det
-	#Kolla ifall jag har för mkt guld
-	
-	
 	Nov_SpeedRun_Two(3, runCounter)
-	'''
-	if runCounter % 10 == 0:
-		u.em()
-		tracker.adjustxp()
-	'''
 	runCounter += 1
