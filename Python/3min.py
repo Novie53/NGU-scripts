@@ -11,7 +11,7 @@ import ngucon as ncon
 import time
 
 
-LOWEST_SLEEP_TO_KILL = 3.75
+LOWEST_SLEEP_TO_KILL = 3.7
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -56,7 +56,6 @@ def Nov_SpeedRun_Two(duration, counter):
 	Aug_Assigned = False
 	Blood_Assigned = False
 	Digger_Activated = False
-	#ONLY_DO_ONCE = False
 	half_energy_WANDOOS = False
 	
 	
@@ -65,8 +64,10 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60) + 1
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(2)
-	feature.augments({"SS": 0.8, "DS": 0.2}, 1e6)
+	time.sleep(1.8)
+	feature.adventure(highest=True)
+	feature.time_machine(1e9, magic=True)
+	feature.augments({"MI": 0.5, "DTMT": 0.5}, 1e6)
 
 	while time.time() < (end - 13): 
 		feature.nuke()
@@ -92,7 +93,8 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"SS": 0.565, "DS": 0.435}, 17e6)
+				feature.augments({"MI": 1}, 20e6)
+				feature.augments({"DTMT": 1}, 10e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
