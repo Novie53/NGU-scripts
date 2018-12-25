@@ -1,7 +1,3 @@
-# Challenges
-#from challenges.basic import Basic
-#from challenges.level import Level
-
 # Helper classes
 from classes.challenge import Challenge
 from classes.features import Features
@@ -165,10 +161,10 @@ def Nov_SpeedRun_Two(duration, counter):
 	while time.time() < end:
 		time.sleep(0.1)
 	
-	#nav.rebirth()
-	#i.click(10, 10)
-	#aaa = i.get_bitmap()
-	#aaa.save("Pic\\debug\\rebirth" + str(counter) + ".png")
+	nav.rebirth()
+	i.click(10, 10)
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\debug\\rebirth" + str(counter) + ".png")
 
 
 w = Window(debug=True)
@@ -184,11 +180,6 @@ print(str(w.id))
 tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
-#c = Challenge()
-#print("Current challenge : " + str(c.check_challenge()))
-#c.start_challenge(1)
-
-
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
@@ -196,7 +187,7 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
 
-runCounter = 1001
+runCounter = 1
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
@@ -215,8 +206,6 @@ while True:
 	
 	
 	Nov_SpeedRun_Two(3, runCounter)
-	print(str(w.id))
-	print(str(Window.id))
 	'''
 	if runCounter % 10 == 0:
 		u.em()
