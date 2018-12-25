@@ -51,7 +51,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = 3
+	GoldClearLevels = -1
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
@@ -63,11 +63,12 @@ def Nov_SpeedRun_Two(duration, counter):
 	start = time.time()
 	end = time.time() + (duration * 60)# + 1
 
-	feature.nuke(83) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	#time.sleep(1.7)
+	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
+	time.sleep(1.6)
 	feature.adventure(highest=True)
 	feature.time_machine(1e9, magic=True)
-	feature.augments({"MI": 0.5, "DTMT": 0.5}, 1e6)
+	feature.augments({"MI": 1}, 2e6)
+	feature.augments({"DTMT": 1}, 0.5e6)
 
 	while time.time() < (end - 13): 
 		feature.nuke()
@@ -93,14 +94,14 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 25e6)
+				feature.augments({"MI": 1}, 30e6)
 				feature.augments({"DTMT": 1}, 8e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 60) < time.time():
+			if (start + 65) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
@@ -114,7 +115,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 60) < time.time():
+			if not Blood_Assigned and (start + 65) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
