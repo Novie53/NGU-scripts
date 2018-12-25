@@ -68,7 +68,12 @@ class Inputs():
 
 	def NOV_send_text(self, string):
 		for c in str(string):
+			while (win32api.GetKeyState(wcon.VK_CONTROL) < 0 or
+				   win32api.GetKeyState(wcon.VK_SHIFT) < 0 or
+				   win32api.GetKeyState(wcon.VK_MENU) < 0):
+				time.sleep(0.005)
 			win32gui.PostMessage(window.id, wcon.WM_CHAR, ord(c), 0)
+			#time.sleep(0.03)
 		time.sleep(userset.SHORT_SLEEP)
 		
 	def send_string(self, string):
