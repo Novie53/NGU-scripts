@@ -176,6 +176,7 @@ i = Inputs()
 nav = Navigation()
 feature = Features()
 
+
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2.3, 2.4, 10) #Hur den ska spendare EXP inom Energy & Magic caps
@@ -206,13 +207,7 @@ while True:
 	
 	#kolla ifall den cappar blood magic annars öka tiden så det gör det
 	#Kolla ifall jag har för mkt guld
+
 	
-	
-	#432
 	Nov_SpeedRun_Two(5, 0)
-	'''
-	if runCounter % 10 == 0:
-		u.em()
-		tracker.adjustxp()
-	'''
 	runCounter += 1
