@@ -1,7 +1,3 @@
-# Challenges
-#from challenges.basic import Basic
-#from challenges.level import Level
-
 # Helper classes
 from classes.challenge import Challenge
 from classes.features import Features
@@ -78,7 +74,8 @@ def Nov_SpeedRun_Two(duration, counter):
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		var1, var2 = kill_bosses(currentBoss, time.time() - start, GoldClearLevels)
+		#var1, var2 = kill_bosses(currentBoss, time.time() - start, GoldClearLevels)
+		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 		if var1:
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
@@ -97,7 +94,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 36e6)
+				feature.augments({"MI": 1}, 40e6)
 				i.click(575,265)
 				i.click(570,290)
 				feature.augments({"DTMT": 1}, 15e6)
@@ -212,7 +209,7 @@ while True:
 	
 	
 	#432
-	Nov_SpeedRun_Two(5, runCounter)
+	Nov_SpeedRun_Two(5, 0)
 	'''
 	if runCounter % 10 == 0:
 		u.em()
