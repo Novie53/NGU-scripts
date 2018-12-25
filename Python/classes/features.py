@@ -282,7 +282,7 @@ class Features(Navigation, Inputs):
 		for k in augments:
 			val = math.floor(augments[k] * energy)
 			self.input_box()
-			self.send_string(val)
+			self.NOV_send_text(val)
 			# Scroll down if we have to.
 			bottom_augments = ["AE", "ES", "LS", "QSL"]
 			i = 0
@@ -336,12 +336,12 @@ class Features(Navigation, Inputs):
 		magic -- Set to true if you wish to add magic as well"""
 		self.menu("timemachine")
 		self.input_box()
-		self.send_string(e)
+		self.NOV_send_text(e)
 		self.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
 		if magic or m:
 			if m:
 				self.input_box()
-				self.send_string(m)
+				self.NOV_send_text(m)
 			self.click(ncon.TMMULTX, ncon.TMMULTY)
 
 	def blood_magic(self, target):
@@ -477,7 +477,7 @@ class Features(Navigation, Inputs):
 			self.menu("ngu")
 
 		self.input_box()
-		self.send_string(str(int(value // len(targets))))
+		self.NOV_send_text(str(int(value // len(targets))))
 		for i in targets:
 			self.click(ncon.NGU_PLUSX, ncon.NGU_PLUSY + i * 35)
 
@@ -499,7 +499,7 @@ class Features(Navigation, Inputs):
 
 			self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
 			self.click(ncon.DIG_CAP[item]["x"] - 110, ncon.DIG_CAP[item]["y"])
-			self.send_string(str(diggerValue))
+			self.NOV_send_text(str(diggerValue))
 			if activate:
 				self.click(ncon.DIG_ACTIVE[item]["x"], ncon.DIG_ACTIVE[item]["y"])
 
