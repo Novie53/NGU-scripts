@@ -16,7 +16,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
-				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
+				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
@@ -51,7 +51,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = -1
+	GoldClearLevels = 3
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
@@ -61,10 +61,10 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	feature.do_rebirth()
 	start = time.time()
-	end = time.time() + (duration * 60) + 1
+	end = time.time() + (duration * 60)# + 1
 
-	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(1.8)
+	feature.nuke(83) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
+	#time.sleep(1.7)
 	feature.adventure(highest=True)
 	feature.time_machine(1e9, magic=True)
 	feature.augments({"MI": 0.5, "DTMT": 0.5}, 1e6)
@@ -94,7 +94,7 @@ def Nov_SpeedRun_Two(duration, counter):
 
 			if not Aug_Assigned:
 				feature.augments({"MI": 1}, 25e6)
-				feature.augments({"DTMT": 1}, 9e6)
+				feature.augments({"DTMT": 1}, 8e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
@@ -159,6 +159,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	#u.em()
 	#tracker.adjustxp()
 	
+	feature.loadout(1)  # Gold drop equipment. in order to start with gold gear next run
 	while time.time() < end:
 		time.sleep(0.1)
 	
