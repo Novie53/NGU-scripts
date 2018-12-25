@@ -100,12 +100,13 @@ def Nov_SpeedRun_Two(duration, counter):
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 60) < time.time():
+			if (start + 55) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
 
-			if not half_energy_WANDOOS and (start + 60) < time.time():
+			#if not half_energy_WANDOOS and (start + 60) < time.time():
+			if not half_energy_WANDOOS:
 				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
 					#print("wandos is at 25%, enabling NGU")
@@ -113,7 +114,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 60) < time.time():
+			if not Blood_Assigned and (start + 55) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
