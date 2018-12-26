@@ -94,8 +94,8 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 36e6)
-				feature.augments({"DTMT": 1}, 7e6)
+				feature.augments({"MI": 1}, 37e6)
+				feature.augments({"DTMT": 1}, 6e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
@@ -153,7 +153,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
-	feature.pit()
+	feature.pit(loadout=3)
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
@@ -164,20 +164,20 @@ def Nov_SpeedRun_Two(duration, counter):
 	while time.time() < end:
 		time.sleep(0.1)
 	
-	nav.rebirth()
-	i.click(10, 10)
-	aaa = i.get_bitmap()
-	aaa.save("Pic\\debug\\rebirth" + str(counter) + ".png")
+	#nav.rebirth()
+	#i.click(10, 10)
+	#aaa = i.get_bitmap()
+	#aaa.save("Pic\\debug\\rebirth" + str(counter) + ".png")
 
 
-w = Window(debug=True)
+w = Window()
 i = Inputs()
 nav = Navigation()
 feature = Features()
 
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
 nav.menu("inventory")
-u = Upgrade(37500, 37500, 2.3, 2.4, 10) #Hur den ska spendare EXP inom Energy & Magic caps
+u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
 tracker = Tracker(3)		#Progress tracker int val = tid för run
 
