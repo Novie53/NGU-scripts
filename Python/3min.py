@@ -16,10 +16,10 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
-				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": 4},
+				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 3 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -131,17 +131,17 @@ def Nov_SpeedRun_Two(duration, counter):
 		nav.menu("augmentations")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\debug\\augment" + str(counter) + ".png")
+		aaa.save("Pic\\augment" + str(counter) + ".png")
 
 		nav.menu("bloodmagic")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\debug\\blood" + str(counter) + ".png")
+		aaa.save("Pic\\blood" + str(counter) + ".png")
 		
 		#nav.menu("wandoos")
 		#i.click(10, 10)
 		#aaa = i.get_bitmap()
-		#aaa.save("Pic\\debug\\wandoos" + str(counter) + ".png")
+		#aaa.save("Pic\\wandoos" + str(counter) + ".png")
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
@@ -167,7 +167,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	#nav.rebirth()
 	#i.click(10, 10)
 	#aaa = i.get_bitmap()
-	#aaa.save("Pic\\debug\\rebirth" + str(counter) + ".png")
+	#aaa.save("Pic\\rebirth" + str(counter) + ".png")
 
 
 w = Window()
