@@ -19,7 +19,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 3 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -94,7 +94,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 37e6)
+				feature.augments({"MI": 1}, 38e6)
 				feature.augments({"DTMT": 1}, 6e6)
 				Aug_Assigned = True
 			
@@ -106,7 +106,6 @@ def Nov_SpeedRun_Two(duration, counter):
 			else:
 				feature.wandoos(False)
 
-			#if not half_energy_WANDOOS and (start + 60) < time.time():
 			if not half_energy_WANDOOS:
 				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
@@ -123,10 +122,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				Blood_Assigned = True
 
-		
-		feature.NOV_boost_equipment("cube")
-	
-	
+
 	if counter != 0:
 		nav.menu("augmentations")
 		i.click(10, 10)
@@ -142,6 +138,8 @@ def Nov_SpeedRun_Two(duration, counter):
 		#i.click(10, 10)
 		#aaa = i.get_bitmap()
 		#aaa.save("Pic\\wandoos" + str(counter) + ".png")
+	
+	feature.NOV_boost_equipment("cube")
 	
 	#nav.reclaim_all_magic()
 	nav.reclaim_all_energy()
