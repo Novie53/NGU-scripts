@@ -263,11 +263,16 @@ class Features(Navigation, Inputs):
 			if loadout:
 				self.reclaim_all_magic()
 				self.reclaim_all_energy()
+				self.menu("digger")
+				self.click(825, 110) #deactivate all digger
 				self.loadout(loadout)
+			
+			time.sleep(10)
 				
 			self.menu("pit")
 			self.click(ncon.PITX, ncon.PITY)
 			self.click(ncon.CONFIRMX, ncon.CONFIRMY)
+			self.loadout(1)
 
 	def augments(self, augments, energy):
 		"""Dump energy into augmentations.
