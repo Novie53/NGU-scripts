@@ -37,13 +37,13 @@ class Basic(Features):
 			if currentBoss > ADVENTURE_ZONE[i]["boss"]:
 				highestBoss = currentBoss <= ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
 				
-				feature.loadout(1)  # Gold drop equipment
+				self.loadout(1)  # Gold drop equipment
 				if timeSinceStart >= 100: #before 100sec the game does not have the ability to manually attack
-					feature.snipe(ADVENTURE_ZONE[i]["floor"], 999, once=True, highest=highestBoss, bosses=True)
+					self.snipe(ADVENTURE_ZONE[i]["floor"], 999, once=True, highest=highestBoss, bosses=True)
 				else:
-					feature.adventure(zone=ADVENTURE_ZONE[i]["floor"], highest=highestBoss)
+					self.adventure(zone=ADVENTURE_ZONE[i]["floor"], highest=highestBoss)
 					time.sleep(ADVENTURE_ZONE[i]["sleep"])
-				feature.loadout(2)  # Bar/power equimpent
+				self.loadout(2)  # Bar/power equimpent
 
 				return True, i
 		return False, 0
@@ -94,6 +94,7 @@ class Basic(Features):
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
 				self.time_machine(5e6, magic=True)
+				self.loadout(2)
 				self.augments({"EB": 1}, 40e6)
 				TM_assigned = True
 				
@@ -127,18 +128,18 @@ class Basic(Features):
 		digger_activated = False
 		
 		self.loadout(1)
-		feature.nuke()
+		self.nuke()
 		time.sleep(1.5)
-		feature.adventure(highest=True)
+		self.adventure(highest=True)
 		
 		while time.time() < (end - 10) and currentBoss <= target:
-			feature.nuke()
-			feature.fight()
-			currentBoss = intTryParse(feature.get_current_boss())
+			self.nuke()
+			self.fight()
+			currentBoss = self.intTryParse(self.get_current_boss())
 			
-			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+			var1, var2 = self.kill_bosses(currentBoss, 0, GoldClearLevels)
 			if var1:
-				feature.adventure(itopod=True, itopodauto=True)
+				self.adventure(itopod=True, itopodauto=True)
 				GoldClearLevels = var2
 				
 				
@@ -241,7 +242,7 @@ class Basic(Features):
 
 		abc = 3
 		for x in range(8):
-			self.speedrun(5, abc)
+			self.speedrun(5, abc, target)
 			abc += 1
 			if not self.check_challenge():
 				return
