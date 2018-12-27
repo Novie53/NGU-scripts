@@ -19,7 +19,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 3 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -67,7 +67,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.6)
 	feature.adventure(highest=True)
 	feature.time_machine(1e9, magic=True)
-	feature.augments({"MI": 1}, 3e6)
+	feature.augments({"MI": 1}, 4e6)
 	feature.augments({"DTMT": 1}, 0.5e6)
 
 	while time.time() < (end - 14): 
@@ -94,14 +94,14 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 38e6)
+				feature.augments({"MI": 1}, 37e6)
 				feature.augments({"DTMT": 1}, 6e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 68) < time.time():
+			if (start + 67) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
@@ -114,7 +114,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 68) < time.time():
+			if not Blood_Assigned and (start + 67) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
