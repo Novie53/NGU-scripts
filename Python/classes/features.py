@@ -347,7 +347,7 @@ class Features(Navigation, Inputs):
 		self.NOV_send_text(e)
 		self.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
 		if magic or m:
-			if m:
+			if m != 0:
 				self.input_box()
 				self.NOV_send_text(m)
 			self.click(ncon.TMMULTX, ncon.TMMULTY)
