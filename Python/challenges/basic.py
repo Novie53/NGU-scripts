@@ -5,8 +5,51 @@ import usersettings as userset
 import time
 
 
+
 class Basic(Features):
 	"""Contains functions for running a basic challenge."""
+	
+	LOWEST_SLEEP_TO_KILL = 3.7
+	ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sleep": LOWEST_SLEEP_TO_KILL},
+					  1: {"name": "The Sky", "boss": 48, "floor": 5, "sleep": LOWEST_SLEEP_TO_KILL},
+					  2: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
+					  3: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
+					  4: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
+					  5: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
+					  6: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
+					  7: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
+					  8: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
+	MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+
+	def intTryParse(value):
+		try:
+			return int(value)
+		except ValueError:
+			return 0
+	
+	def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
+		room = 0
+		newBossToKill = False
+
+		for i in range(MAX_KILL_ADVENTURE_ZONE,-1,-1):
+			if GoldClearLevels >= i:
+				break
+			if currentBoss > ADVENTURE_ZONE[i]["boss"]:
+				highestBoss = currentBoss <= ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
+				
+				feature.loadout(1)  # Gold drop equipment
+				if timeSinceStart >= 100: #before 100sec the game does not have the ability to manually attack
+					feature.snipe(ADVENTURE_ZONE[i]["floor"], 999, once=True, highest=highestBoss, bosses=True)
+				else:
+					feature.adventure(zone=ADVENTURE_ZONE[i]["floor"], highest=highestBoss)
+					time.sleep(ADVENTURE_ZONE[i]["sleep"])
+				feature.loadout(2)  # Bar/power equimpent
+
+				return True, i
+		return False, 0
+	
+	
+	
 
 	def first_rebirth(self, duration, counter):
 		"""Procedure for first rebirth after number reset."""
@@ -70,40 +113,45 @@ class Basic(Features):
 		while time.time() < end:
 			time.sleep(0.1)
 
-	def speedrun(self, duration, counter):
+	def speedrun(self, duration, counter, target):
 		#Start a speedrun.
 		
 		self.do_rebirth()
 		start = time.time()
-		end = time.time() + (duration * 60) + 1
+		end = time.time() + (duration * 60)
 		currentBoss = 0
-		GoldClearLevels = 1 #1=Sewers,2=Forest
+		GoldClearLevels = -1
 		TM_assigned = 0
 		augemnt_assigned = -1
 		blood_assigned = False
 		digger_activated = False
 		
-		self.nuke()
-		time.sleep(2)
 		self.loadout(1)
+		feature.nuke()
+		time.sleep(1.5)
+		feature.adventure(highest=True)
 		
-		while time.time() < (end - 10) and currentBoss <= 58:
-			self.nuke()
-			time.sleep(0.5)
-			self.fight()			
-			try:
-				currentBoss = int(self.get_current_boss())
-			except:
-				print("Failed to get boss level")
+		while time.time() < (end - 10) and currentBoss <= target:
+			feature.nuke()
+			feature.fight()
+			currentBoss = intTryParse(feature.get_current_boss())
+			
+			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+			if var1:
+				feature.adventure(itopod=True, itopodauto=True)
+				GoldClearLevels = var2
+				
+				
 
 			if currentBoss > 30 and TM_assigned <= 3:
 				if TM_assigned == 0:
-					self.loadout(2)
+					print("TM_assign == 0")
 					self.reclaim_all_energy()
 					self.reclaim_all_magic()
 				self.time_machine(1e9, magic=True)
 				TM_assigned += 1
 			
+			'''
 			if (GoldClearLevels == 1 and currentBoss > 17) or (GoldClearLevels == 2 and currentBoss > 37) \
 										or (GoldClearLevels == 3 and currentBoss > 48):
 				if GoldClearLevels >= 2:
@@ -115,27 +163,20 @@ class Basic(Features):
 				else:
 					self.adventure(highest=True)
 				GoldClearLevels += 1
-			
+			'''
 			
 			if currentBoss > 37 and augemnt_assigned != 2:
 				self.menu("augmentations")
-				time.sleep(5)
-				#print("Augment 2")
 				self.click(575, 390)
 				self.click(575, 525)
 				self.augments({"SS": 0.95, "DS": 0.5}, 5e6)
 				augemnt_assigned = 2
 			elif currentBoss > 31 and augemnt_assigned < 1:
 				self.menu("augmentations")
-				time.sleep(5)
-				#print("Augment 1")
 				self.click(575, 390)
 				self.augments({"EB": 1}, 20e6)
 				augemnt_assigned = 1
 			elif augemnt_assigned == -1:
-				self.menu("augmentations")
-				time.sleep(5)
-				#print("Augment 0")
 				self.augments({"CI": 1}, 20e6)
 				augemnt_assigned = 0
 
@@ -145,18 +186,15 @@ class Basic(Features):
 				self.blood_magic(3)
 				blood_assigned = True
 			
-			if currentBoss > 35 and not digger_activated \
-				and time.time() > (start + 80):
-				#print("digger on")
+			if currentBoss > 35 and (not digger_activated) and time.time() > (start + 80):
 				self.gold_diggers([2], True)
 				digger_activated = True
 				
 			self.gold_diggers([2])
 			self.wandoos(True)
-			time.sleep(3)
 		
-		if currentBoss >= 59:
-			#print("Already done :)")
+		if (currentBoss - 1) >= target:
+			print("Already done :)")
 			while (time.time() - start) <= 180:
 				time.sleep(0.25)
 		else:
@@ -170,12 +208,10 @@ class Basic(Features):
 				self.fight()
 				time.sleep(0.5)
 			
-			'''
 			self.rebirth()
 			self.click(10, 10)
 			aaa = self.get_bitmap()
 			aaa.save("Pic\\" + "challenge" + str(counter) + ".png")
-			'''
 			
 			while time.time() < end:
 				time.sleep(0.1)
