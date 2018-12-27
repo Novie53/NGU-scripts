@@ -200,8 +200,13 @@ while True:
 	#feature.boost_equipment() #boostar också Cube
 	#feature.ygg()
 	
-	
+	before = time.time()
 	c.start_challenge(3)
+	duration = time.time() - before # sec
+	
+	min = int(duration / 60)
+	sec = duration - min * 60
+	print(f"The challenge took {min}:{sec} to complete")
 	
 	#Börja använda Magic beard digger när jag har GPS till det
 	
