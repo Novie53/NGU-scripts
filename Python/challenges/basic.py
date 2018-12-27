@@ -11,7 +11,7 @@ class Basic(Features):
 	def first_rebirth(self, duration, counter):
 		"""Procedure for first rebirth after number reset."""
 		start = time.time()
-		end = time.time() + (duration * 60) + 1
+		end = time.time() + (duration * 60)
 		augemnt_assigned = 0
 		currentBoss = 0
 		GoldClearLevels = 0 #1=Sewers,2=Forest
@@ -51,7 +51,7 @@ class Basic(Features):
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
 				self.time_machine(5e6, magic=True)
-				self.augments({"EB": 1}, 20e6)
+				self.augments({"EB": 1}, 40e6)
 				TM_assigned = True
 				
 			self.wandoos(True)
@@ -190,7 +190,7 @@ class Basic(Features):
 
 		return True if color == ncon.CHALLENGEACTIVECOLOR else False
 	
-	def basic(self):
+	def basic(self, target):
 		"""Defeat target boss."""
 		
 		#spend all exp
@@ -200,10 +200,10 @@ class Basic(Features):
 		self.first_rebirth(5, 1)
 		self.do_rebirth()
 		self.first_rebirth(5, 2)
-		self.do_rebirth()
-		self.first_rebirth(5, 3)
+		#self.do_rebirth()
+		#self.first_rebirth(5, 3)
 
-		abc = 4
+		abc = 3
 		for x in range(8):
 			self.speedrun(5, abc)
 			abc += 1
