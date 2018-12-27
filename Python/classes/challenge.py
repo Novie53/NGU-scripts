@@ -1,6 +1,5 @@
 """Handles different challenges"""
 from classes.features import Features
-from classes.discord import Discord
 from challenges.basic import Basic
 from challenges.level import Level
 from challenges.laser import Laser
@@ -52,8 +51,6 @@ class Challenge(Features):
 					b.basic(target)
 				except ValueError:
 					print("couldn't detect the target level of 24HC")
-					Discord.send_message("Couldn't detect the" +
-										 " target level of 24HC", Discord.ERROR)
 
 			elif "100 level" in text.lower():
 				print("starting 100 level challenge script")
@@ -80,7 +77,7 @@ class Challenge(Features):
 				self.click(x, y)
 				time.sleep(userset.LONG_SLEEP)
 				self.confirm()
-				b.basic()
+				b.basic(58)
 
 			elif challenge == 3:
 				try:
@@ -99,8 +96,6 @@ class Challenge(Features):
 					b.basic(target)
 				except ValueError:
 					print("couldn't detect the target level of 24HC")
-					Discord.send_message("Couldn't detect the" +
-										 "target level of 24HC", Discord.ERROR)
 
 			elif challenge == 4:
 				self.click(x, y)
@@ -117,7 +112,6 @@ class Challenge(Features):
 				time.sleep(userset.LONG_SLEEP)
 				self.confirm()
 				laser.laser()
-
 
 	def check_challenge(self):
 		"""Check if a challenge is active."""
