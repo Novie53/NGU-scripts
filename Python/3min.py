@@ -66,9 +66,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(9e6, magic=True)
+	feature.time_machine(8e6, magic=True)
 	feature.augments({"MI": 1}, 5e6)
-	feature.augments({"DTMT": 1}, 0.6e6)
+	feature.augments({"DTMT": 1}, 0.7e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -101,7 +101,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 65) < time.time():
+			if (start + 64) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
@@ -114,7 +114,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 65) < time.time():
+			if not Blood_Assigned and (start + 64) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
