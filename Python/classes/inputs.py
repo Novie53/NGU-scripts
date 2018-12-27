@@ -67,6 +67,8 @@ class Inputs():
 		time.sleep(userset.MEDIUM_SLEEP)
 
 	def NOV_send_text(self, string):
+		if type(string) == float:  # Remove decimal
+			string = str(int(string))
 		for c in str(string):
 			while (win32api.GetKeyState(wcon.VK_CONTROL) < 0 or
 				   win32api.GetKeyState(wcon.VK_SHIFT) < 0 or
