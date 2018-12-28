@@ -75,7 +75,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		if (time.time() - start) <= 140:
+		if (time.time() - start) <= 130:
 			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 			if var1:
 				feature.adventure(itopod=True, itopodauto=True)
@@ -91,7 +91,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [16,1], activate=True)
+				feature.NOV_gold_diggers([2,5], [19,2], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
