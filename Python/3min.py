@@ -19,7 +19,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 3 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -51,7 +51,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = -1
+	GoldClearLevels = 1
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
@@ -66,19 +66,20 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(7e6, magic=True)
-	feature.augments({"MI": 1}, 7e6)
-	feature.augments({"DTMT": 1}, 2e6)
+	feature.time_machine(6e6, magic=True)
+	feature.augments({"MI": 1}, 8e6)
+	feature.augments({"DTMT": 1}, 3e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
-		if var1:
-			feature.adventure(itopod=True, itopodauto=True)
-			GoldClearLevels = var2
+		if (time.time() - start) <= 140:
+			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+			if var1:
+				feature.adventure(itopod=True, itopodauto=True)
+				GoldClearLevels = var2
 
 		if (start + duration * 60 * 0.25) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
@@ -94,14 +95,14 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 34e6)
+				feature.augments({"MI": 1}, 33e6)
 				feature.augments({"DTMT": 1}, 6e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
-			if (start + 62) < time.time():
+			if (start + 61) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
@@ -114,7 +115,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 62) < time.time():
+			if not Blood_Assigned and (start + 61) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
