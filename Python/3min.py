@@ -67,8 +67,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.5)
 	feature.adventure(highest=True)
 	feature.time_machine(6e6, magic=True)
-	feature.augments({"MI": 1}, 8e6)
-	feature.augments({"DTMT": 1}, 3e6)
+	feature.augments({"MI": 1}, 9e6)
+	feature.augments({"DTMT": 1}, 4e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -95,17 +95,21 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 33e6)
+				feature.augments({"MI": 1}, 31e6)
 				feature.augments({"DTMT": 1}, 6e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[3])
 
+			
+			feature.wandoos(True)
+			'''
 			if (start + 60) < time.time():
 				feature.wandoos(True)
 			else:
 				feature.wandoos(False)
+			'''
 
 			if not half_energy_WANDOOS:
 				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
@@ -115,7 +119,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 60) < time.time():
+			if not Blood_Assigned and (start + 58) < time.time():
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
