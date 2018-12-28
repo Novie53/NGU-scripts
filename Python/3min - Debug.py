@@ -205,7 +205,7 @@ while True:
 	duration = time.time() - before # sec
 	
 	min = int(duration / 60)
-	sec = duration - min * 60
+	sec = int(duration - min * 60)
 	print(f"The challenge took {min}:{sec} to complete")
 	
 	#Börja använda Magic beard digger när jag har GPS till det
