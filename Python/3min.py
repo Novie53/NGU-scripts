@@ -98,7 +98,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				nav.menu("augmentations")
 				i.click(10, 10)
 				aaa = i.get_bitmap()
-				aaa.save("Pic\\augment1 " + str(counter) + ".png")
+				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 				
 				
 				feature.augments({"MI": 1}, 26e6)
@@ -139,7 +139,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		nav.menu("augmentations")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\augment2 " + str(counter) + ".png")
+		aaa.save("Pic\\augment2_" + str(counter) + ".png")
 
 		#nav.menu("bloodmagic")
 		#i.click(10, 10)
