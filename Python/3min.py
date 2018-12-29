@@ -66,7 +66,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(5.5e6, magic=True)
+	feature.time_machine(4e6, magic=True)
 	feature.augments({"MI": 1}, 10e6)
 	feature.augments({"DTMT": 1}, 5e6)
 
@@ -95,7 +95,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 29e6)
+				feature.augments({"MI": 1}, 28e6)
 				feature.augments({"DTMT": 1}, 6e6)
 				Aug_Assigned = True
 			
