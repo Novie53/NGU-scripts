@@ -67,8 +67,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.5)
 	feature.adventure(highest=True)
 	feature.time_machine(5.5e6, magic=True)
-	feature.augments({"MI": 1}, 9e6)
-	feature.augments({"DTMT": 1}, 4e6)
+	feature.augments({"MI": 1}, 10e6)
+	feature.augments({"DTMT": 1}, 5e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -95,7 +95,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 31e6)
+				feature.augments({"MI": 1}, 29e6)
 				feature.augments({"DTMT": 1}, 6e6)
 				Aug_Assigned = True
 			
@@ -119,7 +119,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			elif half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 58) < time.time():
+			#if not Blood_Assigned and (start + 58) < time.time():
+			if not Blood_Assigned:
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
@@ -134,10 +135,10 @@ def Nov_SpeedRun_Two(duration, counter):
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\augment" + str(counter) + ".png")
 
-		nav.menu("bloodmagic")
-		i.click(10, 10)
-		aaa = i.get_bitmap()
-		aaa.save("Pic\\blood" + str(counter) + ".png")
+		#nav.menu("bloodmagic")
+		#i.click(10, 10)
+		#aaa = i.get_bitmap()
+		#aaa.save("Pic\\blood" + str(counter) + ".png")
 		
 		#nav.menu("wandoos")
 		#i.click(10, 10)
