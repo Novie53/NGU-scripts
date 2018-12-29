@@ -67,7 +67,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.5)
 	feature.adventure(highest=True)
 	feature.time_machine(4e6, magic=True)
-	feature.augments({"MI": 1}, 10e6)
+	feature.augments({"MI": 1}, 11e6)
 	feature.augments({"DTMT": 1}, 5e6)
 
 	while time.time() < (end - 14): 
@@ -95,8 +95,14 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 28e6)
-				feature.augments({"DTMT": 1}, 6e6)
+				nav.menu("augmentations")
+				i.click(10, 10)
+				aaa = i.get_bitmap()
+				aaa.save("Pic\\augment1 " + str(counter) + ".png")
+				
+				
+				feature.augments({"MI": 1}, 26e6)
+				feature.augments({"DTMT": 1}, 7e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
@@ -133,7 +139,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		nav.menu("augmentations")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\augment" + str(counter) + ".png")
+		aaa.save("Pic\\augment2 " + str(counter) + ".png")
 
 		#nav.menu("bloodmagic")
 		#i.click(10, 10)
