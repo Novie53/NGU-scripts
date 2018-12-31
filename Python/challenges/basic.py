@@ -181,7 +181,7 @@ class Basic(Features):
 
 
 			if half_energy_WANDOOS:
-				self.time_machine(1e9, magic=True)
+				self.time_machine(1e9, magic=False)
 			if currentBoss > 37:
 				self.blood_magic(4)
 			if digger_activated:
