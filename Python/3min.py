@@ -114,7 +114,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			'''
 
 			if not half_energy_WANDOOS:
-				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
+				idle_color = i.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
 					#print("wandos is at 25%, enabling NGU")
 					half_energy_WANDOOS = True
@@ -137,16 +137,17 @@ def Nov_SpeedRun_Two(duration, counter):
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\augment2_" + str(counter) + ".png")
 
-		#nav.menu("bloodmagic")
-		#i.click(10, 10)
-		#aaa = i.get_bitmap()
-		#aaa.save("Pic\\blood" + str(counter) + ".png")
+		nav.menu("bloodmagic")
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\blood" + str(counter) + ".png")
 		
-		#nav.menu("wandoos")
-		#i.click(10, 10)
-		#aaa = i.get_bitmap()
-		#aaa.save("Pic\\wandoos" + str(counter) + ".png")
+		nav.menu("wandoos")
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\wandoos" + str(counter) + ".png")
 	
+	feature.NOV_boost_equipment("weapon")
 	feature.NOV_boost_equipment("cube")
 	
 	#nav.reclaim_all_magic()
@@ -159,7 +160,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
-	feature.pit(loadout=3)
+	feature.pit()
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
