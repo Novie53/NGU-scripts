@@ -11,7 +11,7 @@ import ngucon as ncon
 import time
 
 
-LOWEST_SLEEP_TO_KILL = 3.6
+LOWEST_SLEEP_TO_KILL = 3.5
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -91,14 +91,14 @@ def Nov_SpeedRun_Two(duration, counter):
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [19,2], activate=True)
+				feature.NOV_gold_diggers([2,5], [20,3], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
 				
 				
-				feature.augments({"MI": 1}, 25e6)
-				feature.augments({"DTMT": 1}, 7e6)
+				feature.augments({"MI": 1}, 24e6)
+				feature.augments({"DTMT": 1}, 6e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
