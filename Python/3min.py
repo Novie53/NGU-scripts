@@ -11,15 +11,15 @@ import ngucon as ncon
 import time
 
 
-LOWEST_SLEEP_TO_KILL = 3.7
+LOWEST_SLEEP_TO_KILL = 3.6
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
-				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
+				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -75,7 +75,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		if (time.time() - start) <= 130:
+		if (time.time() - start) <= 110:
 			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 			if var1:
 				feature.adventure(itopod=True, itopodauto=True)
@@ -97,12 +97,12 @@ def Nov_SpeedRun_Two(duration, counter):
 			if not Aug_Assigned:
 				
 				
-				feature.augments({"MI": 1}, 26e6)
-				feature.augments({"DTMT": 1}, 8e6)
+				feature.augments({"MI": 1}, 25e6)
+				feature.augments({"DTMT": 1}, 7e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
-			i.click(ncon.BMX, ncon.BMY[3])
+			i.click(ncon.BMX, ncon.BMY[4])
 
 			
 			feature.wandoos(True)
