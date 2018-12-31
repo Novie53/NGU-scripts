@@ -67,8 +67,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.5)
 	feature.adventure(highest=True)
 	feature.time_machine(1e9, magic=True)
-	feature.augments({"MI": 1}, 9e6)
-	feature.augments({"DTMT": 1}, 4e6)
+	feature.augments({"MI": 1}, 8e6)
+	feature.augments({"DTMT": 1}, 3e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -90,13 +90,13 @@ def Nov_SpeedRun_Two(duration, counter):
 				i.click(570,335)
 				
 				nav.input_box()
-				i.NOV_send_text(10e6)
+				i.NOV_send_text(20e6)
 				i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
 				
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [34,12], activate=True)
+				feature.NOV_gold_diggers([2,5], [33,12], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
@@ -106,7 +106,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				aaa = i.get_bitmap()
 				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
-				feature.augments({"MI": 1}, 21e6)
+				feature.augments({"MI": 1}, 15e6)
 				feature.augments({"DTMT": 1}, 3e6)
 				Aug_Assigned = True
 			
