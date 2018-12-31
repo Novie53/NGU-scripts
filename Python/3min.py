@@ -88,6 +88,11 @@ def Nov_SpeedRun_Two(duration, counter):
 				nav.menu("timemachine")
 				i.click(570,235)
 				i.click(570,335)
+				
+				nav.input_box()
+				i.NOV_send_text(10e6)
+				i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
+				
 				TM_Done = True
 
 			if not Digger_Activated:
