@@ -813,6 +813,11 @@ class Features(Navigation, Inputs):
 		
 		end = time.time() + duration
 		while time.time() < end:
+			
+			idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
+			if idle_color == ncon.IDLECOLOR:
+				self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+		
 			my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX, ncon.PLAYER_HEAL_THRESHOLDY)
 			if my_health == ncon.PLAYER_HEAL_COLOR:
 				print("going back to base to lick my wounds")
