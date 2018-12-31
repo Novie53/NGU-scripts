@@ -51,7 +51,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = 2
+	GoldClearLevels = 3
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
@@ -66,8 +66,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(40e6, magic=True)
-	feature.augments({"MI": 1}, 10e6)
+	feature.time_machine(1e9, magic=True)
+	feature.augments({"MI": 1}, 9e6)
 	feature.augments({"DTMT": 1}, 4e6)
 
 	while time.time() < (end - 14): 
@@ -105,14 +105,14 @@ def Nov_SpeedRun_Two(duration, counter):
 				i.click(10, 10)
 				aaa = i.get_bitmap()
 				aaa.save("Pic\\augment1_" + str(counter) + ".png")
-			
-			
+
 				feature.augments({"MI": 1}, 21e6)
 				feature.augments({"DTMT": 1}, 3e6)
 				Aug_Assigned = True
 			
-			nav.menu("bloodmagic")
-			i.click(ncon.BMX, ncon.BMY[4])
+			if currentBoss <= 100:
+				nav.menu("bloodmagic")
+				i.click(ncon.BMX, ncon.BMY[4])
 			
 			feature.wandoos(True)
 
