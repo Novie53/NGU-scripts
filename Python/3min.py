@@ -51,7 +51,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = 1
+	GoldClearLevels = 2
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
@@ -66,9 +66,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(30e6, magic=True)
-	feature.augments({"MI": 1}, 11e6)
-	feature.augments({"DTMT": 1}, 5e6)
+	feature.time_machine(40e6, magic=True)
+	feature.augments({"MI": 1}, 10e6)
+	feature.augments({"DTMT": 1}, 4e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -81,7 +81,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.adventure(itopod=True, itopodauto=True)
 				GoldClearLevels = var2
 
-		if (start + duration * 60 * 0.25) > time.time(): #the first 25% of the run
+		if (start + duration * 60 * 0.24) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
 			if not TM_Done:
@@ -100,6 +100,13 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
+				
+				nav.menu("augmentations")
+				i.click(10, 10)
+				aaa = i.get_bitmap()
+				aaa.save("Pic\\augment1_" + str(counter) + ".png")
+			
+			
 				feature.augments({"MI": 1}, 21e6)
 				feature.augments({"DTMT": 1}, 3e6)
 				Aug_Assigned = True
