@@ -194,15 +194,14 @@ runCounter = 1
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
-	feature.merge_equipment()
-	feature.merge_inventory(12) #mergar de första 25 slotsen
+	#feature.merge_equipment()
+	#feature.merge_inventory(12) #mergar de första 25 slotsen
 	#feature.boost_inventory(1)
-	feature.boost_equipment() #boostar också Cube
-	feature.ygg()
-	feature.pit()
+	#feature.boost_equipment() #boostar också Cube
+	#feature.ygg()
+	#feature.pit()
 	
 	
-	'''
 	before = time.time()
 	c.start_challenge(3)
 	duration = time.time() - before # sec
@@ -210,7 +209,6 @@ while True:
 	min = int(duration / 60)
 	sec = int(duration - min * 60)
 	print(f"The challenge took {min}:{sec} to complete")
-	'''
 	
 	
 	#Börja använda Magic beard digger när jag har GPS till det

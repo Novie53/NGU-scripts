@@ -97,8 +97,13 @@ class Basic(Features):
 				self.loadout(2)
 				self.augments({"EB": 1}, 40e6)
 				TM_assigned = True
-				
+			
+			
+			self.menu("wandoos")
+			self.input_box()
+			self.NOV_send_text(1e9)
 			self.wandoos(True)
+		
 		
 		self.menu("augmentations")
 		self.click(630, 260 + 70 * 0)
@@ -122,7 +127,7 @@ class Basic(Features):
 		end = time.time() + (duration * 60)
 		currentBoss = 0
 		GoldClearLevels = -1
-		TM_assigned = 0
+		TM_assigned = False
 		augemnt_assigned = -1
 		blood_assigned = False
 		digger_activated = False
@@ -141,39 +146,20 @@ class Basic(Features):
 			if var1:
 				self.adventure(itopod=True, itopodauto=True)
 				GoldClearLevels = var2
-				
-				
 
-			if currentBoss > 30 and TM_assigned <= 3:
-				if TM_assigned == 0:
-					self.reclaim_all_energy()
-					self.reclaim_all_magic()
+			if currentBoss > 30 and not TM_assigned:
 				self.time_machine(1e9, magic=True)
-				TM_assigned += 1
-			
-			'''
-			if (GoldClearLevels == 1 and currentBoss > 17) or (GoldClearLevels == 2 and currentBoss > 37) \
-										or (GoldClearLevels == 3 and currentBoss > 48):
-				if GoldClearLevels >= 2:
-					self.loadout(1)
-					self.adventure(highest=True)
-					time.sleep(8)
-					self.loadout(2)  # Bar/power equimpent
-					self.adventure(itopod=True, itopodauto=True)
-				else:
-					self.adventure(highest=True)
-				GoldClearLevels += 1
-			'''
-			
+				TM_assigned = True
+
 			if currentBoss > 37 and augemnt_assigned != 2:
 				self.menu("augmentations")
-				self.click(575, 390)
-				self.click(575, 525)
+				self.click(575, 390) #Remove CI
+				self.click(575, 525) #Remove EB
 				self.augments({"SS": 0.95, "DS": 0.5}, 5e6)
 				augemnt_assigned = 2
 			elif currentBoss > 31 and augemnt_assigned < 1:
 				self.menu("augmentations")
-				self.click(575, 390)
+				self.click(575, 390) #Remove CI
 				self.augments({"EB": 1}, 20e6)
 				augemnt_assigned = 1
 			elif augemnt_assigned == -1:
@@ -187,10 +173,10 @@ class Basic(Features):
 				blood_assigned = True
 			
 			if currentBoss > 35 and (not digger_activated) and time.time() > (start + 80):
-				self.gold_diggers([2], True)
+				self.gold_diggers([2,3], True)
 				digger_activated = True
 				
-			self.gold_diggers([2])
+			self.gold_diggers([2, 3])
 			self.wandoos(True)
 		
 		if (currentBoss - 1) >= target:
@@ -198,11 +184,8 @@ class Basic(Features):
 			while (time.time() - start) <= 180:
 				time.sleep(0.25)
 		else:
-			self.reclaim_all_magic()
-			self.reclaim_all_energy()
-			if digger_activated:
-				self.gold_diggers([2], activate=True)
-			self.gold_diggers([3], activate=True)
+			#self.reclaim_all_magic()
+			#self.reclaim_all_energy()
 			for x in range(5):
 				self.nuke()
 				self.fight()
@@ -234,9 +217,9 @@ class Basic(Features):
 		#set augment to 0 in everything
 		
 		
-		self.first_rebirth(5, 1)
+		self.first_rebirth(3, 1)
 		self.do_rebirth()
-		self.first_rebirth(5, 2)
+		self.first_rebirth(3, 2)
 
 		abc = 3
 		for x in range(80):
