@@ -59,7 +59,8 @@ class Basic(Features):
 		currentBoss = 0
 		GoldClearLevels = 0 #1=Sewers,2=Forest
 		TM_assigned = False
-
+		TM_Time_Start = time.time() + 3600
+		
 		self.loadout(1)
 		
 		while time.time() < (end - 2):
@@ -94,15 +95,21 @@ class Basic(Features):
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
 				self.time_machine(5e6, magic=True)
+				TM_Time_Start = time.time()
 				self.loadout(2)
-				self.augments({"EB": 1}, 40e6)
+				self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
-			
+				
+			if (time.time() - TM_Time_Start) > 10:
+				self.NOV_gold_diggers([2,3], [1,1], True)
+				TM_Time_Start += 3600
 			
 			self.menu("wandoos")
 			self.input_box()
 			self.NOV_send_text(1e9)
 			self.wandoos(True)
+			if TM_assigned:
+				self.gold_diggers([2, 3])
 		
 		
 		self.menu("augmentations")
@@ -110,11 +117,6 @@ class Basic(Features):
 		self.send_string(0)
 		self.click(630, 260 + 70 * 1)
 		self.send_string(0)
-		
-		self.rebirth()
-		self.click(10, 10)
-		aaa = self.get_bitmap()
-		aaa.save("Pic\\" + "challenge" + str(counter) + ".png")
 		
 		while time.time() < end:
 			time.sleep(0.1)
@@ -129,8 +131,9 @@ class Basic(Features):
 		GoldClearLevels = -1
 		TM_assigned = False
 		augemnt_assigned = -1
-		blood_assigned = False
 		digger_activated = False
+		half_energy_WANDOOS = False
+		
 		
 		self.loadout(1)
 		self.nuke()
@@ -147,9 +150,13 @@ class Basic(Features):
 				self.adventure(itopod=True, itopodauto=True)
 				GoldClearLevels = var2
 
+
 			if currentBoss > 30 and not TM_assigned:
+				self.reclaim_all_energy()
+				self.reclaim_all_magic()
 				self.time_machine(1e9, magic=True)
 				TM_assigned = True
+
 
 			if currentBoss > 37 and augemnt_assigned != 2:
 				self.menu("augmentations")
@@ -166,35 +173,37 @@ class Basic(Features):
 				self.augments({"CI": 1}, 20e6)
 				augemnt_assigned = 0
 
-			if currentBoss > 37 and not blood_assigned:
-				self.menu("wandoos")
-				self.click(590, 350)
-				self.blood_magic(3)
-				blood_assigned = True
-			
-			if currentBoss > 35 and (not digger_activated) and time.time() > (start + 80):
-				self.gold_diggers([2,3], True)
+
+			if TM_assigned and (not digger_activated):
+				time.sleep(1)
+				self.NOV_gold_diggers([2,3], [1,1], True)
 				digger_activated = True
-				
-			self.gold_diggers([2, 3])
+
+
+			if half_energy_WANDOOS:
+				self.time_machine(1e9, magic=True)
+			if currentBoss > 37:
+				self.blood_magic(4)
+			if digger_activated:
+				self.gold_diggers([2, 3])
 			self.wandoos(True)
-		
+
+
+			if not half_energy_WANDOOS:
+				idle_color = self.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
+				if idle_color == "59CF81":
+					half_energy_WANDOOS = True
+
+
+
 		if (currentBoss - 1) >= target:
-			print("Already done :)")
-			while (time.time() - start) <= 180:
+			while (time.time() - start) < 180:
 				time.sleep(0.25)
 		else:
-			#self.reclaim_all_magic()
-			#self.reclaim_all_energy()
 			for x in range(5):
 				self.nuke()
 				self.fight()
-				time.sleep(0.5)
-			
-			self.rebirth()
-			self.click(10, 10)
-			aaa = self.get_bitmap()
-			aaa.save("Pic\\" + "challenge" + str(counter) + ".png")
+				time.sleep(0.25)
 			
 			while time.time() < end:
 				time.sleep(0.1)
@@ -223,7 +232,7 @@ class Basic(Features):
 
 		abc = 3
 		for x in range(80):
-			self.speedrun(5, abc, target)
+			self.speedrun(3, abc, target)
 			abc += 1
 			if not self.check_challenge():
 				return

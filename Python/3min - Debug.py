@@ -188,9 +188,10 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 c = Challenge()
 
+ScriptStart = time.time()
 
 
-runCounter = 1
+runCounter = 0
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
@@ -202,17 +203,20 @@ while True:
 	#feature.pit()
 	
 	
+	
 	before = time.time()
 	c.start_challenge(3)
 	duration = time.time() - before # sec
+	runCounter += 1
 	
 	min = int(duration / 60)
 	sec = int(duration - min * 60)
-	print(f"The challenge took {min}:{sec} to complete")
+	print(f"The challenge took {min}:{sec} minutes to complete")
 	
 	
-	#Börja använda Magic beard digger när jag har GPS till det
+	duration = time.time() - ScriptStart # sec
+	hours = int(duration / 3600)
+	min = int((duration - (hours * 3600)) / 60)
+	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
+	print("----------------------------------")
 	
-	
-	#Nov_SpeedRun_Two(3, runCounter)
-	#runCounter += 1
