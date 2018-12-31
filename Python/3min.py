@@ -67,8 +67,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.5)
 	feature.adventure(highest=True)
 	feature.time_machine(1e9, magic=True)
-	feature.augments({"MI": 1}, 8e6)
-	feature.augments({"DTMT": 1}, 3e6)
+	feature.augments({"MI": 1}, 7e6)
+	feature.augments({"DTMT": 1}, 2e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
