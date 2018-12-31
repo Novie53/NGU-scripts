@@ -106,16 +106,16 @@ def Nov_SpeedRun_Two(duration, counter):
 				aaa = i.get_bitmap()
 				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
-				feature.augments({"MI": 1}, 14e6)
+				feature.augments({"MI": 1}, 4e6)
 				feature.augments({"DTMT": 1}, 4e6)
 				Aug_Assigned = True
 			
-			if currentBoss <= 100:
+			if currentBoss <= 101: # value=100 to be exact but one extra to make sure it capps it again
 				nav.menu("bloodmagic")
 				i.click(ncon.BMX, ncon.BMY[4])
 			
 			feature.wandoos(True)
-			self.click(555, 350) # Send all magic into Wandoos even if the is not usefull atm
+			i.click(555, 350) # Send all magic into Wandoos even if the is not usefull atm
 
 			if not half_energy_WANDOOS:
 				idle_color = i.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
