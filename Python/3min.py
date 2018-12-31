@@ -11,7 +11,7 @@ import ngucon as ncon
 import time
 
 
-LOWEST_SLEEP_TO_KILL = 3.5
+LOWEST_SLEEP_TO_KILL = 3.45
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -19,7 +19,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -66,7 +66,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(10e6, magic=True)
+	feature.time_machine(20e6, magic=True)
 	feature.augments({"MI": 1}, 11e6)
 	feature.augments({"DTMT": 1}, 5e6)
 
@@ -95,33 +95,23 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				
-				
-				feature.augments({"MI": 1}, 23e6)
-				feature.augments({"DTMT": 1}, 5e6)
+				feature.augments({"MI": 1}, 22e6)
+				feature.augments({"DTMT": 1}, 4e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[4])
-
 			
 			feature.wandoos(True)
-			'''
-			if (start + 60) < time.time():
-				feature.wandoos(True)
-			else:
-				feature.wandoos(False)
-			'''
 
 			if not half_energy_WANDOOS:
 				idle_color = i.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
-					#print("wandos is at 25%, enabling NGU")
 					half_energy_WANDOOS = True
-			elif half_energy_WANDOOS:
+
+			if half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			#if not Blood_Assigned and (start + 58) < time.time():
 			if not Blood_Assigned:
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
@@ -137,15 +127,15 @@ def Nov_SpeedRun_Two(duration, counter):
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\augment2_" + str(counter) + ".png")
 
-		nav.menu("bloodmagic")
-		i.click(10, 10)
-		aaa = i.get_bitmap()
-		aaa.save("Pic\\blood" + str(counter) + ".png")
+		#nav.menu("bloodmagic")
+		#i.click(10, 10)
+		#aaa = i.get_bitmap()
+		#aaa.save("Pic\\blood" + str(counter) + ".png")
 		
-		nav.menu("wandoos")
-		i.click(10, 10)
-		aaa = i.get_bitmap()
-		aaa.save("Pic\\wandoos" + str(counter) + ".png")
+		#nav.menu("wandoos")
+		#i.click(10, 10)
+		#aaa = i.get_bitmap()
+		#aaa.save("Pic\\wandoos" + str(counter) + ".png")
 	
 	feature.NOV_boost_equipment("weapon")
 	feature.NOV_boost_equipment("cube")
