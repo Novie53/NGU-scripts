@@ -67,7 +67,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.5)
 	feature.adventure(highest=True)
 	feature.time_machine(1e9, magic=True)
-	feature.augments({"MI": 1}, 7e6)
+	feature.augments({"MI": 1}, 6e6)
 	feature.augments({"DTMT": 1}, 2e6)
 
 	while time.time() < (end - 14): 
@@ -106,8 +106,8 @@ def Nov_SpeedRun_Two(duration, counter):
 				aaa = i.get_bitmap()
 				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
-				feature.augments({"MI": 1}, 15e6)
-				feature.augments({"DTMT": 1}, 3e6)
+				feature.augments({"MI": 1}, 14e6)
+				feature.augments({"DTMT": 1}, 4e6)
 				Aug_Assigned = True
 			
 			if currentBoss <= 100:
