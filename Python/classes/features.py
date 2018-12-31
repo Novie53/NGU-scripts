@@ -363,7 +363,8 @@ class Features(Navigation, Inputs):
 		self.menu("wandoos")
 		self.click(ncon.WANDOOSENERGYX, ncon.WANDOOSENERGYY)
 		if magic:
-			self.click(ncon.WANDOOSMAGICX, ncon.WANDOOSMAGICY)
+			#self.click(ncon.WANDOOSMAGICX, ncon.WANDOOSMAGICY)
+			self.click(555, 350)
 
 	def loadout(self, target):
 		"""Equip targeted loadout."""
