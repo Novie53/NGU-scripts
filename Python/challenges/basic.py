@@ -67,11 +67,7 @@ class Basic(Features):
 			self.nuke()
 			time.sleep(0.5)
 			self.fight()
-			
-			try:
-				currentBoss = int(self.get_current_boss())
-			except:
-				print("Failed to get boss level")
+			currentBoss = Basic.intTryParse(self.get_current_boss())
 			
 			if (GoldClearLevels == 0 and currentBoss > 7) or (GoldClearLevels == 1 and currentBoss > 17):
 				self.adventure(highest=True)
