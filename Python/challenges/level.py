@@ -77,9 +77,13 @@ class Level(Features):
 
 
 			if currentBoss > 30 and not TM_assigned:
-				print("TM")
-				input()
-				
+
+				self.menu("timemachine")
+				self.click(685, 235)#Energy
+				self.NOV_send_text(15)
+				self.click(685, 335)#Magic
+				self.NOV_send_text(15)				
+
 				self.reclaim_all_energy()
 				self.time_machine(100e6, magic=True)
 				self.loadout(2)
@@ -87,11 +91,8 @@ class Level(Features):
 				time.sleep(5)
 				self.gold_diggers([3], True)
 				TM_assigned = True
-			
-			#self.menu("wandoos")
-			#self.input_box()
-			#self.NOV_send_text(1e9)
-			#self.wandoos(True)
+
+
 			if TM_assigned:
 				self.gold_diggers([3])
 
@@ -195,6 +196,10 @@ class Level(Features):
 		self.first_rebirth(3)
 		self.do_rebirth()
 		self.first_rebirth(3)
+		self.do_rebirth()
+		self.first_rebirth(3)
+		
+		#Todo try two 5 min runs instead
 		while True:
 			self.lc_speedrun()
 			if not self.check_challenge():
