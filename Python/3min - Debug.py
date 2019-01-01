@@ -67,7 +67,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.5)
 	feature.adventure(highest=True)
 	feature.time_machine(22e6, magic=True)
-	feature.augments({"CI": 1}, 25e6)
+	feature.augments({"CI": 1}, 26e6)
 	feature.augments({"ML": 1}, 7e6)
 
 	while time.time() < (end - 14): 
@@ -105,8 +105,8 @@ def Nov_SpeedRun_Two(duration, counter):
 				aaa = i.get_bitmap()
 				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
-				feature.augments({"CI": 1}, 80e6)
-				feature.augments({"ML": 1}, 10e6)
+				feature.augments({"CI": 1}, 84e6)
+				feature.augments({"ML": 1}, 11e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
