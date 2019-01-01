@@ -11,15 +11,15 @@ import ngucon as ncon
 import time
 
 
-LOWEST_SLEEP_TO_KILL = 3.7
+LOWEST_SLEEP_TO_KILL = 3.45
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
-				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
+				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 3 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -51,7 +51,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 
 def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
-	GoldClearLevels = -1
+	GoldClearLevels = 3
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
@@ -66,9 +66,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(8e6, magic=True)
-	feature.augments({"MI": 1}, 5e6)
-	feature.augments({"DTMT": 1}, 0.7e6)
+	feature.time_machine(24e6, magic=True)
+	feature.augments({"CI": 1}, 24e6)
+	feature.augments({"ML": 1}, 6e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -80,41 +80,50 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
 
-		if (start + duration * 60 * 0.25) > time.time(): #the first 25% of the run
+		if (start + duration * 60 * 0.23) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
 			if not TM_Done:
 				nav.menu("timemachine")
 				i.click(570,235)
 				i.click(570,335)
+				
+				nav.input_box()
+				i.NOV_send_text(20e6)
+				i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
+				
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [16,1], activate=True)
+				feature.NOV_gold_diggers([2,5], [33,12], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
-				feature.augments({"MI": 1}, 36.25e6)
-				feature.augments({"DTMT": 1}, 6e6)
+				
+				nav.menu("augmentations")
+				i.click(10, 10)
+				aaa = i.get_bitmap()
+				aaa.save("Pic\\augment1_" + str(counter) + ".png")
+
+				feature.augments({"CI": 1}, 70e6)
+				feature.augments({"ML": 1}, 10e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
-			i.click(ncon.BMX, ncon.BMY[3])
-
-			if (start + 64) < time.time():
-				feature.wandoos(True)
-			else:
-				feature.wandoos(False)
+			i.click(ncon.BMX, ncon.BMY[4])
+			
+			feature.wandoos(True)
+			i.click(555, 350) # Send all magic into Wandoos even if the is not usefull atm
 
 			if not half_energy_WANDOOS:
-				idle_color = i.get_pixel_color(426, 250) #100% = 525, 50% = 426, 25% = 393
+				idle_color = i.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
-					#print("wandos is at 25%, enabling NGU")
 					half_energy_WANDOOS = True
-			elif half_energy_WANDOOS:
+
+			if half_energy_WANDOOS:
 				feature.assign_ngu(1e9, [1])
 
-			if not Blood_Assigned and (start + 64) < time.time():
+			if not Blood_Assigned:
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
@@ -127,18 +136,19 @@ def Nov_SpeedRun_Two(duration, counter):
 		nav.menu("augmentations")
 		i.click(10, 10)
 		aaa = i.get_bitmap()
-		aaa.save("Pic\\augment" + str(counter) + ".png")
+		aaa.save("Pic\\augment2_" + str(counter) + ".png")
 
-		nav.menu("bloodmagic")
-		i.click(10, 10)
-		aaa = i.get_bitmap()
-		aaa.save("Pic\\blood" + str(counter) + ".png")
+		#nav.menu("bloodmagic")
+		#i.click(10, 10)
+		#aaa = i.get_bitmap()
+		#aaa.save("Pic\\blood" + str(counter) + ".png")
 		
 		#nav.menu("wandoos")
 		#i.click(10, 10)
 		#aaa = i.get_bitmap()
 		#aaa.save("Pic\\wandoos" + str(counter) + ".png")
 	
+	feature.NOV_boost_equipment("weapon")
 	feature.NOV_boost_equipment("cube")
 	
 	#nav.reclaim_all_magic()
@@ -151,7 +161,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
-	feature.pit(loadout=3)
+	feature.pit()
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
@@ -166,6 +176,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	#i.click(10, 10)
 	#aaa = i.get_bitmap()
 	#aaa.save("Pic\\rebirth" + str(counter) + ".png")
+
 
 
 w = Window(debug=True)
@@ -187,11 +198,10 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
 c = Challenge()
-
 ScriptStart = time.time()
 
 
-runCounter = 0
+runCounter = 1
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
@@ -202,8 +212,9 @@ while True:
 	#feature.ygg()
 	#feature.pit()
 	
-	
-	
+
+	'''
+	runCounter = 0
 	before = time.time()
 	c.start_challenge(4)
 	duration = time.time() - before # sec
@@ -219,4 +230,7 @@ while True:
 	min = int((duration - (hours * 3600)) / 60)
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
+	'''
 	
+	Nov_SpeedRun_Two(3, runCounter)
+	runCounter += 1
