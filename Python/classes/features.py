@@ -260,6 +260,7 @@ class Features(Navigation, Inputs):
 		"""
 		color = self.get_pixel_color(ncon.PITCOLORX, ncon.PITCOLORY)
 		if (color == ncon.PITREADY):
+			print("Waiting on Pit")
 
 			self.reclaim_all_magic()
 			self.reclaim_all_energy()
