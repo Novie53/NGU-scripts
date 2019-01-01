@@ -259,16 +259,16 @@ class Features(Navigation, Inputs):
 				   doesn't have e/m cap.
 		"""
 		color = self.get_pixel_color(ncon.PITCOLORX, ncon.PITCOLORY)
-		if (color == ncon.PITREADY):			
-			if loadout:
-				self.reclaim_all_magic()
-				self.reclaim_all_energy()
-				self.menu("digger")
-				self.click(825, 110) #deactivate all digger
-				self.loadout(loadout)
+		if (color == ncon.PITREADY):
+
+			self.reclaim_all_magic()
+			self.reclaim_all_energy()
+			self.menu("digger")
+			self.click(825, 110) #deactivate all digger
+			time.sleep(55)
 			
-			time.sleep(10)
-				
+			if loadout:
+				self.loadout(loadout)
 			self.menu("pit")
 			self.click(ncon.PITX, ncon.PITY)
 			self.click(ncon.CONFIRMX, ncon.CONFIRMY)
