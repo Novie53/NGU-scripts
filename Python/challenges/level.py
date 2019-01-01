@@ -33,13 +33,18 @@ class Level(Features):
 		currentBoss = 0
 		GoldClearLevels = 0 #1=Sewers,2=Forest
 		TM_assigned = False
-		
+
+
+		self.menu("beard")
+		self.click(450, 230)#Disable all beards
+		self.click(313, 319)#Select Beard 1
+		self.click(316, 234)#Activate selected beard
 		self.loadout(1)
 		
-		while time.time() < (end - 2):
+		while time.time() < end:
 			self.nuke()
 			self.fight()
-			currentBoss = Basic.intTryParse(self.get_current_boss())
+			currentBoss = Level.intTryParse(self.get_current_boss())
 
 
 			if (GoldClearLevels == 0 and currentBoss > 7) or (GoldClearLevels == 1 and currentBoss > 17):
@@ -54,9 +59,9 @@ class Level(Features):
 				self.click(630, 260 + 70 * 1)#MI
 				self.NOV_send_text(1)
 				self.click(630, 260 + 70 * 2)#CI
-				self.NOV_send_text(1)
+				self.NOV_send_text(2)
 				self.click(630, 260 + 70 * 3)#SM
-				self.NOV_send_text(1)
+				self.NOV_send_text(5)
 				
 				self.augments({"SS": 1}, 1e6)
 				augment_assigned += 1
@@ -66,6 +71,9 @@ class Level(Features):
 			elif currentBoss > 20 and augment_assigned <= 2:
 				self.augments({"CI": 1}, 1e6)
 				augment_assigned += 1
+			elif currentBoss > 24 and augment_assigned <= 3:
+				self.augments({"SM": 1}, 1e6)
+				augment_assigned += 1
 
 
 			if currentBoss > 30 and not TM_assigned:
@@ -73,28 +81,34 @@ class Level(Features):
 				input()
 				
 				self.reclaim_all_energy()
-				self.time_machine(10e6, magic=True)
-				TM_Time_Start = time.time()
+				self.time_machine(100e6, magic=True)
 				self.loadout(2)
 				self.augments({"EB": 1}, 80e6)
+				time.sleep(5)
+				self.gold_diggers([3], True)
 				TM_assigned = True
 			
-			'''
-			self.menu("wandoos")
-			self.input_box()
-			self.NOV_send_text(1e9)
-			self.wandoos(True)
+			#self.menu("wandoos")
+			#self.input_box()
+			#self.NOV_send_text(1e9)
+			#self.wandoos(True)
 			if TM_assigned:
 				self.gold_diggers([3])
-			'''
-		
-		'''
+
+
 		self.menu("augmentations")
-		self.click(630, 260 + 70 * 0)
-		self.send_string(0)
-		self.click(630, 260 + 70 * 1)
-		self.send_string(0)
-		'''
+		self.click(630, 260 + 70 * 0)#SS
+		self.NOV_send_text(0)
+		self.click(630, 260 + 70 * 1)#MI
+		self.NOV_send_text(0)
+		self.click(630, 260 + 70 * 2)#CI
+		self.NOV_send_text(0)
+		self.click(630, 260 + 70 * 3)#SM
+		self.NOV_send_text(0)
+		
+		self.menu("beard")
+		self.click(450, 230)#Disable all beards
+		
 		
 		while time.time() < end:
 			time.sleep(0.1)
