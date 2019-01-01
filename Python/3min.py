@@ -67,7 +67,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.5)
 	feature.adventure(highest=True)
 	feature.time_machine(17e6, magic=True)
-	feature.augments({"CI": 1}, 28e6)
+	feature.augments({"CI": 1}, 29e6)
 	feature.augments({"ML": 1}, 7e6)
 
 	while time.time() < (end - 14): 
@@ -211,5 +211,5 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	Nov_SpeedRun_Two(3, 0)
+	Nov_SpeedRun_Two(3, runCounter)
 	runCounter += 1
