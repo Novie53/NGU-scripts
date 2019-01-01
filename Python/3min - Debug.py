@@ -11,7 +11,7 @@ import ngucon as ncon
 import time
 
 
-LOWEST_SLEEP_TO_KILL = 3.45
+LOWEST_SLEEP_TO_KILL = 3.40
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -66,8 +66,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(22e6, magic=True)
-	feature.augments({"CI": 1}, 26e6)
+	feature.time_machine(19e6, magic=True)
+	feature.augments({"CI": 1}, 27e6)
 	feature.augments({"ML": 1}, 7e6)
 
 	while time.time() < (end - 14): 
