@@ -81,7 +81,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.adventure(itopod=True, itopodauto=True)
 				GoldClearLevels = var2
 
-		if (start + duration * 60 * 0.24) > time.time(): #the first 25% of the run
+		if (start + duration * 60 * 0.23) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
 			if not TM_Done:
