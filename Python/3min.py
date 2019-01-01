@@ -11,7 +11,7 @@ import ngucon as ncon
 import time
 
 
-LOWEST_SLEEP_TO_KILL = 3.45
+LOWEST_SLEEP_TO_KILL = 3.40
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -66,20 +66,19 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(1e9, magic=True)
-	feature.augments({"MI": 1}, 6e6)
-	feature.augments({"DTMT": 1}, 2e6)
+	feature.time_machine(17e6, magic=True)
+	feature.augments({"CI": 1}, 28e6)
+	feature.augments({"ML": 1}, 7e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		if (time.time() - start) <= 110:
-			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
-			if var1:
-				feature.adventure(itopod=True, itopodauto=True)
-				GoldClearLevels = var2
+		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+		if var1:
+			feature.adventure(itopod=True, itopodauto=True)
+			GoldClearLevels = var2
 
 		if (start + duration * 60 * 0.23) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
@@ -101,18 +100,17 @@ def Nov_SpeedRun_Two(duration, counter):
 
 			if not Aug_Assigned:
 				
-				#nav.menu("augmentations")
-				#i.click(10, 10)
-				#aaa = i.get_bitmap()
-				#aaa.save("Pic\\augment1_" + str(counter) + ".png")
+				nav.menu("augmentations")
+				i.click(10, 10)
+				aaa = i.get_bitmap()
+				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
-				feature.augments({"MI": 1}, 4e6)
-				feature.augments({"DTMT": 1}, 4e6)
+				feature.augments({"CI": 1}, 85e6)
+				feature.augments({"ML": 1}, 11e6)
 				Aug_Assigned = True
 			
-			if currentBoss <= 101: # value=100 to be exact but one extra to make sure it capps it again
-				nav.menu("bloodmagic")
-				i.click(ncon.BMX, ncon.BMY[4])
+			nav.menu("bloodmagic")
+			i.click(ncon.BMX, ncon.BMY[4])
 			
 			feature.wandoos(True)
 			i.click(555, 350) # Send all magic into Wandoos even if the is not usefull atm
