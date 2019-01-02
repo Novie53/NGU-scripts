@@ -396,6 +396,8 @@ class Features(Navigation, Inputs):
 			#self.click(ncon.BM_AUTO_GOLDX, ncon.BM_AUTO_GOLDY)
 			self.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 
+			time_machine(1e12)
+			
 			if userset.PILL == 0:
 				duration = 300
 			else:
