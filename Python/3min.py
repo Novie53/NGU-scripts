@@ -107,7 +107,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
 				feature.augments({"CI": 1}, 90e6)
-				feature.augments({"ML": 1}, 30e6)
+				feature.augments({"ML": 1}, 31e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
