@@ -56,7 +56,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	Aug_Assigned = False
 	Blood_Assigned = False
 	Digger_Activated = False
-	half_energy_WANDOOS = False
+	WANDOOS_energy_goal_reached = False
+	WANDOOS_magic_goal_reached = False
 	
 	
 	feature.do_rebirth()
@@ -66,9 +67,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(13e6, magic=True)
+	feature.time_machine(11.9e6, magic=True)
 	feature.augments({"CI": 1}, 31.5e6)
-	feature.augments({"ML": 1}, 8e6)
+	feature.augments({"ML": 1}, 9e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -105,23 +106,33 @@ def Nov_SpeedRun_Two(duration, counter):
 				aaa = i.get_bitmap()
 				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
-				feature.augments({"CI": 1}, 85e6)
-				feature.augments({"ML": 1}, 11e6)
+				feature.augments({"CI": 1}, 86e6)
+				feature.augments({"ML": 1}, 13e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[4])
 			
 			feature.wandoos(True)
-			i.click(555, 350) # Send all magic into Wandoos even if the is not usefull atm
+			#i.click(555, 350) # Send all magic into Wandoos even if the is not usefull atm
 
-			if not half_energy_WANDOOS:
-				idle_color = i.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
+			if not WANDOOS_energy_goal_reached:
+				idle_color = i.get_pixel_color(525, 250)
+				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "59CF81":
-					half_energy_WANDOOS = True
+					WANDOOS_energy_goal_reached = True
 
-			if half_energy_WANDOOS:
+			if not WANDOOS_magic_goal_reached:
+				idle_color = i.get_pixel_color(525, 350)
+				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
+				if idle_color == "A9BAF9":
+					WANDOOS_magic_goal_reached = True
+
+			if WANDOOS_energy_goal_reached:
 				feature.assign_ngu(1e9, [1])
+				
+			if WANDOOS_magic_goal_reached:
+				feature.assign_ngu(1e9, [1], magic=True)
 
 			if not Blood_Assigned:
 				nav.spells()
