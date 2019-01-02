@@ -69,7 +69,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.adventure(highest=True)
 	feature.time_machine(10e6, magic=True)
 	feature.augments({"CI": 1}, 31.5e6)
-	feature.augments({"ML": 1}, 11e6)
+	feature.augments({"ML": 1}, 12e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -107,14 +107,13 @@ def Nov_SpeedRun_Two(duration, counter):
 				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
 				feature.augments({"CI": 1}, 90e6)
-				feature.augments({"ML": 1}, 25e6)
+				feature.augments({"ML": 1}, 28e6)
 				Aug_Assigned = True
 			
 			nav.menu("bloodmagic")
 			i.click(ncon.BMX, ncon.BMY[4])
 			
 			feature.wandoos(True)
-			#i.click(555, 350) # Send all magic into Wandoos even if the is not usefull atm
 
 			if not WANDOOS_energy_goal_reached:
 				idle_color = i.get_pixel_color(525, 250)
