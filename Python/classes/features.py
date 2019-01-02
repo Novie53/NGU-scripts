@@ -259,8 +259,13 @@ class Features(Navigation, Inputs):
 				   doesn't have e/m cap.
 		"""
 		
+		
 		def _ocr():
-			return float(self.ocr(15, 320, 140, 350))
+			try:
+				return float((self.ocr(15, 320, 140, 350)).replace(" ",""))
+			except:
+				print("Money Pit OCR Failed")
+				return 1e99
 			
 		color = self.get_pixel_color(ncon.PITCOLORX, ncon.PITCOLORY)
 		if (color == ncon.PITREADY):
