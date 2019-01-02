@@ -132,7 +132,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.assign_ngu(1e9, [1])
 				
 			if WANDOOS_magic_goal_reached:
-				feature.assign_ngu(1e9, [1], magic=True)
+				feature.assign_ngu(1e9, [3], magic=True)
 
 			if not Blood_Assigned:
 				nav.spells()
