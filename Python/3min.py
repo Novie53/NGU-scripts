@@ -67,7 +67,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.5)
 	feature.adventure(highest=True)
-	feature.time_machine(11.9e6, magic=True)
+	feature.time_machine(11e6, magic=True)
 	feature.augments({"CI": 1}, 31.5e6)
 	feature.augments({"ML": 1}, 9e6)
 
@@ -123,7 +123,7 @@ def Nov_SpeedRun_Two(duration, counter):
 					WANDOOS_energy_goal_reached = True
 
 			if not WANDOOS_magic_goal_reached:
-				idle_color = i.get_pixel_color(525, 350)
+				idle_color = i.get_pixel_color(426, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
 					WANDOOS_magic_goal_reached = True
