@@ -73,14 +73,14 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.adventure(highest=True)
 	feature.time_machine(7.6e6, magic=True)
 	feature.augments({"CI": 1}, 31.5e6)
-	feature.augments({"ML": 1}, 13e6)
+	feature.augments({"ML": 1}, 14e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		if time_since_start() < 35 or time_since_start() > 60:
+		if time_since_start() < 35:
 			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 			if var1:
 				feature.adventure(itopod=True, itopodauto=True)
