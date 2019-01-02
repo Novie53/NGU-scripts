@@ -19,7 +19,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -50,6 +50,10 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 	return False, 0
 
 def Nov_SpeedRun_Two(duration, counter):
+
+	def time_since_start():
+		return time.time() - start
+
 	currentBoss = 0
 	GoldClearLevels = 3
 	TM_Done = False
@@ -76,13 +80,11 @@ def Nov_SpeedRun_Two(duration, counter):
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		if (start + 60) < time.time():
-			MAX_KILL_ADVENTURE_ZONE = 5
-		
-		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
-		if var1:
-			feature.adventure(itopod=True, itopodauto=True)
-			GoldClearLevels = var2
+		if time_since_start() < 35 or time_since_start() > 60:
+			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+			if var1:
+				feature.adventure(itopod=True, itopodauto=True)
+				GoldClearLevels = var2
 
 		if (start + duration * 60 * 0.23) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
