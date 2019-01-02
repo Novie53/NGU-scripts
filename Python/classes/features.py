@@ -249,7 +249,7 @@ class Features(Navigation, Inputs):
 		time.sleep(0.1)
 		return
 
-	def pit(self, loadout=0):
+	def pit(self, loadout=0, value=0):
 		"""Throws money into the pit.
 		Keyword arguments:
 		loadout -- The loadout you wish to equip before throwing gold
@@ -258,16 +258,27 @@ class Features(Navigation, Inputs):
 				   the unassign setting in the game or swapping gear that
 				   doesn't have e/m cap.
 		"""
+		
+		def _ocr():
+			return float(self.ocr(15, 320, 140, 350))
+			
 		color = self.get_pixel_color(ncon.PITCOLORX, ncon.PITCOLORY)
 		if (color == ncon.PITREADY):
-			print("Waiting on Pit")
+			self.menu("pit")
 
-			self.reclaim_all_magic()
-			self.reclaim_all_energy()
-			self.menu("digger")
-			self.click(825, 110) #deactivate all digger
-			time.sleep(55)
-			
+			if value != 0:
+				currentMoney = _ocr()
+				if currentMoney < value:
+					self.reclaim_all_magic()
+					self.reclaim_all_energy()
+					self.menu("digger")
+					self.click(825, 110) #deactivate all digger
+					self.time_machine(1e12, magic=True)
+					print("Waiting on Money Pit")
+					self.menu("pit")
+					while currentMoney < value:
+						currentMoney = _ocr()
+						time.sleep(0.25)
 			if loadout:
 				self.loadout(loadout)
 			self.menu("pit")
