@@ -136,7 +136,10 @@ class Basic(Features):
 		time.sleep(1.5)
 		self.adventure(highest=True)
 		
-		while time.time() < (end - 10) and currentBoss <= target:
+		while time.time() < (end - 10):
+			if (currentBoss - 1) >= target and (time.time() - start) <= 180:
+				return
+		
 			self.nuke()
 			self.fight()
 			currentBoss = Basic.intTryParse(self.get_current_boss())
@@ -192,7 +195,16 @@ class Basic(Features):
 
 
 
+		for x in range(5):
+			self.nuke()
+			self.fight()
+			time.sleep(0.25)
+					
+			while time.time() < end:
+				time.sleep(0.1)
+		'''
 		if (currentBoss - 1) >= target:
+			print("does this every run?")
 			while (time.time() - start) < 180:
 				time.sleep(0.25)
 		else:
@@ -203,6 +215,7 @@ class Basic(Features):
 			
 			while time.time() < end:
 				time.sleep(0.1)
+		'''
 
 	def check_challenge(self):
 		"""Check if a challenge is active."""
