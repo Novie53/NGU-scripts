@@ -211,12 +211,11 @@ while True:
 	#feature.boost_equipment() #boostar också Cube
 	#feature.ygg()
 	#feature.pit()
-	
 
-	'''
+
 	runCounter = 0
 	before = time.time()
-	c.start_challenge(4)
+	c.start_challenge(3)
 	duration = time.time() - before # sec
 	runCounter += 1
 	
@@ -230,7 +229,7 @@ while True:
 	min = int((duration - (hours * 3600)) / 60)
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
-	'''
-	
-	Nov_SpeedRun_Two(3, runCounter)
-	runCounter += 1
+
+
+	#Nov_SpeedRun_Two(3, runCounter)
+	#runCounter += 1
