@@ -137,7 +137,7 @@ class Basic(Features):
 		self.adventure(highest=True)
 		
 		while time.time() < (end - 10):
-			if (currentBoss - 1) >= target and (time.time() - start) <= 180:
+			if (currentBoss - 1) >= target and (time.time() - start) >= 180:
 				return
 		
 			self.nuke()
