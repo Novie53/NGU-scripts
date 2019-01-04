@@ -164,7 +164,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		#aaa = i.get_bitmap()
 		#aaa.save("Pic\\wandoos" + str(counter) + ".png")
 	
-	feature.NOV_boost_equipment("weapon")
+	feature.NOV_boost_equipment("legs")
 	feature.NOV_boost_equipment("cube")
 	
 	#nav.reclaim_all_magic()
