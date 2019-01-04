@@ -106,10 +106,11 @@ def Nov_SpeedRun_Two(duration, counter):
 
 			if not Aug_Assigned:
 				
-				nav.menu("augmentations")
-				i.click(10, 10)
-				aaa = i.get_bitmap()
-				aaa.save("Pic\\augment1_" + str(counter) + ".png")
+				if counter != 0:
+					nav.menu("augmentations")
+					i.click(10, 10)
+					aaa = i.get_bitmap()
+					aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
 				feature.augments({"CI": 1}, 90e6)
 				feature.augments({"ML": 1}, 31e6)
