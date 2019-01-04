@@ -45,13 +45,13 @@ class Level(Features):
 
 		self.loadout(1)
 		
-		while time.time() < (end - 2):
+		while time.time() < (end - 5):
 			self.nuke()
 			self.fight()
 			currentBoss = Level.intTryParse(self.get_current_boss())
 
 			if (GoldClearLevels == 0 and currentBoss > 7) or (GoldClearLevels == 1 and currentBoss > 17) \
-				or (GoldClearLevels == 2 and currentBoss > 37):
+				or (GoldClearLevels == 2 and currentBoss > 37) or (GoldClearLevels == 3 and currentBoss > 48):
 				self.adventure(highest=True)
 				GoldClearLevels += 1
 
@@ -164,10 +164,10 @@ class Level(Features):
 			self.gold_diggers([3], True)
 
 		self.nuke()
-		time.sleep(0.25)
-		for i in range(3):
+		time.sleep(0.5)
+		for i in range(5):
 			self.fight()
-			time.sleep(0.25)
+			time.sleep(0.5)
 
 		while time.time() < end:
 			time.sleep(0.1)
