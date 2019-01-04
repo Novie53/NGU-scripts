@@ -106,10 +106,10 @@ def Nov_SpeedRun_Two(duration, counter):
 
 			if not Aug_Assigned:
 				
-				#nav.menu("augmentations")
-				#i.click(10, 10)
-				#aaa = i.get_bitmap()
-				#aaa.save("Pic\\augment1_" + str(counter) + ".png")
+				nav.menu("augmentations")
+				i.click(10, 10)
+				aaa = i.get_bitmap()
+				aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
 				feature.augments({"CI": 1}, 90e6)
 				feature.augments({"ML": 1}, 31e6)
@@ -226,5 +226,5 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	Nov_SpeedRun_Two(3, 0)
+	Nov_SpeedRun_Two(3, runCounter)
 	runCounter += 1
