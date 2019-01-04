@@ -2,6 +2,7 @@
 from classes.features import Features
 import ngucon as ncon
 import time
+import usersettings as userset
 
 
 class Level(Features):
@@ -42,21 +43,15 @@ class Level(Features):
 			self.click(313, 319)#Select Beard 1
 			self.click(316, 234)#Activate selected beard
 
-			self.loadout(1)
+		self.loadout(1)
 		
 		while time.time() < (end - 2):
 			self.nuke()
 			self.fight()
 			currentBoss = Level.intTryParse(self.get_current_boss())
 
-
-			if GoldClearLevels < 3 and currentBoss > 37:
-				self.loadout(1)
-				self.adventure(highest=True)
-				time.sleep(4)
-				self.loadout(2)
-				GoldClearLevels = 3
-			if (GoldClearLevels == 0 and currentBoss > 7) or (GoldClearLevels == 1 and currentBoss > 17):
+			if (GoldClearLevels == 0 and currentBoss > 7) or (GoldClearLevels == 1 and currentBoss > 17) \
+				or (GoldClearLevels == 2 and currentBoss > 37):
 				self.adventure(highest=True)
 				GoldClearLevels += 1
 
@@ -94,7 +89,7 @@ class Level(Features):
 					self.click(630, 260 + 70 * 3)#SM
 					self.NOV_send_text(1)
 					self.click(630, 260 + 70 * 4)#EB
-					self.NOV_send_text(20)
+					self.NOV_send_text(10)
 
 					self.augments({"SM": 1}, 1e6)
 					augment_assigned += 1
@@ -105,30 +100,28 @@ class Level(Features):
 			if currentBoss > 30 and not TM_assigned:
 				self.menu("timemachine")
 				self.click(685, 235)#Energy
-				self.NOV_send_text(30)
+				self.NOV_send_text(40)
 				self.click(685, 335)#Magic
-				self.NOV_send_text(30)
+				self.NOV_send_text(40)
 				self.click(10, 10)#defocus magic textbox
 				
 				if phase < 2:
 					self.reclaim_all_energy()
 					self.reclaim_all_magic()
 				
-				
 				self.time_machine(1e9, magic=True)
-				self.loadout(2)
-				
-				time.sleep(5)
-				self.NOV_gold_diggers([3], [1], True)
 				TM_assigned = True
+				
+				#time.sleep(2)
+				#self.NOV_gold_diggers([3], [1], True)
 				
 				if phase < 2:
 					self.click(630, 260 + 70 * 4)#EB
 					self.NOV_send_text(0)
 					self.augments({"EB": 1}, 10e6)
 
-			if TM_assigned:
-				self.gold_diggers([3])
+			#if TM_assigned:
+			#	self.gold_diggers([3])
 
 			if phase < 2:
 				self.assign_ngu(1e9, [1])
@@ -136,11 +129,12 @@ class Level(Features):
 
 			if currentBoss > 37 and not Blood_assigned:
 				self.reclaim_all_magic()
-				self.blood_magic(8)
+				self.menu("bloodmagic")
+				self.click(ncon.BMX, ncon.BMY[3])
 				Blood_assigned = True
 
-		self.reclaim_all_magic()
-		self.reclaim_all_energy()
+		#self.reclaim_all_magic()
+		#self.reclaim_all_energy()
 		
 		self.menu("augmentations")
 		self.click(630, 260 + 70 * 0)#SS
@@ -166,12 +160,15 @@ class Level(Features):
 		
 		if phase == 1:
 			self.wandoos(True)
-			time.sleep(1)
-			self.nuke()
+		else:
+			self.gold_diggers([3], True)
+
+		self.nuke()
+		time.sleep(0.25)
+		for i in range(3):
 			self.fight()
-			time.sleep(1)
-		
-		
+			time.sleep(0.25)
+
 		while time.time() < end:
 			time.sleep(0.1)
 
@@ -179,14 +176,41 @@ class Level(Features):
 		"""Check if a challenge is active."""
 		self.rebirth()
 		self.click(ncon.CHALLENGEBUTTONX, ncon.CHALLENGEBUTTONY)
-		time.sleep(ncon.LONG_SLEEP)
+		time.sleep(userset.LONG_SLEEP)
 		color = self.get_pixel_color(ncon.CHALLENGEACTIVEX,
 									 ncon.CHALLENGEACTIVEY)
 
 		return True if color == ncon.CHALLENGEACTIVECOLOR else False
 
+	def printScreen(self, counter):
+		self.rebirth()
+		self.click(10, 10)
+		aaa = self.get_bitmap()
+		aaa.save("Pic\\rebirth" + str(counter) + ".png")
+		
 	def lc(self):
 		"""Handle LC run."""
+		
+		self.first_rebirth(3)
+		self.printScreen(1)
+		
+		self.do_rebirth()
+		self.first_rebirth(3, phase = 1.25)
+		self.printScreen(2)
+		
+		self.do_rebirth()
+		self.first_rebirth(3)
+		self.printScreen(3)
+		
+		counter = 4
+		while True:
+			self.do_rebirth()
+			self.first_rebirth(3, phase = 2)
+			self.printScreen(counter)
+			counter += 1
+			if not self.check_challenge():
+				return
+		'''
 		self.first_rebirth(3)
 		print("1 done")
 
@@ -204,22 +228,23 @@ class Level(Features):
 		self.do_rebirth()
 		self.first_rebirth(3, phase = 2)
 		print("4 done")
-		input("input waiting")
+		#input("input waiting")
 
 
 		self.do_rebirth()
 		self.first_rebirth(3, phase = 2)
 		print("5 done")
-		input("input waiting")
+		#input("input waiting")
 
 
 		self.do_rebirth()
 		self.first_rebirth(3, phase = 2)
 		print("6 done")
-		input("input waiting")
+		#input("input waiting")
 		
 		#Todo try two 5 min runs instead
 		while True:
-			self.lc_speedrun()
+			self.first_rebirth(3, phase = 2)
 			if not self.check_challenge():
 				return
+		'''
