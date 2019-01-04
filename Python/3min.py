@@ -199,7 +199,7 @@ i = Inputs()
 nav = Navigation()
 feature = Features()
 
-Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
+Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
@@ -217,15 +217,16 @@ runCounter = 1
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
-	#feature.merge_equipment()
-	#feature.merge_inventory(17) #mergar de första 25 slotsen
+	feature.merge_equipment()
+	feature.merge_inventory(12) #mergar de första 25 slotsen
 	#feature.boost_inventory(1)
-	#feature.boost_equipment() #boostar också Cube
-	#feature.ygg()
+	feature.boost_equipment() #boostar också Cube
+	#feature.NOV_boost_equipment("head")
+	feature.ygg()
 	
 	
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	Nov_SpeedRun_Two(3, 0)
-	runCounter += 1
+	#Nov_SpeedRun_Two(3, 0)
+	#runCounter += 1
