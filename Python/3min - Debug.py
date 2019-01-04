@@ -215,7 +215,7 @@ while True:
 
 	runCounter = 0
 	before = time.time()
-	c.start_challenge(3)
+	c.start_challenge(4)
 	duration = time.time() - before # sec
 	runCounter += 1
 	
