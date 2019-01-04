@@ -227,5 +227,5 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	Nov_SpeedRun_Two(3, runCounter)
+	Nov_SpeedRun_Two(3, 0)
 	runCounter += 1
