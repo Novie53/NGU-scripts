@@ -25,14 +25,15 @@ def createTimeStamp(boss, timeLeft, SafetyTime = 60):
 	BOSSES[boss]["TimeToKill"] += SafetyTime
 	
 def timeToKillBoss(Boss_ID):
-	if BOSSES[Boss_ID][LootGear]:
+	if BOSSES[Boss_ID]["LootGear"]:
+		print("Equipping loot gear")
 		nav.reclaim_all_magic()
 		nav.reclaim_all_energy()
 		feature.gold_diggers([5,6], activate=True) #Disable NGU Diggers
 		feature.gold_diggers([1,4], activate=True) #Enable Drop & Adventure digger
 		feature.loadout(3) #Equip dropchance Gear
 	
-	i.click(220, 465) #Settings Menu
+	nav.menu("settings")
 	i.click(670, 150) #Enable "Loot Filter"
 	i.click(510, 290) #Enable "Auto Kill Titans"
 	time.sleep(1)
@@ -41,7 +42,8 @@ def timeToKillBoss(Boss_ID):
 	i.click(580, 290) #Disable "Auto Kill Titans"
 	i.click(740, 150) #Disable "Loot Filter"
 	
-	if BOSSES[Boss_ID][LootGear]:
+	if BOSSES[Boss_ID]["LootGear"]:
+		print("Equipping NGU gear")
 		feature.gold_diggers([1,4], activate=True) #Disable Drop & Adventure digger
 		feature.gold_diggers([5,6], activate=True) #Enable NGU Diggers
 		feature.loadout(2) #Equip EM POW Gear
@@ -64,11 +66,12 @@ print(w.x, w.y)
 
 
 
-createTimeStamp(0,"0:12")
-createTimeStamp(1,"1:0")
-createTimeStamp(2,"0:3")
+createTimeStamp(0,"9:5")
+createTimeStamp(1,"9:48")
+createTimeStamp(2,"9:53")
 
-i.click(220, 465) #Settings Menu
+
+nav.menu("settings")
 i.click(580, 290) #Disable "Auto Kill Titans"
 
 while True:
@@ -82,12 +85,12 @@ while True:
 	feature.ygg()
 	feature.pit()
 	
-	clearConsole()
+	#clearConsole()
 	for BossID in range(len(BOSSES)):
-		duration = int(BOSSES[BossID]["TimeToKill"] - time.time())
-		hour = int(duration / 3600)
-		min  = int((duration - hour * 3600) / 60)
-		print(f"Time left to kill boss {BossID} - {hour}:{min}")
+		#duration = int(BOSSES[BossID]["TimeToKill"] - time.time())
+		#hour = int(duration / 3600)
+		#min  = int((duration - hour * 3600) / 60)
+		#print(f"Time left to kill boss {BossID} - {hour}:{min}")
 		
 		if BOSSES[BossID]["TimeToKill"] < time.time():
 			timeToKillBoss(BossID)
