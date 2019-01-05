@@ -136,7 +136,7 @@ class Basic(Features):
 		time.sleep(1.5)
 		self.adventure(highest=True)
 		
-		while time.time() < (end - 10):
+		while time.time() < (end - 7):
 			if (currentBoss - 1) >= target and (time.time() - start) >= 180:
 				return
 		
@@ -192,7 +192,6 @@ class Basic(Features):
 				idle_color = self.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
 				if idle_color == "59CF81":
 					half_energy_WANDOOS = True
-
 
 
 		for x in range(5):
