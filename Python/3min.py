@@ -217,16 +217,16 @@ runCounter = 1
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
-	feature.merge_equipment()
-	feature.merge_inventory(12) #mergar de första 25 slotsen
+	#feature.merge_equipment()
+	#feature.merge_inventory(12) #mergar de första 25 slotsen
 	#feature.boost_inventory(1)
-	feature.boost_equipment() #boostar också Cube
+	#feature.boost_equipment() #boostar också Cube
 	#feature.NOV_boost_equipment("head")
-	feature.ygg()
+	#feature.ygg()
 	
 	
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	#Nov_SpeedRun_Two(3, 0)
-	#runCounter += 1
+	Nov_SpeedRun_Two(3, 0)
+	runCounter += 1
