@@ -207,7 +207,7 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
-#				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard"]
+#				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
 
