@@ -202,20 +202,6 @@ class Basic(Features):
 					
 			while time.time() < end:
 				time.sleep(0.1)
-		'''
-		if (currentBoss - 1) >= target:
-			print("does this every run?")
-			while (time.time() - start) < 180:
-				time.sleep(0.25)
-		else:
-			for x in range(5):
-				self.nuke()
-				self.fight()
-				time.sleep(0.25)
-			
-			while time.time() < end:
-				time.sleep(0.1)
-		'''
 
 	def check_challenge(self):
 		"""Check if a challenge is active."""
@@ -230,16 +216,9 @@ class Basic(Features):
 	def basic(self, target):
 		"""Defeat target boss."""
 		
-		#spend all exp
-		#spend all perk points
-		#set augment to 0 in everything
-		
-		
 		self.first_rebirth(3, 1)
-		self.do_rebirth()
-		self.first_rebirth(3, 2)
 
-		abc = 3
+		abc = 2
 		for x in range(80):
 			self.speedrun(3, abc, target)
 			abc += 1

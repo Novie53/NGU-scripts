@@ -201,7 +201,7 @@ c = Challenge()
 ScriptStart = time.time()
 
 
-runCounter = 1
+runCounter = 0
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
@@ -213,9 +213,8 @@ while True:
 	#feature.pit()
 
 
-	runCounter = 0
 	before = time.time()
-	c.start_challenge(4)
+	c.start_challenge(3)
 	duration = time.time() - before # sec
 	runCounter += 1
 	
