@@ -101,7 +101,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [33,12], activate=True)
+				feature.NOV_gold_diggers([2,5], [41, 18], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
