@@ -289,7 +289,8 @@ class Features(Navigation, Inputs):
 			self.menu("pit")
 			self.click(ncon.PITX, ncon.PITY)
 			self.click(ncon.CONFIRMX, ncon.CONFIRMY)
-			self.loadout(1)
+			if loadout:
+				self.loadout(2)
 
 	def augments(self, augments, energy):
 		"""Dump energy into augmentations.
