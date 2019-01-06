@@ -69,7 +69,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60)
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(1.5)
+	time.sleep(1.6)
 	feature.adventure(highest=True)
 	feature.time_machine(18e6, magic=True)
 	feature.augments({"CI": 1}, 27e6)
