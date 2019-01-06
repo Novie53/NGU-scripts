@@ -55,7 +55,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		return time.time() - start
 
 	currentBoss = 0
-	GoldClearLevels = 3
+	GoldClearLevels = 4
 	TM_Done = False
 	Aug_Assigned = False
 	Blood_Assigned = False
@@ -71,9 +71,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.6)
 	feature.adventure(highest=True)
-	feature.time_machine(18e6, magic=True)
-	feature.augments({"CI": 1}, 27e6)
-	feature.augments({"ML": 1}, 13.5e6)
+	feature.time_machine(30e6, magic=True)
+	feature.augments({"CI": 1}, 20e6)
+	feature.augments({"ML": 1}, 10e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -101,7 +101,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				TM_Done = True
 
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [41, 18], activate=True)
+				feature.NOV_gold_diggers([2,5], [43, 20], activate=True)
 				Digger_Activated = True
 
 			if not Aug_Assigned:
@@ -228,5 +228,5 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	Nov_SpeedRun_Two(3, 0)
+	Nov_SpeedRun_Two(3, runCounter)
 	runCounter += 1
