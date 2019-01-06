@@ -58,7 +58,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	GoldClearLevels = 4
 	TM_Done = False
 	Aug_Assigned = False
-	Blood_Assigned = False
+	Blood_Assigned = 0
 	Digger_Activated = False
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
@@ -116,8 +116,10 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.augments({"ML": 1}, 35e6)
 				Aug_Assigned = True
 			
-			nav.menu("bloodmagic")
-			i.click(ncon.BMX, ncon.BMY[4])
+			if Blood_Assigned == 0:
+				nav.menu("bloodmagic")
+				i.click(ncon.BMX, ncon.BMY[4])
+				Blood_Assigned += 1
 			
 			feature.wandoos(True)
 
@@ -139,13 +141,13 @@ def Nov_SpeedRun_Two(duration, counter):
 			if WANDOOS_magic_goal_reached:
 				feature.assign_ngu(1e9, [3], magic=True)
 
-			if not Blood_Assigned:
+			if Blood_Assigned == 1:
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
 				i.click(700,310)
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
-				Blood_Assigned = True
+				Blood_Assigned += 1
 
 
 	if counter != 0:
@@ -228,5 +230,5 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	Nov_SpeedRun_Two(3, runCounter)
+	Nov_SpeedRun_Two(3, 0)
 	runCounter += 1
