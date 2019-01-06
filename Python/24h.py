@@ -65,35 +65,42 @@ u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magi
 print(w.x, w.y)
 
 
-
-createTimeStamp(0,"9:5")
-createTimeStamp(1,"9:48")
-createTimeStamp(2,"9:53")
+SwitchToDropGear = False
 
 
-nav.menu("settings")
-i.click(580, 290) #Disable "Auto Kill Titans"
+if SwitchToDropGear:
+	createTimeStamp(0,"9:5")
+	createTimeStamp(1,"9:48")
+	createTimeStamp(2,"9:53")
+
+	nav.menu("settings")
+	i.click(580, 290) #Disable "Auto Kill Titans"
 
 while True:
-	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
+	feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
 	feature.merge_equipment()
 	feature.merge_inventory(14) #mergar de första 25 slotsen
 	#feature.boost_inventory(1)
 	feature.boost_equipment() #boostar också Cube
 	#feature.NOV_boost_equipment("head")
+	
 	feature.ygg()
 	feature.pit()
+	feature.speedrun_bloodpill()
+	feature.spin()
+	feature.save_check()	
 	
-	#clearConsole()
-	for BossID in range(len(BOSSES)):
-		#duration = int(BOSSES[BossID]["TimeToKill"] - time.time())
-		#hour = int(duration / 3600)
-		#min  = int((duration - hour * 3600) / 60)
-		#print(f"Time left to kill boss {BossID} - {hour}:{min}")
-		
-		if BOSSES[BossID]["TimeToKill"] < time.time():
-			timeToKillBoss(BossID)
+	feature.assign_ngu(1e12, [1])
+	feature.assign_ngu(1e12, [3], magic=True)
+	
+	if SwitchToDropGear:
+		#clearConsole()
+		for BossID in range(len(BOSSES)):
+			#duration = int(BOSSES[BossID]["TimeToKill"] - time.time())
+			#hour = int(duration / 3600)
+			#min  = int((duration - hour * 3600) / 60)
+			#print(f"Time left to kill boss {BossID} - {hour}:{min}")
 			
-	
-	
+			if BOSSES[BossID]["TimeToKill"] < time.time():
+				timeToKillBoss(BossID)
