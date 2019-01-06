@@ -66,23 +66,26 @@ print(w.x, w.y)
 
 
 SwitchToDropGear = False
+createTimeStamp(0,"9:5")
+createTimeStamp(1,"9:48")
+createTimeStamp(2,"9:53")
+
+
 
 
 if SwitchToDropGear:
-	createTimeStamp(0,"9:5")
-	createTimeStamp(1,"9:48")
-	createTimeStamp(2,"9:53")
-
 	nav.menu("settings")
 	i.click(580, 290) #Disable "Auto Kill Titans"
 
 while True:
 	feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
+	
 	feature.merge_equipment()
 	feature.merge_inventory(14) #mergar de första 25 slotsen
+	
 	#feature.boost_inventory(1)
-	feature.boost_equipment() #boostar också Cube
+	#feature.boost_equipment() #boostar också Cube
 	#feature.NOV_boost_equipment("head")
 	
 	feature.ygg()
