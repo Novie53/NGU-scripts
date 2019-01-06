@@ -71,9 +71,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.6)
 	feature.adventure(highest=True)
-	feature.time_machine(45e6, magic=True)
-	feature.augments({"CI": 1}, 22e6)
-	feature.augments({"ML": 1}, 11e6)
+	feature.time_machine(41e6, magic=True)
+	feature.augments({"CI": 1}, 23e6)
+	feature.augments({"ML": 1}, 11.5e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -168,7 +168,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.NOV_boost_equipment("cube")
 	
 	#nav.reclaim_all_magic()
-	nav.reclaim_all_energy()
+	#nav.reclaim_all_energy()
 	feature.speedrun_bloodpill()
 	
 	if Digger_Activated:
