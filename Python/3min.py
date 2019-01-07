@@ -63,6 +63,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
 	
+	testVar = 0
 	
 	feature.do_rebirth()
 	start = time.time()
@@ -86,6 +87,10 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.adventure(itopod=True, itopodauto=True)
 				GoldClearLevels = var2
 
+		if testVar < 1 and GoldClearLevels == 5:
+			feature.wandoos(False)
+			testVar += 1
+		
 		if (start + duration * 60 * 0.23) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
@@ -97,15 +102,9 @@ def Nov_SpeedRun_Two(duration, counter):
 				nav.input_box()
 				i.NOV_send_text(20e6)
 				i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
-				
 				TM_Done = True
 
-			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [43, 20], activate=True)
-				Digger_Activated = True
-
 			if not Aug_Assigned:
-				
 				if counter != 0:
 					nav.menu("augmentations")
 					i.click(10, 10)
@@ -148,6 +147,10 @@ def Nov_SpeedRun_Two(duration, counter):
 				i.click(700,310)
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				Blood_Assigned += 1
+				
+			if not Digger_Activated:
+				feature.NOV_gold_diggers([2,5,6], [43,19,19], activate=True)
+				Digger_Activated = True
 
 
 	if counter != 0:
@@ -174,7 +177,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.speedrun_bloodpill()
 	
 	if Digger_Activated:
-		feature.gold_diggers([2,5], activate=True)
+		feature.gold_diggers([2,5,6], activate=True)
 	feature.gold_diggers([3], activate=True)
 	feature.nuke()
 	feature.fight()
