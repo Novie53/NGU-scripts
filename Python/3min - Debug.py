@@ -19,7 +19,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 4 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 
 def intTryParse(value):
@@ -50,36 +50,47 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 	return False, 0
 
 def Nov_SpeedRun_Two(duration, counter):
+
+	def time_since_start():
+		return time.time() - start
+
 	currentBoss = 0
-	GoldClearLevels = 3
+	GoldClearLevels = 4
 	TM_Done = False
 	Aug_Assigned = False
-	Blood_Assigned = False
+	Blood_Assigned = 0
 	Digger_Activated = False
-	half_energy_WANDOOS = False
+	WANDOOS_energy_goal_reached = False
+	WANDOOS_magic_goal_reached = False
 	
+	testVar = 0
 	
 	feature.do_rebirth()
 	start = time.time()
 	end = time.time() + (duration * 60)
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(1.5)
+	time.sleep(1.6)
 	feature.adventure(highest=True)
-	feature.time_machine(17e6, magic=True)
-	feature.augments({"CI": 1}, 28e6)
-	feature.augments({"ML": 1}, 7e6)
+	feature.time_machine(41e6, magic=True)
+	feature.augments({"CI": 1}, 23e6)
+	feature.augments({"ML": 1}, 11.5e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
-		if var1:
-			feature.adventure(itopod=True, itopodauto=True)
-			GoldClearLevels = var2
+		if time_since_start() < 35:
+			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+			if var1:
+				feature.adventure(itopod=True, itopodauto=True)
+				GoldClearLevels = var2
 
+		if testVar < 1 and GoldClearLevels == 5:
+			feature.wandoos(False)
+			testVar += 1
+		
 		if (start + duration * 60 * 0.23) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
@@ -91,45 +102,55 @@ def Nov_SpeedRun_Two(duration, counter):
 				nav.input_box()
 				i.NOV_send_text(20e6)
 				i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
-				
 				TM_Done = True
 
-			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5], [33,12], activate=True)
-				Digger_Activated = True
-
 			if not Aug_Assigned:
-				
-				nav.menu("augmentations")
-				i.click(10, 10)
-				aaa = i.get_bitmap()
-				aaa.save("Pic\\augment1_" + str(counter) + ".png")
+				if counter != 0:
+					nav.menu("augmentations")
+					i.click(10, 10)
+					aaa = i.get_bitmap()
+					aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
-				feature.augments({"CI": 1}, 85e6)
-				feature.augments({"ML": 1}, 11e6)
+				feature.augments({"CI": 1}, 80e6)
+				feature.augments({"ML": 1}, 35e6)
 				Aug_Assigned = True
 			
-			nav.menu("bloodmagic")
-			i.click(ncon.BMX, ncon.BMY[4])
+			if Blood_Assigned == 0:
+				nav.menu("bloodmagic")
+				i.click(ncon.BMX, ncon.BMY[4])
+				Blood_Assigned += 1
 			
 			feature.wandoos(True)
-			i.click(555, 350) # Send all magic into Wandoos even if the is not usefull atm
 
-			if not half_energy_WANDOOS:
-				idle_color = i.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
+			if not WANDOOS_energy_goal_reached:
+				idle_color = i.get_pixel_color(525, 250)
+				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "59CF81":
-					half_energy_WANDOOS = True
+					WANDOOS_energy_goal_reached = True
 
-			if half_energy_WANDOOS:
+			if not WANDOOS_magic_goal_reached:
+				idle_color = i.get_pixel_color(426, 350)
+				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
+				if idle_color == "A9BAF9":
+					WANDOOS_magic_goal_reached = True
+
+			if WANDOOS_energy_goal_reached:
 				feature.assign_ngu(1e9, [1])
+				
+			if WANDOOS_magic_goal_reached:
+				feature.assign_ngu(1e9, [3], magic=True)
 
-			if not Blood_Assigned:
+			if Blood_Assigned == 1:
 				nav.spells()
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 				time.sleep(5)
 				i.click(700,310)
 				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
-				Blood_Assigned = True
+				Blood_Assigned += 1
+				
+			if not Digger_Activated:
+				feature.NOV_gold_diggers([2,5,6], [43,19,19], activate=True)
+				Digger_Activated = True
 
 
 	if counter != 0:
@@ -148,20 +169,17 @@ def Nov_SpeedRun_Two(duration, counter):
 		#aaa = i.get_bitmap()
 		#aaa.save("Pic\\wandoos" + str(counter) + ".png")
 	
-	feature.NOV_boost_equipment("weapon")
+	feature.NOV_boost_equipment("legs")
 	feature.NOV_boost_equipment("cube")
-	
-	#nav.reclaim_all_magic()
-	nav.reclaim_all_energy()
+
 	feature.speedrun_bloodpill()
-	
 	if Digger_Activated:
-		feature.gold_diggers([2,5], activate=True)
+		feature.gold_diggers([2,5,6], activate=True)
 	feature.gold_diggers([3], activate=True)
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
-	feature.pit()
+	feature.pit(value=1e21)
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
@@ -184,7 +202,7 @@ i = Inputs()
 nav = Navigation()
 feature = Features()
 
-Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 0, 0, 400, 600)
+Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
@@ -192,15 +210,14 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
-#				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard"]
+#				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
 
 
+
 c = Challenge()
 ScriptStart = time.time()
-
-
 runCounter = 0
 while True:
 	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
