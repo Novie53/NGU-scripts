@@ -417,6 +417,10 @@ class Features(Navigation, Inputs):
 			time.sleep(userset.LONG_SLEEP)
 			#self.click(ncon.BM_AUTO_GOLDX, ncon.BM_AUTO_GOLDY)
 			self.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
+			
+			return True
+		else:
+			return False
 
 	def set_ngu(self, ngu, magic=False):
 		"""Handle NGU upgrades in a non-dumb way.
