@@ -82,7 +82,7 @@ while True:
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
 	
 	feature.merge_equipment()
-	feature.merge_inventory(14) #mergar de första 25 slotsen
+	feature.merge_inventory(23) #mergar de första 25 slotsen
 	
 	#feature.boost_inventory(1)
 	#feature.boost_equipment() #boostar också Cube
@@ -91,6 +91,7 @@ while True:
 	feature.ygg()
 	feature.pit()
 	feature.speedrun_bloodpill()
+	nav.reclaim_all_magic() #Incase bloodpill function ran
 	feature.spin()
 	feature.save_check()	
 	
