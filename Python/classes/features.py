@@ -812,7 +812,13 @@ class Features(Navigation, Inputs):
 		if coords:
 			self.ctrl_click(*slot)
 
-	def NOV_snipe_hard(self, zone, duration, once=False, highest=False, bosses=True):
+	def NOV_snipe_hard(self, _zone, duration, once=False, _highest=False, bosses=True):
+		def Is_Mob_Alive():
+			health = self.get_pixel_color(741, 351) #if the "Max HP: {HP}" text is displayed"
+			return health == "000000"
+	
+		self.adventure(zone=_zone, highest=_highest)
+		'''
 		self.menu("adventure")
 		if highest:
 			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, button="right")
@@ -820,6 +826,8 @@ class Features(Navigation, Inputs):
 			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
 			for i in range(zone):
 				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)
+
+		'''
 
 		self.click(320, 20)  # click somewhere to move tooltip
 		time.sleep(0.1)
@@ -846,20 +854,21 @@ class Features(Navigation, Inputs):
 					my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX + 30, ncon.PLAYER_HEAL_THRESHOLDY)
 					time.sleep(0.1)
 				print("done licking my wounds")
+				
+				self.adventure(zone=_zone, highest=_highest)
+				'''
 				if highest:
 					self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, button="right")
 				elif zone > 0:
 					for i in range(zone):
 						self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)	
-			health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
-			if (health == ncon.NOTDEAD):
+				'''
+			if (Is_Mob_Alive())
 				if bosses:
 					crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
 					if (crown == ncon.ISBOSS):
-					
 						queue = deque(self.get_ability_queue())
-						
-						while (health != ncon.DEAD):
+						while Is_Mob_Alive():
 							if len(queue) == 0:
 								#print("NEW QUEUE")
 								queue = deque(self.get_ability_queue())
@@ -881,7 +890,6 @@ class Features(Navigation, Inputs):
 							self.click(x, y)
 							time.sleep(userset.LONG_SLEEP)
 							color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
-							health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
 
 							while color != ncon.ABILITY_ROW1_READY_COLOR:
 								time.sleep(0.03)
@@ -906,5 +914,4 @@ class Features(Navigation, Inputs):
 				else:
 					self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
 			time.sleep(0.01)
-
 		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
