@@ -816,23 +816,12 @@ class Features(Navigation, Inputs):
 		if coords:
 			self.ctrl_click(*slot)
 
-	def NOV_snipe_hard(self, _zone, duration, once=False, _highest=False, bosses=True):
+	def NOV_snipe_hard(self, zone, duration, once=False, highest=False, bosses=True):
 		def Is_Mob_Alive():
 			health = self.get_pixel_color(741, 351) #if the "Max HP: {HP}" text is displayed"
 			return health == "000000"
 	
-		self.adventure(zone=_zone, highest=_highest)
-		'''
-		self.menu("adventure")
-		if highest:
-			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, button="right")
-		elif zone > 0:
-			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
-			for i in range(zone):
-				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)
-
-		'''
-
+		self.adventure(zone=zone, highest=highest)
 		self.click(320, 20)  # click somewhere to move tooltip
 		time.sleep(0.1)
 		
@@ -842,10 +831,8 @@ class Features(Navigation, Inputs):
 		time.sleep(0.1)
 		self.click(320, 20)  # click somewhere to move tooltip
 		
-		
 		end = time.time() + duration
 		while time.time() < end:
-			
 			idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
 			if idle_color == ncon.IDLECOLOR:
 				self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
@@ -858,16 +845,8 @@ class Features(Navigation, Inputs):
 					my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX + 30, ncon.PLAYER_HEAL_THRESHOLDY)
 					time.sleep(0.1)
 				print("done licking my wounds")
-				
-				self.adventure(zone=_zone, highest=_highest)
-				'''
-				if highest:
-					self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, button="right")
-				elif zone > 0:
-					for i in range(zone):
-						self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)	
-				'''
-			if (Is_Mob_Alive())
+				self.adventure(zone=zone, highest=highest)
+			if (Is_Mob_Alive()):
 				if bosses:
 					crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
 					if (crown == ncon.ISBOSS):
@@ -915,6 +894,7 @@ class Features(Navigation, Inputs):
 						time.sleep(0.04)
 						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
 											 wcon.VK_RIGHT, 0)
+						time.sleep(0.5)
 				else:
 					self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
 			time.sleep(0.01)
