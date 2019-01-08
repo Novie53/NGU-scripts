@@ -56,13 +56,13 @@ ABILITY_ROW2_READY_COLOR = "6687A3"
 ABILITY_ROW3_READY_COLOR = "C39494"
 
 ABILITY_PRIORITY = {1: 6,  # Strong
-                    #2: 8,  # Parry
+                    2: 8,  # Parry
                     3: 9,  # Piercing
                     4: 10,  # Ultimate
-                    #5: 4,  # Block
-                    #6: 5,  # Defensive
-                    9: 12}		#, # Charge
-                    #11: 3}  # Paralyze
+                    5: 4,  # Block
+                    6: 5,  # Defensive
+                    9: 12, # Charge
+                    11: 3}  # Paralyze
 
 PLAYER_HEAL_THRESHOLDX = 512
 PLAYER_HEAL_THRESHOLDY = 392
