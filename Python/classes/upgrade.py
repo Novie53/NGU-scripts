@@ -72,25 +72,25 @@ class Upgrade(Stats):
 
 		amount = int(current_exp // total_price)
 
-		e_power = amount * self.e2m_ratio
-		e_cap = amount * self.ecap * self.e2m_ratio
-		e_bars = amount * self.ebar * self.e2m_ratio
-		m_power = amount
-		m_cap = amount * self.mcap
-		m_bars = amount * self.mbar
+		e_power = int(amount * self.e2m_ratio)
+		e_cap = int(amount * self.ecap * self.e2m_ratio)
+		e_bars = int(amount * self.ebar * self.e2m_ratio)
+		m_power = int(amount)
+		m_cap = int(amount * self.mcap)
+		m_bars = int(amount * self.mbar)
 
 		self.exp()
 
 		self.click(ncon.EMPOWBOXX, ncon.EMBOXY)
-		self.send_string(str(e_power))
+		self.NOV_send_text(e_power)
 		time.sleep(userset.MEDIUM_SLEEP)
 
 		self.click(ncon.EMCAPBOXX, ncon.EMBOXY)
-		self.send_string(str(e_cap))
+		self.NOV_send_text(e_cap)
 		time.sleep(userset.MEDIUM_SLEEP)
 
 		self.click(ncon.EMBARBOXX, ncon.EMBOXY)
-		self.send_string(str(e_bars))
+		self.NOV_send_text(e_bars)
 		time.sleep(userset.MEDIUM_SLEEP)
 
 		self.click(ncon.EMPOWBUYX, ncon.EMBUYY)
@@ -100,15 +100,15 @@ class Upgrade(Stats):
 		self.exp_magic()
 
 		self.click(ncon.EMPOWBOXX, ncon.EMBOXY)
-		self.send_string(str(m_power))
+		self.NOV_send_text(m_power)
 		time.sleep(userset.MEDIUM_SLEEP)
 
 		self.click(ncon.EMCAPBOXX, ncon.EMBOXY)
-		self.send_string(str(m_cap))
+		self.NOV_send_text(m_cap)
 		time.sleep(userset.MEDIUM_SLEEP)
 
 		self.click(ncon.EMBARBOXX, ncon.EMBOXY)
-		self.send_string(str(m_bars))
+		self.NOV_send_text(m_bars)
 		time.sleep(userset.MEDIUM_SLEEP)
 
 		self.click(ncon.EMPOWBUYX, ncon.EMBUYY)
