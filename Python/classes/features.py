@@ -819,7 +819,9 @@ class Features(Navigation, Inputs):
 	def NOV_snipe_hard(self, zone, duration, once=False, highest=False, bosses=True):
 		def Is_Mob_Alive():
 			health = self.get_pixel_color(741, 351) #if the "Max HP: {HP}" text is displayed"
-			return health == "000000"
+			healthRowTwo = self.get_pixel_color(741, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
+			#	731		370
+			return health == "000000" or healthRowTwo == "000000"
 	
 		self.adventure(zone=zone, highest=highest)
 		self.click(320, 20)  # click somewhere to move tooltip
