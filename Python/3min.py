@@ -22,7 +22,23 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+SCREENSHOT_BOOLEAN = {"aug1" : {True, "augmentations"},
+					  "aug2" : {True, "augmentations"},
+					  "blood" : {False, "bloodmagic"},
+					  "wandoos" : {False, "wandoos"},
+					  "rebirth" : {True}}
 
+
+
+def debugScreenShot(name, counter):
+	if SCREENSHOT_BOOLEAN[name][0]:
+		if name == "rebirth":
+			nav.rebirth()
+		else:
+			nav.menu(SCREENSHOT_BOOLEAN[name][1])
+		i.click(10, 10)
+		aaa = i.get_bitmap()
+		aaa.save("Pic\\" + name + "_" + str(counter) + ".png")
 
 def intTryParse(value):
 	try:
@@ -107,13 +123,9 @@ def Nov_SpeedRun_Two(duration, counter):
 				TM_Done = True
 
 			if not Aug_Assigned:
-				if counter != 0:
-					nav.menu("augmentations")
-					i.click(10, 10)
-					aaa = i.get_bitmap()
-					aaa.save("Pic\\augment1_" + str(counter) + ".png")
+				debugScreenShot("aug1", counter)
 
-				feature.augments({"CI": 1}, 85e6)
+				feature.augments({"CI": 1}, 86e6)
 				feature.augments({"ML": 1}, 44e6)
 				Aug_Assigned = True
 			
@@ -158,21 +170,9 @@ def Nov_SpeedRun_Two(duration, counter):
 				Digger_Activated = True
 
 
-	if counter != 0:
-		nav.menu("augmentations")
-		i.click(10, 10)
-		aaa = i.get_bitmap()
-		aaa.save("Pic\\augment2_" + str(counter) + ".png")
-
-		#nav.menu("bloodmagic")
-		#i.click(10, 10)
-		#aaa = i.get_bitmap()
-		#aaa.save("Pic\\blood_" + str(counter) + ".png")
-		
-		#nav.menu("wandoos")
-		#i.click(10, 10)
-		#aaa = i.get_bitmap()
-		#aaa.save("Pic\\wandoos_" + str(counter) + ".png")
+	debugScreenShot("aug2", counter)
+	debugScreenShot("blood", counter)
+	debugScreenShot("wandoos", counter)
 	
 	feature.NOV_boost_equipment("legs")
 	feature.NOV_boost_equipment("cube")
@@ -198,11 +198,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	while time.time() < end:
 		time.sleep(0.1)
 	
-	nav.rebirth()
-	i.click(10, 10)
-	aaa = i.get_bitmap()
-	aaa.save("Pic\\rebirth_" + str(counter) + ".png")
-
+	debugScreenShot("rebirth", counter)
 
 w = Window()
 i = Inputs()
