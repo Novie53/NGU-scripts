@@ -18,7 +18,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
-				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9},
+				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 5},
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
@@ -93,7 +93,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.wandoos(False)
 			testVar += 1
 		
-		if (start + duration * 60 * 0.23) > time.time(): #the first 25% of the run
+		if (start + duration * 60 * 0.22) > time.time(): #the first 25% of the run
 			feature.time_machine(1e9, magic=True)
 		else:
 			if not TM_Done:
