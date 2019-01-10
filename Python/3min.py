@@ -22,20 +22,20 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
-SCREENSHOT_BOOLEAN = {"aug1" : {True, "augmentations"},
-					  "aug2" : {True, "augmentations"},
-					  "blood" : {False, "bloodmagic"},
-					  "wandoos" : {False, "wandoos"},
-					  "rebirth" : {True}}
+SCREENSHOT_BOOLEAN = {"aug1" : {"Use" : True, "Menu" : "augmentations"},
+					  "aug2" : {"Use" : True, "Menu" : "augmentations"},
+					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
+					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
+					  "rebirth" : {"Use" : True}}
 
 
 
 def debugScreenShot(name, counter):
-	if SCREENSHOT_BOOLEAN[name][0]:
+	if SCREENSHOT_BOOLEAN[name]["Use"]:
 		if name == "rebirth":
 			nav.rebirth()
 		else:
-			nav.menu(SCREENSHOT_BOOLEAN[name][1])
+			nav.menu(SCREENSHOT_BOOLEAN[name]["Menu"])
 		i.click(10, 10)
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\" + name + "_" + str(counter) + ".png")
