@@ -72,11 +72,11 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60)
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(1.6)
+	time.sleep(1.62)
 	feature.adventure(highest=True)
 	feature.time_machine(41e6, magic=True)
-	feature.augments({"CI": 1}, 23e6)
-	feature.augments({"ML": 1}, 11.5e6)
+	feature.augments({"CI": 1}, 26e6)
+	feature.augments({"ML": 1}, 13e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -113,8 +113,8 @@ def Nov_SpeedRun_Two(duration, counter):
 					aaa = i.get_bitmap()
 					aaa.save("Pic\\augment1_" + str(counter) + ".png")
 
-				feature.augments({"CI": 1}, 80e6)
-				feature.augments({"ML": 1}, 35e6)
+				feature.augments({"CI": 1}, 81e6)
+				feature.augments({"ML": 1}, 36e6)
 				Aug_Assigned = True
 			
 			if Blood_Assigned == 0:
