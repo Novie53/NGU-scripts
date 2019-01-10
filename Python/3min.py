@@ -119,7 +119,10 @@ def Nov_SpeedRun_Two(duration, counter):
 			
 			if Blood_Assigned == 0:
 				nav.menu("bloodmagic")
-				i.click(ncon.BMX, ncon.BMY[4])
+				#i.click(ncon.BMX, ncon.BMY[4])
+				nav.input_box()
+				i.NOV_send_text(10e6)
+				i.click(ncon.BMX - 75, ncon.BMY[5])
 				Blood_Assigned += 1
 			
 			feature.wandoos(True)
@@ -164,12 +167,12 @@ def Nov_SpeedRun_Two(duration, counter):
 		#nav.menu("bloodmagic")
 		#i.click(10, 10)
 		#aaa = i.get_bitmap()
-		#aaa.save("Pic\\blood" + str(counter) + ".png")
+		#aaa.save("Pic\\blood_" + str(counter) + ".png")
 		
 		#nav.menu("wandoos")
 		#i.click(10, 10)
 		#aaa = i.get_bitmap()
-		#aaa.save("Pic\\wandoos" + str(counter) + ".png")
+		#aaa.save("Pic\\wandoos_" + str(counter) + ".png")
 	
 	feature.NOV_boost_equipment("legs")
 	feature.NOV_boost_equipment("cube")
@@ -195,10 +198,10 @@ def Nov_SpeedRun_Two(duration, counter):
 	while time.time() < end:
 		time.sleep(0.1)
 	
-	#nav.rebirth()
-	#i.click(10, 10)
-	#aaa = i.get_bitmap()
-	#aaa.save("Pic\\rebirth" + str(counter) + ".png")
+	nav.rebirth()
+	i.click(10, 10)
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\rebirth_" + str(counter) + ".png")
 
 
 w = Window()
