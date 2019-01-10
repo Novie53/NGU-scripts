@@ -101,9 +101,9 @@ def Nov_SpeedRun_Two(duration, counter):
 				i.click(570,235)
 				i.click(570,335)
 				
-				nav.input_box()
-				i.NOV_send_text(20e6)
-				i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
+				#nav.input_box()
+				#i.NOV_send_text(20e6)
+				#i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
 				TM_Done = True
 
 			if not Aug_Assigned:
@@ -241,5 +241,5 @@ while True:
 	#Börja använda Magic beard digger när jag har GPS till det
 	
 	
-	Nov_SpeedRun_Two(3, 0)
+	Nov_SpeedRun_Two(3, runCounter)
 	runCounter += 1
