@@ -82,7 +82,7 @@ while True:
 	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
 	
 	feature.merge_equipment()
-	feature.merge_inventory(25) #mergar de första 25 slotsen
+	feature.merge_inventory(13) #mergar de första 25 slotsen
 	
 	#feature.boost_inventory(1)
 	#feature.boost_equipment() #boostar också Cube
