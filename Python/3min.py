@@ -188,8 +188,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.speedrun_bloodpill()
 	
 	if Digger_Activated:
-		feature.gold_diggers([2,5,6], activate=True)
-	feature.gold_diggers([3], activate=True)
+		feature.gold_diggers([2,5,6], deactivate=True)
+	feature.gold_diggers([3])
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
@@ -222,7 +222,6 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
-
 
 
 runCounter = 1
