@@ -136,7 +136,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.blood_magic(5)
 				
 				nav.input_box()
-				i.NOV_send_text(14e6)
+				i.NOV_send_text(20e6)
 				i.click(ncon.BMX - 75, ncon.BMY[5])
 				Blood_Assigned += 100
 			
