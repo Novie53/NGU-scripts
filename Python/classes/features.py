@@ -148,7 +148,7 @@ class Features(Navigation, Inputs):
 		elif zone > 0:
 			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
 			for i in range(zone):
-				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)
+				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
 
 		self.click(10, 10)  # click somewhere to move tooltip
 		#time.sleep(0.1)
