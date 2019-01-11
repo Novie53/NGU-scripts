@@ -399,7 +399,7 @@ class Features(Navigation, Inputs):
 			start = time.time()
 			self.blood_magic(8)
 			self.spells()
-			#self.click(ncon.BM_AUTO_GOLDX, ncon.BM_AUTO_GOLDY)
+			self.click(ncon.BM_AUTO_GOLDX, ncon.BM_AUTO_GOLDY)
 			self.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 
 			self.time_machine(1e12)
@@ -415,7 +415,7 @@ class Features(Navigation, Inputs):
 			self.spells()
 			self.click(ncon.BMPILLX, ncon.BMPILLY)
 			time.sleep(userset.LONG_SLEEP)
-			#self.click(ncon.BM_AUTO_GOLDX, ncon.BM_AUTO_GOLDY)
+			self.click(ncon.BM_AUTO_GOLDX, ncon.BM_AUTO_GOLDY)
 			self.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
 			
 			return True
