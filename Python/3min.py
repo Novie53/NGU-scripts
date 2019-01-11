@@ -54,7 +54,7 @@ def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 		if GoldClearLevels >= i:
 			break
 		if currentBoss > ADVENTURE_ZONE[i]["boss"]:
-			highestBoss = currentBoss <= ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
+			highestBoss = currentBoss < ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
 			
 			feature.loadout(1)  # Gold drop equipment
 			if timeSinceStart >= 100: #before 100sec the game does not have the ability to manually attack
@@ -88,7 +88,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60)
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(1.62)
+	time.sleep(1.7)
 	feature.adventure(highest=True)
 	feature.time_machine(39e6, magic=True)
 	feature.augments({"CI": 1}, 26e6)
@@ -222,6 +222,8 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
+
+
 
 
 runCounter = 1
