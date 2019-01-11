@@ -110,7 +110,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			testVar += 1
 		
 		if (start + duration * 60 * 0.20) > time.time(): #the first 25% of the run
-			feature.time_machine(1e9, magic=True)
+			feature.time_machine(1e12, magic=True)
 		else:
 			if not TM_Done:
 				nav.menu("timemachine")
@@ -155,10 +155,10 @@ def Nov_SpeedRun_Two(duration, counter):
 					WANDOOS_magic_goal_reached = True
 
 			if WANDOOS_energy_goal_reached:
-				feature.assign_ngu(1e9, [1])
+				feature.assign_ngu(1e12, [1])
 				
 			if WANDOOS_magic_goal_reached:
-				feature.assign_ngu(1e9, [3], magic=True)
+				feature.assign_ngu(1e12, [3], magic=True)
 
 			if Blood_Assigned == 1:
 				nav.spells()
@@ -206,6 +206,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	debugScreenShot("rebirth", counter)
 
+
 w = Window()
 i = Inputs()
 nav = Navigation()
@@ -216,7 +217,6 @@ nav.menu("inventory")
 u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
 tracker = Tracker(3)		#Progress tracker int val = tid för run
-
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
