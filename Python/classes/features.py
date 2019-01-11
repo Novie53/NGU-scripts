@@ -111,9 +111,6 @@ class Features(Navigation, Inputs):
 		if itopod:
 			self.click(ncon.ITOPODX, ncon.ITOPODY)
 			if itopodauto:
-				self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
-				# set end to 0 in case it's higher than start
-				self.send_string("0")
 				self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
 				self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
 				return
