@@ -55,47 +55,43 @@ class Basic(Features):
 		"""Procedure for first rebirth after number reset."""
 		start = time.time()
 		end = time.time() + (duration * 60)
-		augemnt_assigned = 0
+		augment_assigned = 0
 		currentBoss = 0
 		GoldClearLevels = 0 #1=Sewers,2=Forest
 		TM_assigned = False
 		
+		self.nuke()
+		time.sleep(0.5)
 		self.loadout(1)
+		self.adventure(highest=True)
 		
 		while time.time() < (end - 2):
 			self.nuke()
 			self.fight()
 			currentBoss = Basic.intTryParse(self.get_current_boss())
 			
-			if (GoldClearLevels == 0 and currentBoss > 7) or (GoldClearLevels == 1 and currentBoss > 17):
+			if GoldClearLevels == 0 and currentBoss > 37:
+				self.loadout(1)
 				self.adventure(highest=True)
+				time.sleep(4)
+				self.loadout(2)
 				GoldClearLevels += 1
-			if currentBoss > 17 and augemnt_assigned == 0:
-				self.menu("augmentations")
-				self.click(630, 260 + 70 * 0)
-				self.send_string(2)
-				self.click(630, 260 + 70 * 1)
-				self.send_string(2)
-				
-				self.augments({"SS": 1}, 1e3)
-				augemnt_assigned += 1
-			elif currentBoss > 18 and augemnt_assigned == 1:
-				self.augments({"MI": 1}, 1e4)
-				augemnt_assigned += 1
-			elif currentBoss > 20 and augemnt_assigned == 2:
-				self.augments({"CI": 1}, 1e4)
-				augemnt_assigned += 1
+
+			if augment_assigned == 0:
+				self.augments({"CI": 1}, 1e6)
+				augment_assigned += 1
 				
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
-				self.time_machine(5e6, magic=True)
+				self.reclaim_all_magic()
+				self.time_machine(20e6, magic=True)
 				self.loadout(2)
 				self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
 			
-			self.menu("wandoos")
-			self.input_box()
-			self.NOV_send_text(1e12)
+			if currentBoss > 37:
+				self.blood_magic(6)
+			
 			self.wandoos(True)
 			if TM_assigned:
 				self.gold_diggers([2, 3])
