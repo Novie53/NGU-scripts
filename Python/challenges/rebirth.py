@@ -110,6 +110,14 @@ class Rebirth(Features):
 				self.augments({"SS": 1}, 5e6)
 				self.augments({"DS": 1}, 5e6)
 				augment_assigned += 1
+			elif augment_assigned == 2 and (time.time() - start) > (4*60):
+				self.menu("augmentations")
+				self.click(570, 265) #reclaim SS energy
+				self.click(570, 295) #reclaim DS energy
+				
+				self.augments({"MI": 1}, 10e6)
+				self.augments({"DTMT": 1}, 10e6)
+				augment_assigned += 1
 				
 			if TM_assigned:
 				self.gold_diggers([2, 3])
