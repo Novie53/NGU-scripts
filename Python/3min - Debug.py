@@ -227,6 +227,8 @@ while True:
 	
 	min = int(duration / 60)
 	sec = int(duration - min * 60)
+	sec = sec if sec > 9 else "0" + str(sec)
+	
 	print(f"The challenge took {min}:{sec} minutes to complete")
 	
 	
@@ -235,8 +237,6 @@ while True:
 	min = int((duration - (hours * 3600)) / 60)
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
-
-	input("Input")
 
 	#Nov_SpeedRun_Two(3, runCounter)
 	#runCounter += 1
