@@ -221,7 +221,7 @@ ScriptStart = time.time()
 runCounter = 0
 while True:
 	before = time.time()
-	c.start_challenge(3)
+	c.start_challenge(7)
 	duration = time.time() - before # sec
 	runCounter += 1
 	
