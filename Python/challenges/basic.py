@@ -93,16 +93,16 @@ class Basic(Features):
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
 				self.reclaim_all_magic()
-				self.time_machine(350e6, m=50e6)
+				self.time_machine(300e6, m=50e6)
 				self.loadout(2)
 				self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
 			
 			if currentBoss > 37:
-				self.blood_magic(5)
+				self.blood_magic(6)
 				
-			if currentBoss > 40:
-				self.time_machine(100e6, magic=True)
+			if currentBoss > 38:
+				self.time_machine(1e12, magic=True)
 			
 			self.wandoos(True)
 			if TM_assigned:
@@ -120,14 +120,14 @@ class Basic(Features):
 		currentBoss = 0
 		GoldClearLevels = -1
 		TM_assigned = False
-		augemnt_assigned = -1
+		augment_assigned = False
 		digger_activated = False
 		half_energy_WANDOOS = False
 		
 		
 		self.loadout(1)
 		self.nuke()
-		time.sleep(1.5)
+		time.sleep(1)
 		self.adventure(highest=True)
 		
 		while time.time() < (end - 7):
@@ -143,28 +143,16 @@ class Basic(Features):
 				self.adventure(itopod=True, itopodauto=True)
 				GoldClearLevels = var2
 
-
 			if currentBoss > 30 and not TM_assigned:
-				self.reclaim_all_energy()
-				self.reclaim_all_magic()
-				self.time_machine(1e9, magic=True)
+				#self.reclaim_all_energy()
+				#self.reclaim_all_magic()
+				self.time_machine(100e6, magic=True)
 				TM_assigned = True
 
-
-			if currentBoss > 37 and augemnt_assigned != 2:
-				self.menu("augmentations")
-				self.click(575, 390) #Remove CI
-				self.click(575, 525) #Remove EB
-				self.augments({"SS": 0.95, "DS": 0.5}, 5e6)
-				augemnt_assigned = 2
-			elif currentBoss > 31 and augemnt_assigned < 1:
-				self.menu("augmentations")
-				self.click(575, 390) #Remove CI
-				self.augments({"EB": 1}, 20e6)
-				augemnt_assigned = 1
-			elif augemnt_assigned == -1:
-				self.augments({"CI": 1}, 20e6)
-				augemnt_assigned = 0
+			if currentBoss > 37 and (not augment_assigned):				
+				self.augments({"SS": 1}, 5e6)
+				self.augments({"DS": 1}, 5e6)
+				augment_assigned = True
 
 
 			if TM_assigned and (not digger_activated):
