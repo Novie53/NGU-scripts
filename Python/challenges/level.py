@@ -186,7 +186,7 @@ class Level(Features):
 		self.rebirth()
 		self.click(10, 10)
 		aaa = self.get_bitmap()
-		aaa.save("Pic\\rebirth" + str(counter) + ".png")
+		aaa.save("Pic\\chall4_" + str(counter) + ".png")
 		
 	def lc(self):
 		"""Handle LC run."""
