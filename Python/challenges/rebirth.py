@@ -86,7 +86,7 @@ class Rebirth(Features):
 					GoldClearLevels = var2
 					
 					TM_assigned = False
-					augment_assigned = 1
+					augment_assigned -= 1
 
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
@@ -97,6 +97,7 @@ class Rebirth(Features):
 				TM_assigned = True
 
 			self.wandoos(True)
+
 
 			if augment_assigned == 0:
 				self.augments({"CI": 1}, 1e6)
@@ -110,7 +111,12 @@ class Rebirth(Features):
 				self.augments({"SS": 1}, 5e6)
 				self.augments({"DS": 1}, 5e6)
 				augment_assigned += 1
-			elif augment_assigned == 2 and (time.time() - start) > (4*60):
+			elif augment_assigned == 2 and (time.time() - start) > (3*60):
+				self.menu("timemachine")
+				self.input_box()
+				self.NOV_send_text(20e6)
+				i.click(570,235)
+			
 				self.menu("augmentations")
 				self.click(570, 265) #reclaim SS energy
 				self.click(570, 295) #reclaim DS energy
@@ -118,7 +124,8 @@ class Rebirth(Features):
 				self.augments({"MI": 1}, 10e6)
 				self.augments({"DTMT": 1}, 10e6)
 				augment_assigned += 1
-				
+
+
 			if TM_assigned:
 				self.gold_diggers([2, 3])
 				
