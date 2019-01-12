@@ -220,5 +220,10 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 runCounter = 1
 while True:
+	"""
+	Rätt digger (1,4)
+	Rätt Blood Auto(Number / Gold)
+	Basic Loot filter : OFF
+	"""
 	Nov_SpeedRun_Two(3, runCounter)
 	runCounter += 1
