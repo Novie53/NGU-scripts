@@ -220,16 +220,6 @@ c = Challenge()
 ScriptStart = time.time()
 runCounter = 0
 while True:
-	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
-	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
-	#feature.merge_equipment()
-	#feature.merge_inventory(12) #mergar de första 25 slotsen
-	#feature.boost_inventory(1)
-	#feature.boost_equipment() #boostar också Cube
-	#feature.ygg()
-	#feature.pit()
-
-
 	before = time.time()
 	c.start_challenge(3)
 	duration = time.time() - before # sec
@@ -246,6 +236,7 @@ while True:
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
 
+	input("Input")
 
 	#Nov_SpeedRun_Two(3, runCounter)
 	#runCounter += 1
