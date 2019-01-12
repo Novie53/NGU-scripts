@@ -122,6 +122,7 @@ class Basic(Features):
 		TM_assigned = False
 		augment_assigned = False
 		half_energy_WANDOOS = False
+		WANDOOS_magic_goal_reached = False
 		
 		
 		self.loadout(1)
@@ -129,7 +130,7 @@ class Basic(Features):
 		time.sleep(1)
 		self.adventure(highest=True)
 		
-		while time.time() < (end - 7):
+		while time.time() < (end - 5):
 			if (currentBoss - 1) >= target and (time.time() - start) >= 180:
 				return
 		
@@ -154,7 +155,10 @@ class Basic(Features):
 				augment_assigned = True
 
 			if half_energy_WANDOOS:
-				self.time_machine(1e9, magic=False)
+				self.time_machine(1e12, magic=False)
+
+			if WANDOOS_magic_goal_reached:
+				self.time_machine(0, m=1e12)
 
 			if currentBoss > 37:
 				self.blood_magic(6)
@@ -167,14 +171,26 @@ class Basic(Features):
 				if idle_color == "59CF81":
 					half_energy_WANDOOS = True
 
+			if not WANDOOS_magic_goal_reached:
+				idle_color = i.get_pixel_color(426, 350)
+				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
+				if idle_color == "A9BAF9":
+					WANDOOS_magic_goal_reached = True
 
-		for x in range(5):
-			self.nuke()
-			self.fight()
-			time.sleep(0.25)
-					
-			while time.time() < end:
-				time.sleep(0.1)
+
+		self.nuke()
+		time.sleep(1)
+		self.fight()
+
+		self.menu("augmentations")
+		self.click(10, 10)
+		aaa = self.get_bitmap()
+		aaa.save("Pic\\cha1Aug_" + str(counter) + ".png")
+
+		while time.time() < end:
+			time.sleep(0.1)
+		
+
 
 	def check_challenge(self):
 		"""Check if a challenge is active."""
