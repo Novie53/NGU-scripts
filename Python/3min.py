@@ -76,7 +76,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	GoldClearLevels = 4
 	TM_Done = False
 	Aug_Assigned = False
-	Blood_Assigned = 0
+	Blood_Assigned = False
 	Digger_Activated = False
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
@@ -129,7 +129,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.augments({"ML": 1}, 44e6)
 				Aug_Assigned = True
 			
-			if Blood_Assigned == 0:
+			if not Blood_Assigned:
 				#nav.menu("bloodmagic")
 				#i.click(ncon.BMX, ncon.BMY[4])
 				
@@ -138,7 +138,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				nav.input_box()
 				i.NOV_send_text(20e6)
 				i.click(ncon.BMX - 75, ncon.BMY[5])
-				Blood_Assigned += 100
+				Blood_Assigned = True
 			
 			feature.wandoos(True)
 
@@ -160,14 +160,6 @@ def Nov_SpeedRun_Two(duration, counter):
 			if WANDOOS_magic_goal_reached:
 				feature.assign_ngu(1e12, [3], magic=True)
 
-			if Blood_Assigned == 1:
-				nav.spells()
-				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
-				time.sleep(5)
-				i.click(700,310)
-				i.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
-				Blood_Assigned += 1
-				
 			if not Digger_Activated:
 				feature.NOV_gold_diggers([2,5,6,8], [43,19,19,7], activate=True)
 				Digger_Activated = True
@@ -228,24 +220,5 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 runCounter = 1
 while True:
-	#feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
-	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
-	#feature.merge_equipment()
-	#feature.merge_inventory(12) #mergar de första 25 slotsen
-	#feature.boost_inventory(1)
-	#feature.boost_equipment() #boostar också Cube
-	#feature.NOV_boost_equipment("head")
-	#feature.ygg()
-	
-	"""
-	check Before script start
-		Right beared is on
-		No Loot filter on
-		Blood magic auto spell is on	
-	"""
-	
-	#Börja använda Magic beard digger när jag har GPS till det
-	
-	
 	Nov_SpeedRun_Two(3, runCounter)
 	runCounter += 1
