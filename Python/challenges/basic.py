@@ -181,7 +181,7 @@ class Basic(Features):
 					half_energy_WANDOOS = True
 
 			if not WANDOOS_magic_goal_reached:
-				idle_color = self.get_pixel_color(426, 350)
+				idle_color = self.get_pixel_color(525, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
 					WANDOOS_magic_goal_reached = True
