@@ -55,9 +55,9 @@ class Rebirth(Features):
 		"""Procedure for first rebirth."""
 		end = time.time() + 3 * 60
 		TM_assigned = False
-		bm_unlocked = False
 		augment_assigned = 0
 		GoldClearLevels = -1
+		Wandoos_Done = False
 
 		self.nuke()
 		time.sleep(1)		
@@ -65,6 +65,9 @@ class Rebirth(Features):
 		self.adventure(highest=True)
 
 		while True:
+			if not self.check_challenge() and time.time() > end:
+				return
+
 			self.nuke()
 			self.fight()
 			currentBoss = Rebirth.intTryParse(self.get_current_boss())
@@ -88,7 +91,12 @@ class Rebirth(Features):
 			if augment_assigned == 0:
 				self.augments({"CI": 1}, 1e6)
 				augment_assigned += 1
-			elif currentBoss > 37 and augment_assigned == 1:				
+			elif currentBoss > 37 and augment_assigned == 1:
+				self.menu("augmentations")
+				self.input_box()
+				self.NOV_send_text(1e12)
+				self.click(570, 525) #reclaim EB energy
+
 				self.augments({"SS": 1}, 5e6)
 				self.augments({"DS": 1}, 5e6)
 				augment_assigned += 1
@@ -97,10 +105,19 @@ class Rebirth(Features):
 				self.gold_diggers([2, 3])
 				
 			if currentBoss > 37:
-				self.blood_magic(6)
+				self.blood_magic(5)
+			
+			if not Wandoos_Done:
+				self.menu("wandoos")
+				self.click(10, 10)
+				idle_color = self.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
+				idle_color2 = self.get_pixel_color(525, 350)
 				
-			if not self.check_challenge() and time.time() > end:
-				return
+				if idle_color == "59CF81" and idle_color2 == "A9BAF9":
+					Wandoos_Done = True
+			
+			if Wandoos_Done:
+				self.time_machine(1e12, magic=True)
 
 	def check_challenge(self):
 		"""Check if a challenge is active."""
