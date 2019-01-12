@@ -169,7 +169,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Blood_Assigned += 1
 				
 			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5,6], [43,19,19], activate=True)
+				feature.NOV_gold_diggers([2,5,6,8], [43,19,19,7], activate=True)
 				Digger_Activated = True
 
 
@@ -188,7 +188,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.speedrun_bloodpill()
 	
 	if Digger_Activated:
-		feature.gold_diggers([2,5,6], deactivate=True)
+		feature.gold_diggers([2,5,6,8], deactivate=True)
 	feature.gold_diggers([3])
 	feature.nuke()
 	feature.fight()
