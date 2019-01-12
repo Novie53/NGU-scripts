@@ -105,7 +105,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.adventure(itopod=True, itopodauto=True)
 				GoldClearLevels = var2
 
-		if testVar < 1 and GoldClearLevels == 5:
+		if testVar < 2 and GoldClearLevels == 5:
 			feature.wandoos(False)
 			testVar += 1
 		
@@ -136,7 +136,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.blood_magic(5)
 				
 				nav.input_box()
-				i.NOV_send_text(20e6)
+				i.NOV_send_text(25.1e6)
 				i.click(ncon.BMX - 75, ncon.BMY[5])
 				Blood_Assigned = True
 			
@@ -172,7 +172,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	aaa = i.get_bitmap()
 	aaa.save("Pic\\money_" + str(counter) + ".png")
 	
-	feature.NOV_boost_equipment("legs")
+	feature.NOV_boost_equipment("weapon")
 	feature.NOV_boost_equipment("cube")
 	
 	#nav.reclaim_all_magic()
