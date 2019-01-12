@@ -56,8 +56,7 @@ class Rebirth(Features):
 		end = time.time() + 3 * 60
 		TM_assigned = False
 		bm_unlocked = False
-		ci_assigned = False
-		diggers = [2, 3, 8]
+		augment_assigned = 0
 		GoldClearLevels = -1
 
 		self.nuke()
@@ -77,9 +76,6 @@ class Rebirth(Features):
 					GoldClearLevels = var2
 		
 			self.wandoos(True)
-			if not ci_assigned:
-				self.augments({"CI": 1}, 1e6)
-				ci_assigned = True
 		
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
@@ -89,47 +85,22 @@ class Rebirth(Features):
 				self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
 				
+			if augment_assigned == 0:
+				self.augments({"CI": 1}, 1e6)
+				augment_assigned += 1
+			elif currentBoss > 37 and augment_assigned == 1:				
+				self.augments({"SS": 1}, 5e6)
+				self.augments({"DS": 1}, 5e6)
+				augment_assigned += 1
+				
 			if TM_assigned:
 				self.gold_diggers([2, 3])
 				
+			if currentBoss > 37:
+				self.blood_magic(6)
+				
 			if not self.check_challenge() and time.time() > end:
 				return
-
-		'''
-		while not bm_unlocked:
-			self.wandoos(True)
-			self.nuke()
-			time.sleep(2)
-			self.fight()
-			self.gold_diggers(diggers)
-			time.sleep(5)
-
-			bm_color = self.get_pixel_color(ncon.BMLOCKEDX, ncon.BMLOCKEDY)
-			if bm_color != ncon.BMLOCKEDCOLOR:
-				self.menu("bloodmagic")
-				time.sleep(0.2)
-				self.blood_magic(8)
-				bm_unlocked = True
-				self.augments({"SS": 0.7, "DS": 0.3}, 5e8)
-		final_aug = False
-		while True:
-			self.wandoos(True)
-			self.nuke()
-			time.sleep(2)
-			try:
-				current_boss = int(self.get_current_boss())
-				if current_boss > 56 and not final_aug:
-					self.augments({"AE": 0.7, "ES": 0.3}, 1e11)
-					final_aug = True
-			except ValueError:
-				print("couldn't get current boss")
-			self.fight()
-			self.gold_diggers(diggers)
-			time.sleep(10)
-
-			if not self.check_challenge() and time.time() > end:
-				return
-		'''
 
 	def check_challenge(self):
 		"""Check if a challenge is active."""
