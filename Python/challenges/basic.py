@@ -121,7 +121,6 @@ class Basic(Features):
 		GoldClearLevels = -1
 		TM_assigned = False
 		augment_assigned = False
-		digger_activated = False
 		half_energy_WANDOOS = False
 		
 		
@@ -154,21 +153,14 @@ class Basic(Features):
 				self.augments({"DS": 1}, 5e6)
 				augment_assigned = True
 
-
-			if TM_assigned and (not digger_activated):
-				time.sleep(1)
-				self.NOV_gold_diggers([2,3], [1,1], True)
-				digger_activated = True
-
-
 			if half_energy_WANDOOS:
 				self.time_machine(1e9, magic=False)
-			if currentBoss > 37:
-				self.blood_magic(4)
-			if digger_activated:
-				self.gold_diggers([2, 3])
-			self.wandoos(True)
 
+			if currentBoss > 37:
+				self.blood_magic(6)
+
+			self.gold_diggers([2, 3])
+			self.wandoos(True)
 
 			if not half_energy_WANDOOS:
 				idle_color = self.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
