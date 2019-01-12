@@ -824,7 +824,6 @@ class Features(Navigation, Inputs):
 		while time.time() < end:
 			idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
 			if idle_color == ncon.IDLECOLOR:
-				print("Turning off IdleMode")
 				self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
 				time.sleep(1)
 		
