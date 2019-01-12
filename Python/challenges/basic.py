@@ -59,13 +59,11 @@ class Basic(Features):
 		currentBoss = 0
 		GoldClearLevels = 0 #1=Sewers,2=Forest
 		TM_assigned = False
-		TM_Time_Start = time.time() + 3600
 		
 		self.loadout(1)
 		
 		while time.time() < (end - 2):
 			self.nuke()
-			time.sleep(0.5)
 			self.fight()
 			currentBoss = Basic.intTryParse(self.get_current_boss())
 			
@@ -91,18 +89,13 @@ class Basic(Features):
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
 				self.time_machine(5e6, magic=True)
-				TM_Time_Start = time.time()
 				self.loadout(2)
 				self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
-				
-			if (time.time() - TM_Time_Start) > 10:
-				self.NOV_gold_diggers([2,3], [1,1], True)
-				TM_Time_Start += 3600
 			
 			self.menu("wandoos")
 			self.input_box()
-			self.NOV_send_text(1e9)
+			self.NOV_send_text(1e12)
 			self.wandoos(True)
 			if TM_assigned:
 				self.gold_diggers([2, 3])
@@ -217,9 +210,7 @@ class Basic(Features):
 		
 		self.first_rebirth(3, 1)
 
-		abc = 2
-		for x in range(80):
-			self.speedrun(3, abc, target)
-			abc += 1
+		for x in range(2, 80):
+			self.speedrun(3, x, target)
 			if not self.check_challenge():
 				return
