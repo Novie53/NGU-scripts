@@ -186,7 +186,6 @@ def Nov_SpeedRun_Two(duration, counter):
 	#u.em()
 	#tracker.adjustxp()
 	
-	feature.loadout(1)  # Gold drop equipment. in order to start with gold gear next run
 	while time.time() < end:
 		time.sleep(0.1)
 	
