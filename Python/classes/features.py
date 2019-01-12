@@ -815,25 +815,16 @@ class Features(Navigation, Inputs):
 
 	def NOV_snipe_hard(self, zone, duration, once=False, highest=False, bosses=True):
 		def Is_Mob_Alive():
-			health = self.get_pixel_color(741, 351) #if the "Max HP: {HP}" text is displayed"
-			healthRowTwo = self.get_pixel_color(741, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
-			#	731		370
+			health = self.get_pixel_color(728, 354) #if the "Max HP: {HP}" text is displayed"
+			healthRowTwo = self.get_pixel_color(728, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
 			return health == "000000" or healthRowTwo == "000000"
-	
+		
 		self.adventure(zone=zone, highest=highest)
-		self.click(320, 20)  # click somewhere to move tooltip
-		time.sleep(0.1)
-		
-		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-		if idle_color == ncon.IDLECOLOR:
-			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-		time.sleep(0.1)
-		self.click(320, 20)  # click somewhere to move tooltip
-		
 		end = time.time() + duration
 		while time.time() < end:
 			idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
 			if idle_color == ncon.IDLECOLOR:
+				print("Turning off IdleMode")
 				self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
 		
 			my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX, ncon.PLAYER_HEAL_THRESHOLDY)
@@ -847,6 +838,7 @@ class Features(Navigation, Inputs):
 				self.adventure(zone=zone, highest=highest)
 			if (Is_Mob_Alive()):
 				if bosses:
+					self.click(10, 10)
 					crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
 					if (crown == ncon.ISBOSS):
 						queue = deque(self.get_ability_queue())
