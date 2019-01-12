@@ -37,6 +37,8 @@ class Rebirth(Features):
 			if currentBoss > Rebirth.ADVENTURE_ZONE[i]["boss"]:
 				highestBoss = currentBoss <= Rebirth.ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
 				
+				self.reclaim_all_energy()
+				self.reclaim_all_magic()
 				self.loadout(1)  # Gold drop equipment
 				if timeSinceStart >= 100: #before 100sec the game does not have the ability to manually attack
 					self.snipe(Rebirth.ADVENTURE_ZONE[i]["floor"], 999, once=True, highest=highestBoss, bosses=True)
@@ -53,7 +55,8 @@ class Rebirth(Features):
 	
 	def first_rebirth(self):
 		"""Procedure for first rebirth."""
-		end = time.time() + 3 * 60
+		start = time.time()
+		ThreeMinMark = time.time() + 180
 		TM_assigned = False
 		augment_assigned = 0
 		GoldClearLevels = -1
@@ -65,7 +68,11 @@ class Rebirth(Features):
 		self.adventure(highest=True)
 
 		while True:
-			if not self.check_challenge() and time.time() > end:
+			if time.time() > ThreeMinMark and (not self.check_challenge()):
+				self.menu("augmentations")
+				self.click(10, 10)
+				aaa = self.get_bitmap()
+				aaa.save("Pic\\" + str(int(time.time())) + ".png")
 				return
 
 			self.nuke()
@@ -77,9 +84,10 @@ class Rebirth(Features):
 				if var1:
 					self.adventure(itopod=True, itopodauto=True)
 					GoldClearLevels = var2
-		
-			self.wandoos(True)
-		
+					
+					TM_assigned = False
+					augment_assigned = 1
+
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
 				self.reclaim_all_magic()
@@ -87,7 +95,9 @@ class Rebirth(Features):
 				self.loadout(2)
 				self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
-				
+
+			self.wandoos(True)
+
 			if augment_assigned == 0:
 				self.augments({"CI": 1}, 1e6)
 				augment_assigned += 1
@@ -116,7 +126,7 @@ class Rebirth(Features):
 				if idle_color == "59CF81" and idle_color2 == "A9BAF9":
 					Wandoos_Done = True
 			
-			if Wandoos_Done:
+			if Wandoos_Done and (time.time() - start) > 100:
 				self.time_machine(1e12, magic=True)
 
 	def check_challenge(self):
