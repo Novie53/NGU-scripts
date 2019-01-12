@@ -826,6 +826,7 @@ class Features(Navigation, Inputs):
 			if idle_color == ncon.IDLECOLOR:
 				print("Turning off IdleMode")
 				self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+				time.sleep(1)
 		
 			my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX, ncon.PLAYER_HEAL_THRESHOLDY)
 			if my_health == ncon.PLAYER_HEAL_COLOR:
