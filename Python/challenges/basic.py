@@ -80,29 +80,34 @@ class Basic(Features):
 			if augment_assigned == 0:
 				self.augments({"CI": 1}, 1e6)
 				augment_assigned += 1
+			elif currentBoss > 37 and augment_assigned == 1:
+				self.menu("augmentations")
+				self.input_box()
+				self.NOV_send_text(1e12)
+				self.click(570, 525) #reclaim EB energy
+				
+				self.augments({"SS": 1}, 5e6)
+				self.augments({"DS": 1}, 5e6)
+				augment_assigned += 1
 				
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
 				self.reclaim_all_magic()
-				self.time_machine(20e6, magic=True)
+				self.time_machine(350e6, m=50e6)
 				self.loadout(2)
 				self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
 			
 			if currentBoss > 37:
-				self.blood_magic(6)
+				self.blood_magic(5)
+				
+			if currentBoss > 40:
+				self.time_machine(100e6, magic=True)
 			
 			self.wandoos(True)
 			if TM_assigned:
 				self.gold_diggers([2, 3])
-		
-		
-		self.menu("augmentations")
-		self.click(630, 260 + 70 * 0)
-		self.send_string(0)
-		self.click(630, 260 + 70 * 1)
-		self.send_string(0)
-		
+
 		while time.time() < end:
 			time.sleep(0.1)
 
