@@ -130,11 +130,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				Aug_Assigned = True
 			
 			if not Blood_Assigned:
-				#nav.menu("bloodmagic")
-				#i.click(ncon.BMX, ncon.BMY[4])
-				
 				feature.blood_magic(5)
-				
 				nav.input_box()
 				i.NOV_send_text(25.1e6)
 				i.click(ncon.BMX - 75, ncon.BMY[5])
@@ -149,7 +145,7 @@ def Nov_SpeedRun_Two(duration, counter):
 					WANDOOS_energy_goal_reached = True
 
 			if not WANDOOS_magic_goal_reached:
-				idle_color = i.get_pixel_color(426, 350)
+				idle_color = i.get_pixel_color(525, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
 					WANDOOS_magic_goal_reached = True
@@ -175,12 +171,10 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.NOV_boost_equipment("weapon")
 	feature.NOV_boost_equipment("cube")
 	
-	#nav.reclaim_all_magic()
-	#nav.reclaim_all_energy()
-	feature.speedrun_bloodpill()
 	
 	if Digger_Activated:
 		feature.gold_diggers([2,5,6,8], deactivate=True)
+	feature.speedrun_bloodpill()
 	feature.gold_diggers([3])
 	feature.nuke()
 	feature.fight()
