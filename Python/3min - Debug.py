@@ -235,6 +235,7 @@ while True:
 	duration = time.time() - ScriptStart # sec
 	hours = int(duration / 3600)
 	min = int((duration - (hours * 3600)) / 60)
+	min = min if min > 9 else "0" + str(min)
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
 
