@@ -120,7 +120,7 @@ class Basic(Features):
 		currentBoss = 0
 		GoldClearLevels = -1
 		TM_assigned = False
-		augment_assigned = False
+		augment_assigned = 0
 		half_energy_WANDOOS = False
 		WANDOOS_magic_goal_reached = False
 		
@@ -149,10 +149,19 @@ class Basic(Features):
 				self.time_machine(100e6, magic=True)
 				TM_assigned = True
 
-			if currentBoss > 37 and (not augment_assigned):				
+			if currentBoss > 37 and augment_assigned == 0:				
 				self.augments({"SS": 1}, 5e6)
 				self.augments({"DS": 1}, 5e6)
-				augment_assigned = True
+				augment_assigned += 1
+			'''
+			elif GoldClearLevels >= 1 and augment_assigned == 1:
+				self.menu("augmentations")
+				self.click(575, 265)
+				self.click(575, 290)
+				self.augments({"MI": 1}, 5e6)
+				self.augments({"DTMT": 1}, 5e6)
+				augment_assigned += 1
+			'''
 
 			if half_energy_WANDOOS:
 				self.time_machine(1e12, magic=False)
@@ -172,7 +181,7 @@ class Basic(Features):
 					half_energy_WANDOOS = True
 
 			if not WANDOOS_magic_goal_reached:
-				idle_color = i.get_pixel_color(426, 350)
+				idle_color = self.get_pixel_color(426, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
 					WANDOOS_magic_goal_reached = True
