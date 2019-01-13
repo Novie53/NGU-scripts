@@ -63,6 +63,11 @@ ABILITY_PRIORITY = {1: 6,  # Strong
                     6: 5,  # Defensive
                     9: 12, # Charge
                     11: 3}  # Paralyze
+ABILITY_PRIORITY_ONLY_ATTACK = {
+					1: 6,  # Strong
+                    2: 9,  # Piercing
+                    3: 10,  # Ultimate
+                    4: 12, # Charge
 
 PLAYER_HEAL_THRESHOLDX = 512
 PLAYER_HEAL_THRESHOLDY = 392

@@ -234,6 +234,7 @@ class Features(Navigation, Inputs):
 
 #------------ Adventure ----------------
 
+#----- Sub Functions -----
 	def _Is_Mob_Alive(self):
 		health = self.get_pixel_color(728, 354) #if the "Max HP: {HP}" text is displayed"
 		healthRowTwo = self.get_pixel_color(728, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
@@ -256,15 +257,16 @@ class Features(Navigation, Inputs):
 		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
 		if idle_color == ncon.IDLECOLOR:
 			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+			self.click(10, 10)
 			time.sleep(1)
 
 	def _Is_Boss(self):
 		crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
 		return crown == ncon.ISBOSS
 
-	def _Manual_Kill(self):
+	def _Manual_Kill(self, onlyAttack=False):
 		queue = deque(self.get_ability_queue())
-		while _Is_Mob_Alive():
+		while self._Is_Mob_Alive():
 			if len(queue) == 0:
 				#print("NEW QUEUE")
 				queue = deque(self.get_ability_queue())
@@ -290,9 +292,65 @@ class Features(Navigation, Inputs):
 			while color != ncon.ABILITY_ROW1_READY_COLOR:
 				time.sleep(0.03)
 				color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
+		self.click(10, 10)
 
+	def _Get_Ability_Queue(self, onlyAttack=False):
+		"""Return a queue of usable abilities."""
+		ready = []
+		queue = []
 
+		# Add all abilities that are ready to the ready array
+		for i in range(13):
+			if i <= 4:
+				x = ncon.ABILITY_ROW1X + i * ncon.ABILITY_OFFSETX
+				y = ncon.ABILITY_ROW1Y
+				color = self.get_pixel_color(x, y)
+				if color == ncon.ABILITY_ROW1_READY_COLOR:
+					ready.append(i)
+			if i >= 5 and i <= 10:
+				x = ncon.ABILITY_ROW2X + (i - 5) * ncon.ABILITY_OFFSETX
+				y = ncon.ABILITY_ROW2Y
+				color = self.get_pixel_color(x, y)
+				if color == ncon.ABILITY_ROW2_READY_COLOR:
+					ready.append(i)
+			if i > 10:
+				x = ncon.ABILITY_ROW3X + (i - 11) * ncon.ABILITY_OFFSETX
+				y = ncon.ABILITY_ROW3Y
+				color = self.get_pixel_color(x, y)
+				if color == ncon.ABILITY_ROW3_READY_COLOR:
+					ready.append(i)
 
+		health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX,
+									  ncon.PLAYER_HEAL_THRESHOLDY)
+		# heal if we need to heal
+		if health == ncon.PLAYER_HEAL_COLOR:
+			if 12 in ready:
+				queue.append(12)
+			elif 7 in ready:
+				queue.append(7)
+
+		# check if offensive buff and ultimate buff are both ready
+		buffs = [8, 10]
+		if all(i in ready for i in buffs):
+			queue.extend(buffs)
+
+		if onlyAttack:
+			d = ABILITY_PRIORITY_ONLY_ATTACK
+		else:
+			d = ncon.ABILITY_PRIORITY
+		# Sort the abilities by the set priority
+		abilities = sorted(d, key=d.get, reverse=True)
+		# Only add the abilities that are ready to the queue
+		queue.extend([a for a in abilities if a in ready])
+
+		# If nothing is ready, return a regular attack
+		if len(queue) == 0:
+			queue.append(0)
+
+		return queue
+
+		
+#----- Main Functions -----
 	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0):
 		"""
 			zone = the zone where you want to snipe unless you set highest to True
@@ -305,15 +363,16 @@ class Features(Navigation, Inputs):
 		self.adventure(zone=zone, highest=highest)
 		end = time.time() + duration
 		while time.time() < end:
-			_Turn_Off_Idle()
-			if _Lick_Wounds():
+			self._Turn_Off_Idle()
+			if self._Lick_Wounds():
 				self.adventure(zone=zone, highest=highest)
 
-			if _Is_Mob_Alive():
+			if self._Is_Mob_Alive():
+				boss_Is_Alive = self._Is_Boss()
 				if (mobs == 0) or \
-				(mobs == 1 and _Is_Boss()) or \
-				(mobs == 2 and not _Is_Boss()):
-					_Manual_Kill()
+				(mobs == 1 and boss_Is_Alive) or \
+				(mobs == 2 and not boss_Is_Alive):
+					self._Manual_Kill()
 					if once:
 						break
 				else:
@@ -854,57 +913,6 @@ class Features(Navigation, Inputs):
 					color = self.get_pixel_color(ncon.ABILITY_ROW1X,
 												 ncon.ABILITY_ROW1Y)
 
-	def get_ability_queue(self):
-		"""Return a queue of usable abilities."""
-		ready = []
-		queue = []
-
-		# Add all abilities that are ready to the ready array
-		for i in range(13):
-			if i <= 4:
-				x = ncon.ABILITY_ROW1X + i * ncon.ABILITY_OFFSETX
-				y = ncon.ABILITY_ROW1Y
-				color = self.get_pixel_color(x, y)
-				if color == ncon.ABILITY_ROW1_READY_COLOR:
-					ready.append(i)
-			if i >= 5 and i <= 10:
-				x = ncon.ABILITY_ROW2X + (i - 5) * ncon.ABILITY_OFFSETX
-				y = ncon.ABILITY_ROW2Y
-				color = self.get_pixel_color(x, y)
-				if color == ncon.ABILITY_ROW2_READY_COLOR:
-					ready.append(i)
-			if i > 10:
-				x = ncon.ABILITY_ROW3X + (i - 11) * ncon.ABILITY_OFFSETX
-				y = ncon.ABILITY_ROW3Y
-				color = self.get_pixel_color(x, y)
-				if color == ncon.ABILITY_ROW3_READY_COLOR:
-					ready.append(i)
-
-		health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX,
-									  ncon.PLAYER_HEAL_THRESHOLDY)
-		# heal if we need to heal
-		if health == ncon.PLAYER_HEAL_COLOR:
-			if 12 in ready:
-				queue.append(12)
-			elif 7 in ready:
-				queue.append(7)
-
-		# check if offensive buff and ultimate buff are both ready
-		buffs = [8, 10]
-		if all(i in ready for i in buffs):
-			queue.extend(buffs)
-
-		d = ncon.ABILITY_PRIORITY
-		# Sort the abilities by the set priority
-		abilities = sorted(d, key=d.get, reverse=True)
-		# Only add the abilities that are ready to the queue
-		queue.extend([a for a in abilities if a in ready])
-
-		# If nothing is ready, return a regular attack
-		if len(queue) == 0:
-			queue.append(0)
-
-		return queue
 
 	def save_check(self):
 		"""Check if we can do the daily save for AP.
