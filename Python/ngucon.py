@@ -55,7 +55,7 @@ ABILITY_ROW1_READY_COLOR = "F89B9B"
 ABILITY_ROW2_READY_COLOR = "6687A3"
 ABILITY_ROW3_READY_COLOR = "C39494"
 
-ABILITY_PRIORITY = {1: 6,  # Strong
+ABILITY_PRIORITY = {1: 6,  # Strong		abilityID:Priority
                     2: 8,  # Parry
                     3: 9,  # Piercing
                     4: 10,  # Ultimate
@@ -65,10 +65,9 @@ ABILITY_PRIORITY = {1: 6,  # Strong
                     11: 3}  # Paralyze
 ABILITY_PRIORITY_ONLY_ATTACK = {
 					1: 6,  # Strong
-                    2: 9,  # Piercing
-                    3: 10,  # Ultimate
-                    4: 12} # Charge
-
+                    3: 9,  # Piercing
+                    4: 10,  # Ultimate
+                    9: 12} # Charge
 PLAYER_HEAL_THRESHOLDX = 512
 PLAYER_HEAL_THRESHOLDY = 392
 PLAYER_HEAL_COLOR = "FFFFFF"
