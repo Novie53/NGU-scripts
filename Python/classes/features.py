@@ -97,103 +97,6 @@ class Features(Navigation, Inputs):
 		self.click(ncon.SPIN_MENUX, ncon.SPIN_MENUY)
 		self.click(ncon.SPINX, ncon.SPINY)
 
-	def adventure(self, zone=0, highest=True, itopod=None, itopodauto=False):
-		"""Go to adventure zone to idle.
-
-		Keyword arguments
-		zone -- Zone to idle in, 0 is safe zone, 1 is tutorial and so on.
-		highest -- If true, will go to your highest available non-titan zone.
-		itopod -- If set to true, it will override other settings and will
-				  instead enter the specified ITOPOD floor.
-		itopodauto -- If set to true it will click the "optimal" floor button.
-		"""
-		self.menu("adventure")
-		if itopod:
-			self.click(ncon.ITOPODX, ncon.ITOPODY)
-			if itopodauto:
-				self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
-				self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
-				return
-			self.click(ncon.ITOPODSTARTX, ncon.ITOPODSTARTY)
-			self.send_string(str(itopod))
-			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
-			self.send_string(str(itopod))
-			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
-			return
-		if highest:
-			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, button="right")
-			return
-		else:
-			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
-			for i in range(zone):
-				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
-			return
-
-	def snipe(self, zone, duration, once=False, highest=False, bosses=True):
-		"""Go to adventure and snipe bosses in specified zone.
-
-		Keyword arguments
-		zone -- Zone to snipe, 0 is safe zone, 1 is turorial and so on.
-				If 0, it will use the current zone (to maintain guffin counter)
-		duration -- The duration in seconds the sniping will run before
-					returning.
-		once -- If true it will only kill one boss before returning.
-		highest -- If set to true, it will go to your highest available
-				   non-titan zone.
-		bosses -- If set to true, it will only kill bosses
-		"""
-		self.menu("adventure")
-		if highest:
-			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, button="right")
-		elif zone > 0:
-			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
-			for i in range(zone):
-				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
-
-		self.click(10, 10)  # click somewhere to move tooltip
-		#time.sleep(0.1)
-		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX,
-										  ncon.ABILITY_ATTACKY)
-		if idle_color == ncon.IDLECOLOR:
-			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-		#time.sleep(0.1)
-		self.click(10, 10)  # click somewhere to move tooltip
-
-		end = time.time() + duration
-		while time.time() < end:
-			self.click(10, 10)  # click somewhere to move tooltip
-			health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
-			if (health == ncon.NOTDEAD):
-				if bosses:
-					crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
-					if (crown == ncon.ISBOSS):
-						while (health != ncon.DEAD):
-							health = self.get_pixel_color(ncon.HEALTHX,
-														  ncon.HEALTHY)
-							self.click(ncon.ABILITY_ATTACKX,
-									   ncon.ABILITY_ATTACKY)
-							time.sleep(0.1)
-						if once:
-							break
-					else:
-						# Send left arrow and right arrow to refresh monster.
-						win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN,
-											 wcon.VK_LEFT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
-											 wcon.VK_LEFT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN,
-											 wcon.VK_RIGHT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
-											 wcon.VK_RIGHT, 0)
-				else:
-					self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-			time.sleep(0.01)
-
-		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-
 	def itopod_snipe(self, duration):
 		"""Manually snipes ITOPOD for increased speed PP/h.
 
@@ -295,6 +198,17 @@ class Features(Navigation, Inputs):
 				color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
 		self.click(10, 10)
 
+	def _Manual_Basic_Attack(self):
+		while self._Is_Mob_Alive():
+			self.click(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
+			time.sleep(0.01)
+
+		color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
+		while color != ncon.ABILITY_ROW1_READY_COLOR:
+			time.sleep(0.01)
+			color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
+		self.click(10, 10)
+
 	def _Get_Ability_Queue(self, onlyAttack=False):
 		"""Return a queue of usable abilities."""
 		ready = []
@@ -352,7 +266,7 @@ class Features(Navigation, Inputs):
 		return queue
 
 #----- Main Functions -----
-	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0, onlyAttack=False):
+	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0, attackType=0):
 		"""
 			Keyword arguments:
 			zone = the zone where you want to snipe unless you set highest to True
@@ -360,8 +274,11 @@ class Features(Navigation, Inputs):
 			once = if True will end after one kill
 			highest = if True will go to the highest zone
 			mobs = 0=All Mobs, 1=Only bosses, 2=All execpt Bosses
+			attackType = 0=All skills, 1=Only attack skills and buffs, 2=ONLY BASIC attack
 		"""
 		
+		if attackType == 2:
+			mobs = 0
 		self.adventure(zone=zone, highest=highest)
 		end = time.time() + duration
 		while time.time() < end:
@@ -374,7 +291,11 @@ class Features(Navigation, Inputs):
 				if (mobs == 0) or \
 				(mobs == 1 and boss_Is_Alive) or \
 				(mobs == 2 and not boss_Is_Alive):
-					self._Manual_Kill(onlyAttack=onlyAttack)
+					if attackType == 2:
+						self._Manual_Basic_Attack()
+					else:
+						attackBool = True if attackType == 1 else False
+						self._Manual_Kill(onlyAttack = attackBool)
 					if once:
 						break
 				else:
@@ -391,10 +312,40 @@ class Features(Navigation, Inputs):
 				time.sleep(0.01)
 		self._Set_IdleAttack_State(True)
 
+	def kill_titan(self, target):
+		"""Attempt to kill the target titan.
 
-		
+		Keyword arguments:
+		target -- The name of the titan you wish to kill. ["GRB", "GCT",
+				  "jake", "UUG", "walderp", "BEAST1", "BEAST2", "BEAST3",
+				  "BEAST4"]
+		"""
+		self.menu("adventure")
+		self._Set_IdleAttack_State(False)
+
+		self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
+		for i in range(ncon.TITAN_ZONE[target]):
+			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
+
+		time.sleep(userset.LONG_SLEEP)
+
+		available = self.ocr(ncon.OCR_ADV_TITANX1, ncon.OCR_ADV_TITANY1,
+							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
+
+		if "titan" in available.lower():
+			time.sleep(1.5)  # Make sure titans spawn, otherwise loop breaks
+			
+			while self._Is_Mob_Alive():
+				self.Set_IdleAttack_State(False)
+				self._Manual_Kill()
+				self.Set_IdleAttack_State(True)
+		else:
+			print(str(available))
 
 	def titan_pt_check(self, target):
+		print("not Implemented")
+		return
+		
 		"""Check if we have the recommended p/t to defeat the target Titan.
 
 		Keyword arguments:
@@ -419,62 +370,39 @@ class Features(Navigation, Inputs):
 				  f" to kill {target}")
 			return False
 
+	def adventure(self, zone=0, highest=True, itopod=None, itopodauto=False):
+		"""Go to adventure zone to idle.
 
-
-	def kill_titan(self, target):
-		"""Attempt to kill the target titan.
-
-		Keyword arguments:
-		target -- The name of the titan you wish to kill. ["GRB", "GCT",
-				  "jake", "UUG", "walderp", "BEAST1", "BEAST2", "BEAST3",
-				  "BEAST4"]
+		Keyword arguments
+		zone -- Zone to idle in, 0 is safe zone, 1 is tutorial and so on.
+		highest -- If true, will go to your highest available non-titan zone.
+		itopod -- If set to true, it will override other settings and will
+				  instead enter the specified ITOPOD floor.
+		itopodauto -- If set to true it will click the "optimal" floor button.
 		"""
 		self.menu("adventure")
-		self._Set_IdleAttack_State(False)
+		if itopod:
+			self.click(ncon.ITOPODX, ncon.ITOPODY)
+			if itopodauto:
+				self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
+				self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
+				return
+			self.click(ncon.ITOPODSTARTX, ncon.ITOPODSTARTY)
+			self.send_string(str(itopod))
+			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
+			self.send_string(str(itopod))
+			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
+			return
+		if highest:
+			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, button="right")
+			return
+		else:
+			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
+			for i in range(zone):
+				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
+			return
 
-		self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
-		for i in range(ncon.TITAN_ZONE[target]):
-			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
 
-		time.sleep(userset.LONG_SLEEP)
-
-		available = self.ocr(ncon.OCR_ADV_TITANX1, ncon.OCR_ADV_TITANY1,
-							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
-
-		if "titan" in available.lower():
-			time.sleep(1.5)  # Make sure titans spawn, otherwise loop breaks
-			queue = deque(self.get_ability_queue())
-			health = ""
-			while health != ncon.DEAD:
-				if len(queue) == 0:
-					print("NEW QUEUE")
-					queue = deque(self.get_ability_queue())
-					print(queue)
-
-				ability = queue.popleft()
-				print(f"using ability {ability}")
-				if ability <= 4:
-					x = ncon.ABILITY_ROW1X + ability * ncon.ABILITY_OFFSETX
-					y = ncon.ABILITY_ROW1Y
-
-				if ability >= 5 and ability <= 10:
-					x = ncon.ABILITY_ROW2X + (ability - 5) * ncon.ABILITY_OFFSETX
-					y = ncon.ABILITY_ROW2Y
-
-				if ability > 10:
-					x = ncon.ABILITY_ROW3X + (ability - 11) * ncon.ABILITY_OFFSETX
-					y = ncon.ABILITY_ROW3Y
-
-				self.click(x, y)
-				time.sleep(userset.LONG_SLEEP)
-				color = self.get_pixel_color(ncon.ABILITY_ROW1X,
-											 ncon.ABILITY_ROW1Y)
-				health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
-
-				while color != ncon.ABILITY_ROW1_READY_COLOR:
-					time.sleep(0.03)
-					color = self.get_pixel_color(ncon.ABILITY_ROW1X,
-												 ncon.ABILITY_ROW1Y)
 
 		
 		
