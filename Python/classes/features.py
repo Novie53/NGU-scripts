@@ -232,7 +232,89 @@ class Features(Navigation, Inputs):
 		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
 
 
+#------------ Adventure ----------------
 
+
+
+	def NOV_snipe_hard(self, zone, duration, once=False, highest=False, bosses=True):
+		def Is_Mob_Alive():
+			health = self.get_pixel_color(728, 354) #if the "Max HP: {HP}" text is displayed"
+			healthRowTwo = self.get_pixel_color(728, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
+			return health == "000000" or healthRowTwo == "000000"
+		
+		self.adventure(zone=zone, highest=highest)
+		end = time.time() + duration
+		while time.time() < end:
+			idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
+			if idle_color == ncon.IDLECOLOR:
+				self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+				time.sleep(1)
+		
+			my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX, ncon.PLAYER_HEAL_THRESHOLDY)
+			if my_health == ncon.PLAYER_HEAL_COLOR:
+				print("going back to base to lick my wounds")
+				self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
+				while my_health == ncon.PLAYER_HEAL_COLOR:
+					my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX + 30, ncon.PLAYER_HEAL_THRESHOLDY)
+					time.sleep(0.1)
+				print("done licking my wounds")
+				self.adventure(zone=zone, highest=highest)
+			if (Is_Mob_Alive()):
+				if bosses:
+					self.click(10, 10)
+					crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
+					if (crown == ncon.ISBOSS):
+						queue = deque(self.get_ability_queue())
+						while Is_Mob_Alive():
+							if len(queue) == 0:
+								#print("NEW QUEUE")
+								queue = deque(self.get_ability_queue())
+
+							ability = queue.popleft()
+							#print(f"using ability {ability}")
+							if ability <= 4:
+								x = ncon.ABILITY_ROW1X + ability * ncon.ABILITY_OFFSETX
+								y = ncon.ABILITY_ROW1Y
+
+							if ability >= 5 and ability <= 10:
+								x = ncon.ABILITY_ROW2X + (ability - 5) * ncon.ABILITY_OFFSETX
+								y = ncon.ABILITY_ROW2Y
+
+							if ability > 10:
+								x = ncon.ABILITY_ROW3X + (ability - 11) * ncon.ABILITY_OFFSETX
+								y = ncon.ABILITY_ROW3Y
+
+							self.click(x, y)
+							time.sleep(userset.LONG_SLEEP)
+							color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
+
+							while color != ncon.ABILITY_ROW1_READY_COLOR:
+								time.sleep(0.03)
+								color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
+						if once:
+							break
+						else:
+							self.click(10, 10)
+					else:
+						# Send left arrow and right arrow to refresh monster.
+						win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN,
+											 wcon.VK_LEFT, 0)
+						time.sleep(0.04)
+						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
+											 wcon.VK_LEFT, 0)
+						time.sleep(0.04)
+						win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN,
+											 wcon.VK_RIGHT, 0)
+						time.sleep(0.04)
+						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
+											 wcon.VK_RIGHT, 0)
+						time.sleep(0.5)
+				else:
+					self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
+			time.sleep(0.01)
+		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+
+#---------------------------------------
 
 	def do_rebirth(self):
 		"""Start a rebirth or challenge."""
@@ -812,81 +894,3 @@ class Features(Navigation, Inputs):
 
 		if coords:
 			self.ctrl_click(*slot)
-
-	def NOV_snipe_hard(self, zone, duration, once=False, highest=False, bosses=True):
-		def Is_Mob_Alive():
-			health = self.get_pixel_color(728, 354) #if the "Max HP: {HP}" text is displayed"
-			healthRowTwo = self.get_pixel_color(728, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
-			return health == "000000" or healthRowTwo == "000000"
-		
-		self.adventure(zone=zone, highest=highest)
-		end = time.time() + duration
-		while time.time() < end:
-			idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-			if idle_color == ncon.IDLECOLOR:
-				self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-				time.sleep(1)
-		
-			my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX, ncon.PLAYER_HEAL_THRESHOLDY)
-			if my_health == ncon.PLAYER_HEAL_COLOR:
-				print("going back to base to lick my wounds")
-				self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
-				while my_health == ncon.PLAYER_HEAL_COLOR:
-					my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX + 30, ncon.PLAYER_HEAL_THRESHOLDY)
-					time.sleep(0.1)
-				print("done licking my wounds")
-				self.adventure(zone=zone, highest=highest)
-			if (Is_Mob_Alive()):
-				if bosses:
-					self.click(10, 10)
-					crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
-					if (crown == ncon.ISBOSS):
-						queue = deque(self.get_ability_queue())
-						while Is_Mob_Alive():
-							if len(queue) == 0:
-								#print("NEW QUEUE")
-								queue = deque(self.get_ability_queue())
-
-							ability = queue.popleft()
-							#print(f"using ability {ability}")
-							if ability <= 4:
-								x = ncon.ABILITY_ROW1X + ability * ncon.ABILITY_OFFSETX
-								y = ncon.ABILITY_ROW1Y
-
-							if ability >= 5 and ability <= 10:
-								x = ncon.ABILITY_ROW2X + (ability - 5) * ncon.ABILITY_OFFSETX
-								y = ncon.ABILITY_ROW2Y
-
-							if ability > 10:
-								x = ncon.ABILITY_ROW3X + (ability - 11) * ncon.ABILITY_OFFSETX
-								y = ncon.ABILITY_ROW3Y
-
-							self.click(x, y)
-							time.sleep(userset.LONG_SLEEP)
-							color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
-
-							while color != ncon.ABILITY_ROW1_READY_COLOR:
-								time.sleep(0.03)
-								color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
-						if once:
-							break
-						else:
-							self.click(10, 10)
-					else:
-						# Send left arrow and right arrow to refresh monster.
-						win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN,
-											 wcon.VK_LEFT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
-											 wcon.VK_LEFT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN,
-											 wcon.VK_RIGHT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
-											 wcon.VK_RIGHT, 0)
-						time.sleep(0.5)
-				else:
-					self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-			time.sleep(0.01)
-		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
