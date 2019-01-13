@@ -234,6 +234,101 @@ class Features(Navigation, Inputs):
 
 #------------ Adventure ----------------
 
+	def _Is_Mob_Alive(self):
+		health = self.get_pixel_color(728, 354) #if the "Max HP: {HP}" text is displayed"
+		healthRowTwo = self.get_pixel_color(728, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
+		return health == "000000" or healthRowTwo == "000000"
+
+	def _Lick_Wounds(self):
+		my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX, ncon.PLAYER_HEAL_THRESHOLDY)
+		if my_health == ncon.PLAYER_HEAL_COLOR:
+			print("going back to base to lick my wounds")
+			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
+			while my_health == ncon.PLAYER_HEAL_COLOR:
+				my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX + 30, ncon.PLAYER_HEAL_THRESHOLDY)
+				time.sleep(0.1)
+			print("done licking my wounds")
+			return True
+		else:
+			return False
+
+	def _Turn_Off_Idle(self):
+		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
+		if idle_color == ncon.IDLECOLOR:
+			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+			time.sleep(1)
+
+	def _Is_Boss(self):
+		crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
+		return crown == ncon.ISBOSS
+
+	def _Manual_Kill(self):
+		queue = deque(self.get_ability_queue())
+		while _Is_Mob_Alive():
+			if len(queue) == 0:
+				#print("NEW QUEUE")
+				queue = deque(self.get_ability_queue())
+
+			ability = queue.popleft()
+			#print(f"using ability {ability}")
+			if ability <= 4:
+				x = ncon.ABILITY_ROW1X + ability * ncon.ABILITY_OFFSETX
+				y = ncon.ABILITY_ROW1Y
+
+			if ability >= 5 and ability <= 10:
+				x = ncon.ABILITY_ROW2X + (ability - 5) * ncon.ABILITY_OFFSETX
+				y = ncon.ABILITY_ROW2Y
+
+			if ability > 10:
+				x = ncon.ABILITY_ROW3X + (ability - 11) * ncon.ABILITY_OFFSETX
+				y = ncon.ABILITY_ROW3Y
+
+			self.click(x, y)
+			time.sleep(userset.LONG_SLEEP)
+			color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
+
+			while color != ncon.ABILITY_ROW1_READY_COLOR:
+				time.sleep(0.03)
+				color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
+
+
+
+	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0):
+		"""
+			zone = the zone where you want to snipe unless you set highest to True
+			duration = the time spent sniping in seconds
+			once = if True will end after one kill
+			highest = if True will go to the highest zone
+			mobs = 0=All Mobs, 1=Only bosses, 2=All execpt Bosses
+		"""
+		
+		self.adventure(zone=zone, highest=highest)
+		end = time.time() + duration
+		while time.time() < end:
+			_Turn_Off_Idle()
+			if _Lick_Wounds():
+				self.adventure(zone=zone, highest=highest)
+
+			if _Is_Mob_Alive():
+				if (mobs == 0) or \
+				(mobs == 1 and _Is_Boss()) or \
+				(mobs == 2 and not _Is_Boss()):
+					_Manual_Kill()
+					if once:
+						break
+				else:
+					# Send left arrow and right arrow to refresh monster.
+					win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN, wcon.VK_LEFT, 0)
+					time.sleep(0.04)
+					win32gui.PostMessage(Window.id, wcon.WM_KEYUP, wcon.VK_LEFT, 0)
+					time.sleep(0.04)
+					win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN, wcon.VK_RIGHT, 0)
+					time.sleep(0.04)
+					win32gui.PostMessage(Window.id, wcon.WM_KEYUP, wcon.VK_RIGHT, 0)
+					time.sleep(0.5)
+			else:
+				time.sleep(0.01)
+		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
 
 
 	def NOV_snipe_hard(self, zone, duration, once=False, highest=False, bosses=True):
