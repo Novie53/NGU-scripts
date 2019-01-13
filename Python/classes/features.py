@@ -350,10 +350,10 @@ class Features(Navigation, Inputs):
 
 		return queue
 
-		
 #----- Main Functions -----
 	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0, onlyAttack=False):
 		"""
+			Keyword arguments:
 			zone = the zone where you want to snipe unless you set highest to True
 			duration = the time spent sniping in seconds
 			once = if True will end after one kill
@@ -391,84 +391,95 @@ class Features(Navigation, Inputs):
 		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
 
 
-	def NOV_snipe_hard(self, zone, duration, once=False, highest=False, bosses=True):
-		def Is_Mob_Alive():
-			health = self.get_pixel_color(728, 354) #if the "Max HP: {HP}" text is displayed"
-			healthRowTwo = self.get_pixel_color(728, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
-			return health == "000000" or healthRowTwo == "000000"
 		
-		self.adventure(zone=zone, highest=highest)
-		end = time.time() + duration
-		while time.time() < end:
-			idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-			if idle_color == ncon.IDLECOLOR:
-				self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-				time.sleep(1)
+
+	def titan_pt_check(self, target):
+		"""Check if we have the recommended p/t to defeat the target Titan.
+
+		Keyword arguments:
+		target -- The name of the titan you wish to kill. ["GRB", "GCT",
+				  "jake", "UUG", "walderp", "BEAST1", "BEAST2", "BEAST3",
+				  "BEAST4"]
+		"""
+		self.menu("adventure")
+		bmp = self.get_bitmap()
+		power = self.ocr(ncon.OCR_ADV_POWX1, ncon.OCR_ADV_POWY1,
+						 ncon.OCR_ADV_POWX2, ncon.OCR_ADV_POWY2, bmp=bmp)
+		tough = self.ocr(ncon.OCR_ADV_TOUGHX1, ncon.OCR_ADV_TOUGHY1,
+						 ncon.OCR_ADV_TOUGHX2, ncon.OCR_ADV_TOUGHY2, bmp=bmp)
+
+		if (float(power) > ncon.TITAN_PT[target]["p"] and
+		   float(tough) > ncon.TITAN_PT[target]["t"]):
+			return True
+
+		else:
+			print(f"Lacking: {Decimal(ncon.TITAN_PT[target]['p'] - float(power)):.2E}"
+				  f"/{Decimal(ncon.TITAN_PT[target]['t'] - float(tough)):.2E} P/T"
+				  f" to kill {target}")
+			return False
+
+
+
+	def kill_titan(self, target):
+		"""Attempt to kill the target titan.
+
+		Keyword arguments:
+		target -- The name of the titan you wish to kill. ["GRB", "GCT",
+				  "jake", "UUG", "walderp", "BEAST1", "BEAST2", "BEAST3",
+				  "BEAST4"]
+		"""
+		self.menu("adventure")
+		self._Turn_Off_Idle()
+
+		self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
+		for i in range(ncon.TITAN_ZONE[target]):
+			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)
+
+		time.sleep(userset.LONG_SLEEP)
+
+		available = self.ocr(ncon.OCR_ADV_TITANX1, ncon.OCR_ADV_TITANY1,
+							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
+
+		if "titan" in available.lower():
+			time.sleep(1.5)  # Make sure titans spawn, otherwise loop breaks
+			queue = deque(self.get_ability_queue())
+			health = ""
+			while health != ncon.DEAD:
+				if len(queue) == 0:
+					print("NEW QUEUE")
+					queue = deque(self.get_ability_queue())
+					print(queue)
+
+				ability = queue.popleft()
+				print(f"using ability {ability}")
+				if ability <= 4:
+					x = ncon.ABILITY_ROW1X + ability * ncon.ABILITY_OFFSETX
+					y = ncon.ABILITY_ROW1Y
+
+				if ability >= 5 and ability <= 10:
+					x = ncon.ABILITY_ROW2X + (ability - 5) * ncon.ABILITY_OFFSETX
+					y = ncon.ABILITY_ROW2Y
+
+				if ability > 10:
+					x = ncon.ABILITY_ROW3X + (ability - 11) * ncon.ABILITY_OFFSETX
+					y = ncon.ABILITY_ROW3Y
+
+				self.click(x, y)
+				time.sleep(userset.LONG_SLEEP)
+				color = self.get_pixel_color(ncon.ABILITY_ROW1X,
+											 ncon.ABILITY_ROW1Y)
+				health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
+
+				while color != ncon.ABILITY_ROW1_READY_COLOR:
+					time.sleep(0.03)
+					color = self.get_pixel_color(ncon.ABILITY_ROW1X,
+												 ncon.ABILITY_ROW1Y)
+
 		
-			my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX, ncon.PLAYER_HEAL_THRESHOLDY)
-			if my_health == ncon.PLAYER_HEAL_COLOR:
-				print("going back to base to lick my wounds")
-				self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
-				while my_health == ncon.PLAYER_HEAL_COLOR:
-					my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX + 30, ncon.PLAYER_HEAL_THRESHOLDY)
-					time.sleep(0.1)
-				print("done licking my wounds")
-				self.adventure(zone=zone, highest=highest)
-			if (Is_Mob_Alive()):
-				if bosses:
-					self.click(10, 10)
-					crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
-					if (crown == ncon.ISBOSS):
-						queue = deque(self.get_ability_queue())
-						while Is_Mob_Alive():
-							if len(queue) == 0:
-								#print("NEW QUEUE")
-								queue = deque(self.get_ability_queue())
-
-							ability = queue.popleft()
-							#print(f"using ability {ability}")
-							if ability <= 4:
-								x = ncon.ABILITY_ROW1X + ability * ncon.ABILITY_OFFSETX
-								y = ncon.ABILITY_ROW1Y
-
-							if ability >= 5 and ability <= 10:
-								x = ncon.ABILITY_ROW2X + (ability - 5) * ncon.ABILITY_OFFSETX
-								y = ncon.ABILITY_ROW2Y
-
-							if ability > 10:
-								x = ncon.ABILITY_ROW3X + (ability - 11) * ncon.ABILITY_OFFSETX
-								y = ncon.ABILITY_ROW3Y
-
-							self.click(x, y)
-							time.sleep(userset.LONG_SLEEP)
-							color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
-
-							while color != ncon.ABILITY_ROW1_READY_COLOR:
-								time.sleep(0.03)
-								color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
-						if once:
-							break
-						else:
-							self.click(10, 10)
-					else:
-						# Send left arrow and right arrow to refresh monster.
-						win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN,
-											 wcon.VK_LEFT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
-											 wcon.VK_LEFT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN,
-											 wcon.VK_RIGHT, 0)
-						time.sleep(0.04)
-						win32gui.PostMessage(Window.id, wcon.WM_KEYUP,
-											 wcon.VK_RIGHT, 0)
-						time.sleep(0.5)
-				else:
-					self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-			time.sleep(0.01)
-		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-
+		
+		
+		
+		
 #---------------------------------------
 
 	def do_rebirth(self):
@@ -829,91 +840,6 @@ class Features(Navigation, Inputs):
 		self.send_string(value)
 		self.click(ncon.ADV_TRAININGX, ncon.ADV_TRAINING1Y)
 		self.click(ncon.ADV_TRAININGX, ncon.ADV_TRAINING2Y)
-
-	def titan_pt_check(self, target):
-		"""Check if we have the recommended p/t to defeat the target Titan.
-
-		Keyword arguments:
-		target -- The name of the titan you wish to kill. ["GRB", "GCT",
-				  "jake", "UUG", "walderp", "BEAST1", "BEAST2", "BEAST3",
-				  "BEAST4"]
-		"""
-		self.menu("adventure")
-		bmp = self.get_bitmap()
-		power = self.ocr(ncon.OCR_ADV_POWX1, ncon.OCR_ADV_POWY1,
-						 ncon.OCR_ADV_POWX2, ncon.OCR_ADV_POWY2, bmp=bmp)
-		tough = self.ocr(ncon.OCR_ADV_TOUGHX1, ncon.OCR_ADV_TOUGHY1,
-						 ncon.OCR_ADV_TOUGHX2, ncon.OCR_ADV_TOUGHY2, bmp=bmp)
-
-		if (float(power) > ncon.TITAN_PT[target]["p"] and
-		   float(tough) > ncon.TITAN_PT[target]["t"]):
-			return True
-
-		else:
-			print(f"Lacking: {Decimal(ncon.TITAN_PT[target]['p'] - float(power)):.2E}"
-				  f"/{Decimal(ncon.TITAN_PT[target]['t'] - float(tough)):.2E} P/T"
-				  f" to kill {target}")
-			return False
-
-	def kill_titan(self, target):
-		"""Attempt to kill the target titan.
-
-		Keyword arguments:
-		target -- The name of the titan you wish to kill. ["GRB", "GCT",
-				  "jake", "UUG", "walderp", "BEAST1", "BEAST2", "BEAST3",
-				  "BEAST4"]
-		"""
-		self.menu("adventure")
-		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX,
-										  ncon.ABILITY_ATTACKY)
-
-		if idle_color == ncon.IDLECOLOR:
-			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-
-		self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
-		for i in range(ncon.TITAN_ZONE[target]):
-			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)
-
-		time.sleep(userset.LONG_SLEEP)
-
-		available = self.ocr(ncon.OCR_ADV_TITANX1, ncon.OCR_ADV_TITANY1,
-							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
-
-		if "titan" in available.lower():
-			time.sleep(1.5)  # Make sure titans spawn, otherwise loop breaks
-			queue = deque(self.get_ability_queue())
-			health = ""
-			while health != ncon.DEAD:
-				if len(queue) == 0:
-					print("NEW QUEUE")
-					queue = deque(self.get_ability_queue())
-					print(queue)
-
-				ability = queue.popleft()
-				print(f"using ability {ability}")
-				if ability <= 4:
-					x = ncon.ABILITY_ROW1X + ability * ncon.ABILITY_OFFSETX
-					y = ncon.ABILITY_ROW1Y
-
-				if ability >= 5 and ability <= 10:
-					x = ncon.ABILITY_ROW2X + (ability - 5) * ncon.ABILITY_OFFSETX
-					y = ncon.ABILITY_ROW2Y
-
-				if ability > 10:
-					x = ncon.ABILITY_ROW3X + (ability - 11) * ncon.ABILITY_OFFSETX
-					y = ncon.ABILITY_ROW3Y
-
-				self.click(x, y)
-				time.sleep(userset.LONG_SLEEP)
-				color = self.get_pixel_color(ncon.ABILITY_ROW1X,
-											 ncon.ABILITY_ROW1Y)
-				health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
-
-				while color != ncon.ABILITY_ROW1_READY_COLOR:
-					time.sleep(0.03)
-					color = self.get_pixel_color(ncon.ABILITY_ROW1X,
-												 ncon.ABILITY_ROW1Y)
-
 
 	def save_check(self):
 		"""Check if we can do the daily save for AP.
