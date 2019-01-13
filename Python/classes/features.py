@@ -321,7 +321,6 @@ class Features(Navigation, Inputs):
 				  "BEAST4"]
 		"""
 		self.menu("adventure")
-		self._Set_IdleAttack_State(False)
 
 		self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
 		for i in range(ncon.TITAN_ZONE[target]):
@@ -333,13 +332,14 @@ class Features(Navigation, Inputs):
 							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
 
 		if "titan" in available.lower():
+			self._Set_IdleAttack_State(False)
 			time.sleep(2.5)  # Make sure titans spawn, otherwise loop breaks
 			
 			while self._Is_Mob_Alive():
 				self._Manual_Kill()
+			self._Set_IdleAttack_State(True)
 		else:
-			print(str(available))
-		self._Set_IdleAttack_State(True)
+			return str(available)
 
 	def titan_pt_check(self, target):
 		print("not Implemented")
@@ -369,7 +369,7 @@ class Features(Navigation, Inputs):
 				  f" to kill {target}")
 			return False
 
-	def adventure(self, zone=0, highest=True, itopod=None, itopodauto=False):
+	def adventure(self, zone=0, highest=False, itopod=None, itopodauto=False):
 		"""Go to adventure zone to idle.
 
 		Keyword arguments
