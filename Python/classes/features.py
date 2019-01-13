@@ -265,11 +265,11 @@ class Features(Navigation, Inputs):
 		return crown == ncon.ISBOSS
 
 	def _Manual_Kill(self, onlyAttack=False):
-		queue = deque(self.get_ability_queue())
+		queue = deque(self._Get_Ability_Queue(onlyAttack=onlyAttack))
 		while self._Is_Mob_Alive():
 			if len(queue) == 0:
 				#print("NEW QUEUE")
-				queue = deque(self.get_ability_queue())
+				queue = deque(self._Get_Ability_Queue(onlyAttack=onlyAttack))
 
 			ability = queue.popleft()
 			#print(f"using ability {ability}")
@@ -338,6 +338,7 @@ class Features(Navigation, Inputs):
 			d = ABILITY_PRIORITY_ONLY_ATTACK
 		else:
 			d = ncon.ABILITY_PRIORITY
+
 		# Sort the abilities by the set priority
 		abilities = sorted(d, key=d.get, reverse=True)
 		# Only add the abilities that are ready to the queue
@@ -351,7 +352,7 @@ class Features(Navigation, Inputs):
 
 		
 #----- Main Functions -----
-	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0):
+	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0, onlyAttack=False):
 		"""
 			zone = the zone where you want to snipe unless you set highest to True
 			duration = the time spent sniping in seconds
@@ -372,7 +373,7 @@ class Features(Navigation, Inputs):
 				if (mobs == 0) or \
 				(mobs == 1 and boss_Is_Alive) or \
 				(mobs == 2 and not boss_Is_Alive):
-					self._Manual_Kill()
+					self._Manual_Kill(onlyAttack=onlyAttack)
 					if once:
 						break
 				else:
