@@ -11,49 +11,90 @@ import ngucon as ncon
 import time
 import os
 
-BOSSES = {0: {"LootGear": False, "TimeToKill": 0, "NewTime": "1:0"},
-			1: {"LootGear": True, "TimeToKill": 0, "NewTime": "1:57"},
-			2: {"LootGear": True, "TimeToKill": 0, "NewTime": "2:57"}}
+
+
+TITANS = {#"GRB": {"LootGear": False, "KillTime": 0},
+		  #"GCT": {"LootGear": False, "KillTime": 0},
+		  "jake": {"LootGear": True, "KillTime": 0},
+		  #"UUG": {"LootGear": True, "KillTime": 0},
+		  "walderp": {"LootGear": True, "KillTime": 0},
+		  "BEAST1": {"LootGear": True, "KillTime": 0}}
 
 
 def clearConsole():
     os.system('cls' if os.name=='nt' else 'clear')
 
-def createTimeStamp(boss, timeLeft, SafetyTime = 60):
-	split = timeLeft.split(":")
-	BOSSES[boss]["TimeToKill"] = time.time() + int(split[0]) * 3600 + int(split[1]) * 60
-	BOSSES[boss]["TimeToKill"] += SafetyTime
-	
-def timeToKillBoss(Boss_ID):
-	if BOSSES[Boss_ID]["LootGear"]:
-		print("Equipping loot gear")
-		nav.reclaim_all_magic()
-		nav.reclaim_all_energy()
-		feature.gold_diggers([5,6], activate=True) #Disable NGU Diggers
-		feature.gold_diggers([1,4], activate=True) #Enable Drop & Adventure digger
-		feature.loadout(3) #Equip dropchance Gear
-	
-	nav.menu("settings")
-	i.click(670, 150) #Enable "Loot Filter"
-	i.click(510, 290) #Enable "Auto Kill Titans"
-	time.sleep(1)
+def createTimeStamp(TITAN, timeLeft):
+	if timeLeft is None:
+		TITANS[TITAN]["KillTime"] = time.time()
+		return
 
-	createTimeStamp(Boss_ID, BOSSES[Boss_ID][NewTime], SafetyTime = 5)
-	i.click(580, 290) #Disable "Auto Kill Titans"
-	i.click(740, 150) #Disable "Loot Filter"
+
+	timeSplit = timeLeft.split(":")
+	if len(timeSplit) == 3:
+		sec = int(timeSplit[0]) * 3600 + int(timeSplit[1]) * 60 + int(timeSplit[2])
+	elif len(timeSplit) == 2:
+		sec = int(timeSplit[0]) * 60 + int(timeSplit[1])
+	elif len(timeSplit) == 1:
+		sec = 0
 	
-	if BOSSES[Boss_ID]["LootGear"]:
-		print("Equipping NGU gear")
-		feature.gold_diggers([1,4], activate=True) #Disable Drop & Adventure digger
-		feature.gold_diggers([5,6], activate=True) #Enable NGU Diggers
-		feature.loadout(2) #Equip EM POW Gear
+	TITANS[TITAN]["KillTime"] = time.time() + sec
+	
+def kill_Titans(timeToWait):
+	while True:
+		DropChanceEquipment = False
+		LetsKillSomeBitches = False
+		KillList = []
+	
+		for BossID in TITANS.keys():
+			duration = int(TITANS[BossID]["KillTime"] - time.time())
+			if duration <= timeToWait:
+				print("Lets Kill: " + BossID)
+				LetsKillSomeBitches = True
+				DropChanceEquipment = DropChanceEquipment or TITANS[BossID]["LootGear"]
+				KillList.append(BossID)
+
+		if LetsKillSomeBitches:
+			if DropChanceEquipment:
+				print("Equipping loot gear")
+				nav.reclaim_all_magic()
+				nav.reclaim_all_energy()
+				feature.loadout(3) #Equip dropchance Gear
+
+			for x in KillList:
+				while int(TITANS[x]["KillTime"] - time.time()) <= timeToWait:
+					createTimeStamp(x, feature.kill_titan(x))
+
+			if DropChanceEquipment:
+				print("Equipping NGU gear")
+				feature.loadout(2) #Equip EM POW Gear
+
+				for abcccccc in range(4):
+					feature.assign_ngu(1e12, [1])
+					feature.assign_ngu(1e12, [3], magic=True)
+					time.sleep(2)
+		else:
+			break
+
+def printTimeLeftToBoss():
+	TimeLeftToTitan = 9999
+	nextTitan = ""
+	
+	for BossID in TITANS.keys():
+		duration = int(TITANS[BossID]["KillTime"] - time.time())
+		if duration < TimeLeftToTitan:
+			TimeLeftToTitan = duration
+			nextTitan = BossID
+	hour = int(TimeLeftToTitan / 3600)
+	min = int((TimeLeftToTitan - hour * 3600) / 60)
+	sec = TimeLeftToTitan - hour * 3600 - min * 60
+	
+	min = min if min > 9 else "0" + str(min)
+	sec = sec if sec > 9 else "0" + str(sec)
+	print(f"Time left to next boss {nextTitan} - {hour}:{min}:{sec}")
+	return TimeLeftToTitan
+
 			
-		for abcccccc in range(4):
-			feature.assign_ngu(1e9, [1])
-			feature.assign_ngu(1e9, [3], magic=True)
-			time.sleep(2)
-
-
 w = Window()
 i = Inputs()
 nav = Navigation()
@@ -61,32 +102,48 @@ feature = Features()
 
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
-u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magic caps
-print(w.x, w.y)
-
-
-SwitchToDropGear = False
-createTimeStamp(0,"9:5")
-createTimeStamp(1,"9:48")
-createTimeStamp(2,"9:53")
+#print(w.x, w.y)
 
 
 
 
-if SwitchToDropGear:
-	nav.menu("settings")
-	i.click(580, 290) #Disable "Auto Kill Titans"
+#settings
+FarmInZoneDuration = 120
+
+
+
+
+durationOffset = 0
+durationOffsetTotal = 0
+durationOffsetCount = 0
+
+for x in TITANS.keys():
+	createTimeStamp(x, feature.kill_titan(x))
 
 while True:
-	feature.NOV_snipe_hard(0, 300, highest=True, bosses=True)	# Equipment sniping
-	#feature.snipe(13, 120, bosses=False)						# Boost Sniping
+	printTimeLeftToBoss()
+	kill_Titans(FarmInZoneDuration + 30)
+
 	
+	tempZoneDuration = FarmInZoneDuration - durationOffset
+	before = time.time()
+	feature.snipe_hard(18, tempZoneDuration, highest=False, mobs=1, attackType=2)	# Equipment sniping
+	print(str(int(time.time() - before)))
+	durationOffsetTotal += (time.time() - before) - tempZoneDuration
+	durationOffsetCount += 1
+	durationOffset = round(durationOffsetTotal / durationOffsetCount, 2)
+
+	
+	nav.menu("inventory")
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\longInv_" + str(durationOffsetCount) + ".png")
 	feature.merge_equipment()
-	#feature.merge_inventory(13) #mergar de första 25 slotsen
+	feature.merge_inventory(9) #mergar de första 25 slotsen
 	
 	#feature.boost_inventory(1)
 	#feature.boost_equipment() #boostar också Cube
-	#feature.NOV_boost_equipment("head")
+	feature.NOV_boost_equipment("legs")
+	feature.NOV_boost_equipment("cube")
 	
 	feature.ygg()
 	feature.pit()
@@ -98,14 +155,3 @@ while True:
 	
 	feature.assign_ngu(1e12, [1])
 	feature.assign_ngu(1e12, [3], magic=True)
-	
-	if SwitchToDropGear:
-		#clearConsole()
-		for BossID in range(len(BOSSES)):
-			#duration = int(BOSSES[BossID]["TimeToKill"] - time.time())
-			#hour = int(duration / 3600)
-			#min  = int((duration - hour * 3600) / 60)
-			#print(f"Time left to kill boss {BossID} - {hour}:{min}")
-			
-			if BOSSES[BossID]["TimeToKill"] < time.time():
-				timeToKillBoss(BossID)
