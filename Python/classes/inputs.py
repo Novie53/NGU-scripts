@@ -44,7 +44,7 @@ class Inputs():
 								 wcon.MK_RBUTTON, lParam)
 		# Sleep lower than 0.1 might cause issues when clicking in succession
 		if fast:
-			time.sleep(0.09)
+			time.sleep(0.07)
 		else:
 			time.sleep(userset.MEDIUM_SLEEP)
 
