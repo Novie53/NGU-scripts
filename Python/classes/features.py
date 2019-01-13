@@ -126,7 +126,7 @@ class Features(Navigation, Inputs):
 		else:
 			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
 			for i in range(zone):
-				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)
+				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
 			return
 
 	def snipe(self, zone, duration, once=False, highest=False, bosses=True):
@@ -390,7 +390,6 @@ class Features(Navigation, Inputs):
 			else:
 				time.sleep(0.01)
 		self._Set_IdleAttack_State(True)
-		#self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
 
 
 		
@@ -431,11 +430,11 @@ class Features(Navigation, Inputs):
 				  "BEAST4"]
 		"""
 		self.menu("adventure")
-		self._Turn_Off_Idle()
+		self._Set_IdleAttack_State(False)
 
 		self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
 		for i in range(ncon.TITAN_ZONE[target]):
-			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY)
+			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
 
 		time.sleep(userset.LONG_SLEEP)
 
