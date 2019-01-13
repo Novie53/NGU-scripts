@@ -253,9 +253,10 @@ class Features(Navigation, Inputs):
 		else:
 			return False
 
-	def _Turn_Off_Idle(self):
+	def _Set_IdleAttack_State(self, state):
 		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-		if idle_color == ncon.IDLECOLOR:
+		if (idle_color == ncon.IDLECOLOR and not state) or \
+					(idle_color != ncon.IDLECOLOR and state):
 			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
 			self.click(10, 10)
 			time.sleep(1)
@@ -364,7 +365,7 @@ class Features(Navigation, Inputs):
 		self.adventure(zone=zone, highest=highest)
 		end = time.time() + duration
 		while time.time() < end:
-			self._Turn_Off_Idle()
+			self._Set_IdleAttack_State(False)
 			if self._Lick_Wounds():
 				self.adventure(zone=zone, highest=highest)
 
@@ -388,7 +389,8 @@ class Features(Navigation, Inputs):
 					time.sleep(0.5)
 			else:
 				time.sleep(0.01)
-		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+		self._Set_IdleAttack_State(True)
+		#self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
 
 
 		
