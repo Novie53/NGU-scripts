@@ -333,14 +333,13 @@ class Features(Navigation, Inputs):
 							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
 
 		if "titan" in available.lower():
-			time.sleep(1.5)  # Make sure titans spawn, otherwise loop breaks
+			time.sleep(2.5)  # Make sure titans spawn, otherwise loop breaks
 			
 			while self._Is_Mob_Alive():
-				self.Set_IdleAttack_State(False)
 				self._Manual_Kill()
-				self.Set_IdleAttack_State(True)
 		else:
 			print(str(available))
+		self._Set_IdleAttack_State(True)
 
 	def titan_pt_check(self, target):
 		print("not Implemented")
