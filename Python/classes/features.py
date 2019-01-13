@@ -335,7 +335,7 @@ class Features(Navigation, Inputs):
 			queue.extend(buffs)
 
 		if onlyAttack:
-			d = ABILITY_PRIORITY_ONLY_ATTACK
+			d = ncon.ABILITY_PRIORITY_ONLY_ATTACK
 		else:
 			d = ncon.ABILITY_PRIORITY
 
