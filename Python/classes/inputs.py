@@ -48,6 +48,7 @@ class Inputs():
 		else:
 			time.sleep(userset.MEDIUM_SLEEP)
 
+	'''
 	def ctrl_click(self, x, y):
 		"""Clicks at pixel x, y while simulating the CTRL button to be down."""
 		x += window.x
@@ -65,6 +66,7 @@ class Inputs():
 							 wcon.MK_LBUTTON, lParam)
 		win32gui.PostMessage(window.id, wcon.WM_KEYUP, wcon.VK_CONTROL, 0)
 		time.sleep(userset.MEDIUM_SLEEP)
+	'''
 
 	def NOV_send_text(self, string):
 		if type(string) == float:  # Remove decimal
@@ -77,7 +79,7 @@ class Inputs():
 			win32gui.PostMessage(window.id, wcon.WM_CHAR, ord(c), 0)
 			#time.sleep(0.03)
 		time.sleep(userset.SHORT_SLEEP)
-		
+
 	def send_string(self, string):
 		"""Send one or multiple characters to the window."""
 		if type(string) == float:  # Remove decimal
@@ -124,6 +126,14 @@ class Inputs():
 		# bmp.save("asdf.png")
 		return bmp
 
+	def get_gamewindow_bitmap(self):
+		bmp = self.get_bitmap()
+		bmp = bmp.crop((window.x + 8, 
+						window.y + 8, 
+						958 + window.x + 8, 
+						598 + window.y + 8))
+		return bmp
+		
 	def pixel_search(self, color, x_start, y_start, x_end, y_end):
 		"""Find the first pixel with the supplied color within area.
 
