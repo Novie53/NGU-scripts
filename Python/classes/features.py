@@ -564,6 +564,8 @@ class Features(Navigation, Inputs):
 	def speedrun_bloodpill(self):
 		"""Check if bloodpill is ready to cast."""
 		bm_color = self.get_pixel_color(ncon.BMLOCKEDX, ncon.BMLOCKEDY)
+		Autos_Enabled = []
+		
 		if bm_color == ncon.BM_PILL_READY:
 		
 			self.reclaim_all_magic()
@@ -572,8 +574,18 @@ class Features(Navigation, Inputs):
 			start = time.time()
 			self.blood_magic(8)
 			self.spells()
-			self.click(ncon.BM_AUTO_GOLDX, ncon.BM_AUTO_GOLDY)
-			self.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
+			for Auto in ncon.BM_AUTOS:
+			result = i.image_search(
+					ncon.BM_AUTOS[Auto]["x"] + w.x - 7, 
+					ncon.BM_AUTOS[Auto]["y"] + w.y - 7, 
+					ncon.BM_AUTOS[Auto]["x"] + w.x + 7, 
+					ncon.BM_AUTOS[Auto]["y"] + w.y + 7, 
+					i.get_file_path("images", "BMSpellEnabled.png"), 
+					0.8)
+			if result is not None:
+				Autos_Enabled.append(Auto)
+				self.click(ncon.BM_AUTOS[Auto]["x"], 
+							ncon.BM_AUTOS[Auto]["y"])
 
 			self.time_machine(1e12)
 			
@@ -588,8 +600,9 @@ class Features(Navigation, Inputs):
 			self.spells()
 			self.click(ncon.BMPILLX, ncon.BMPILLY)
 			time.sleep(userset.LONG_SLEEP)
-			self.click(ncon.BM_AUTO_GOLDX, ncon.BM_AUTO_GOLDY)
-			self.click(ncon.BM_AUTO_NUMBERX, ncon.BM_AUTO_NUMBERY)
+			for AutoEnabled in ncon.Autos_Enabled:
+				self.click(ncon.BM_AUTOS[AutoEnabled]["x"], 
+							ncon.BM_AUTOS[AutoEnabled]["y"])
 			
 			return True
 		else:
