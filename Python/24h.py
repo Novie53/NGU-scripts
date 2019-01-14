@@ -108,7 +108,7 @@ nav.menu("inventory")
 
 
 #settings
-FarmInZoneDuration = 120
+FarmInZoneDuration = 180
 
 
 
@@ -127,18 +127,14 @@ while True:
 	
 	tempZoneDuration = FarmInZoneDuration - durationOffset
 	before = time.time()
-	feature.snipe_hard(18, tempZoneDuration, highest=False, mobs=1, attackType=2)	# Equipment sniping
-	print(str(int(time.time() - before)))
+	feature.snipe_hard(19, tempZoneDuration, highest=False, mobs=1, attackType=1)	# Equipment sniping
 	durationOffsetTotal += (time.time() - before) - tempZoneDuration
 	durationOffsetCount += 1
 	durationOffset = round(durationOffsetTotal / durationOffsetCount, 2)
 
-	
-	nav.menu("inventory")
-	aaa = i.get_bitmap()
-	aaa.save("Pic\\longInv_" + str(durationOffsetCount) + ".png")
+
 	feature.merge_equipment()
-	feature.merge_inventory(9) #mergar de första 25 slotsen
+	feature.merge_inventory(12) #mergar de första 25 slotsen
 	
 	#feature.boost_inventory(1)
 	#feature.boost_equipment() #boostar också Cube
