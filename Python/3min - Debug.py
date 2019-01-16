@@ -22,7 +22,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 6 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
-SCREENSHOT_BOOLEAN = {"aug1" : {"Use" : False, "Menu" : "augmentations"},
+SCREENSHOT_BOOLEAN = {#"aug1" : {"Use" : False, "Menu" : "augmentations"},
 					  "aug2" : {"Use" : True, "Menu" : "augmentations"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
@@ -104,13 +104,17 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
 
-		if not Blood_Assigned and time_since_start() > 30:
+		if not Blood_Assigned and time_since_start() > 25:
 			feature.blood_magic(6)
 			#nav.input_box()
 			#i.NOV_send_text(20e6)
 			#i.click(ncon.BMX - 75, ncon.BMY[6])
 			Blood_Assigned = True
 
+		if not Aug_Assigned and time_since_start() > 25:
+			feature.augments({"CI": 1}, 95e6)
+			feature.augments({"ML": 1}, 46e6)
+			Aug_Assigned = True
 
 		if (start + duration * 60 * 0.20) > time.time(): #the first 25% of the run
 			feature.time_machine(1e12, magic=True)
@@ -125,12 +129,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				#i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
 				TM_Done = True
 
-			if not Aug_Assigned:
-				debugScreenShot("aug1", counter)
 
-				feature.augments({"CI": 1}, 95e6)
-				feature.augments({"ML": 1}, 46e6)
-				Aug_Assigned = True
 			
 			feature.wandoos(True)
 
