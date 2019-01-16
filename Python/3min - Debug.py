@@ -99,11 +99,18 @@ def Nov_SpeedRun_Two(duration, counter):
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		if time_since_start() < 35:
-			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
-			if var1:
-				feature.adventure(itopod=True, itopodauto=True)
-				GoldClearLevels = var2
+		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+		if var1:
+			feature.adventure(itopod=True, itopodauto=True)
+			GoldClearLevels = var2
+
+		if not Blood_Assigned and time_since_start() > 30:
+			feature.blood_magic(6)
+			#nav.input_box()
+			#i.NOV_send_text(20e6)
+			#i.click(ncon.BMX - 75, ncon.BMY[6])
+			Blood_Assigned = True
+
 
 		if (start + duration * 60 * 0.20) > time.time(): #the first 25% of the run
 			feature.time_machine(1e12, magic=True)
@@ -124,13 +131,6 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.augments({"CI": 1}, 95e6)
 				feature.augments({"ML": 1}, 46e6)
 				Aug_Assigned = True
-			
-			if not Blood_Assigned:
-				feature.blood_magic(6)
-				#nav.input_box()
-				#i.NOV_send_text(20e6)
-				#i.click(ncon.BMX - 75, ncon.BMY[6])
-				Blood_Assigned = True
 			
 			feature.wandoos(True)
 
