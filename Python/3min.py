@@ -18,12 +18,11 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
-				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 5},
+				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": LOWEST_SLEEP_TO_KILL},
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
-SCREENSHOT_BOOLEAN = {"aug1" : {"Use" : False, "Menu" : "augmentations"},
-					  "aug2" : {"Use" : True, "Menu" : "augmentations"},
+MAX_KILL_ADVENTURE_ZONE = 6 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+SCREENSHOT_BOOLEAN = {"aug" : {"Use" : True, "Menu" : "augmentations"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
 					  "rebirth" : {"Use" : False}}
@@ -80,9 +79,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	Digger_Activated = False
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
-	
-	testVar = 0
-	
+		
 	feature.do_rebirth()
 	start = time.time()
 	end = time.time() + (duration * 60)
@@ -90,7 +87,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.7)
 	feature.adventure(highest=True)
-	feature.time_machine(50e6, magic=True)
+	feature.time_machine(60e6, magic=True)
 	feature.augments({"CI": 1}, 24e6)
 	feature.augments({"ML": 1}, 12e6)
 
@@ -99,16 +96,23 @@ def Nov_SpeedRun_Two(duration, counter):
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
 		
-		if time_since_start() < 35:
-			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
-			if var1:
-				feature.adventure(itopod=True, itopodauto=True)
-				GoldClearLevels = var2
+		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+		if var1:
+			feature.adventure(itopod=True, itopodauto=True)
+			GoldClearLevels = var2
 
-		if testVar < 2 and GoldClearLevels == 5:
-			feature.wandoos(False)
-			testVar += 1
-		
+		if not Blood_Assigned and time_since_start() > 25:
+			feature.blood_magic(6)
+			#nav.input_box()
+			#i.NOV_send_text(20e6)
+			#i.click(ncon.BMX - 75, ncon.BMY[6])
+			Blood_Assigned = True
+
+		if not Aug_Assigned and time_since_start() > 25:
+			feature.augments({"CI": 1}, 95e6)
+			feature.augments({"ML": 1}, 46e6)
+			Aug_Assigned = True
+
 		if (start + duration * 60 * 0.20) > time.time(): #the first 25% of the run
 			feature.time_machine(1e12, magic=True)
 		else:
@@ -116,36 +120,22 @@ def Nov_SpeedRun_Two(duration, counter):
 				nav.menu("timemachine")
 				i.click(570,235)
 				i.click(570,335)
-				
-				#nav.input_box()
-				#i.NOV_send_text(20e6)
-				#i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
 				TM_Done = True
 
-			if not Aug_Assigned:
-				debugScreenShot("aug1", counter)
+			if not Digger_Activated:
+				feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
+				Digger_Activated = True
 
-				feature.augments({"CI": 1}, 95e6)
-				feature.augments({"ML": 1}, 46e6)
-				Aug_Assigned = True
-			
-			if not Blood_Assigned:
-				feature.blood_magic(6)
-				#nav.input_box()
-				#i.NOV_send_text(20e6)
-				#i.click(ncon.BMX - 75, ncon.BMY[6])
-				Blood_Assigned = True
-			
 			feature.wandoos(True)
 
 			if not WANDOOS_energy_goal_reached:
-				idle_color = i.get_pixel_color(525, 250)
+				idle_color = i.get_pixel_color(426, 250)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "59CF81":
 					WANDOOS_energy_goal_reached = True
 
-			if not WANDOOS_magic_goal_reached:
-				idle_color = i.get_pixel_color(525, 350)
+			if not WANDOOS_magic_goal_reached and time_since_start() > 60:
+				idle_color = i.get_pixel_color(393, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
 					WANDOOS_magic_goal_reached = True
@@ -156,21 +146,13 @@ def Nov_SpeedRun_Two(duration, counter):
 			if WANDOOS_magic_goal_reached:
 				feature.assign_ngu(1e12, [3], magic=True)
 
-			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5,6,8], [43,19,19,7], activate=True)
-				Digger_Activated = True
 
-
-	debugScreenShot("aug2", counter)
+	debugScreenShot("aug", counter)
 	debugScreenShot("blood", counter)
 	debugScreenShot("wandoos", counter)
-	
-	aaa = i.get_bitmap()
-	aaa.save("Pic\\money_" + str(counter) + ".png")
-	
-	feature.NOV_boost_equipment("weapon")
+
+	feature.NOV_boost_equipment("boots")
 	feature.NOV_boost_equipment("cube")
-	
 	
 	if Digger_Activated:
 		feature.gold_diggers([2,5,6,8], deactivate=True)
@@ -179,7 +161,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
-	feature.pit(value=1e21)
+	feature.pit(value=1e24)
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
@@ -189,8 +171,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	debugScreenShot("rebirth", counter)
 	
 	while time.time() < end:
-		time.sleep(0.1)
-	
+		time.sleep(0.1)	
 	
 
 
