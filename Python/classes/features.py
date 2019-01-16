@@ -702,6 +702,9 @@ class Features(Navigation, Inputs):
 
 		Keyword arguments:
 		targets -- Array of diggers to use from 1-12. Example: [1, 2, 3, 4, 9].
+		targetValues -- Array of digger-Levels to enter, 1-999. Example: [1, 2, 3, 4, 9].
+						corresponding with the digger target from targets.
+						enter -1 if it should let it stay on the preexisting level
 		activate -- Set to True if you wish to activate/deactivate these
 					diggers otherwise it will just try to up the cap.
 		"""
@@ -712,10 +715,11 @@ class Features(Navigation, Inputs):
 			diggerValue = targetValues[i]
 			page = ((diggerTarget-1)//4)
 			item = diggerTarget - (page * 4)
-
-			self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
-			self.click(ncon.DIG_CAP[item]["x"] - 110, ncon.DIG_CAP[item]["y"])
-			self.NOV_send_text(str(diggerValue))
+			
+			if diggerValue == -1:
+				self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
+				self.click(ncon.DIG_CAP[item]["x"] - 110, ncon.DIG_CAP[item]["y"])
+				self.NOV_send_text(str(diggerValue))
 			if activate:
 				self.click(ncon.DIG_ACTIVE[item]["x"], ncon.DIG_ACTIVE[item]["y"])
 

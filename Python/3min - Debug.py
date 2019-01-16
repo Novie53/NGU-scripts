@@ -129,7 +129,9 @@ def Nov_SpeedRun_Two(duration, counter):
 				#i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
 				TM_Done = True
 
-
+			if not Digger_Activated:
+				feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
+				Digger_Activated = True
 			
 			feature.wandoos(True)
 
@@ -151,9 +153,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			if WANDOOS_magic_goal_reached:
 				feature.assign_ngu(1e12, [3], magic=True)
 
-			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5,6,8], [43,19,19,7], activate=True)
-				Digger_Activated = True
+
 
 
 	debugScreenShot("aug2", counter)
