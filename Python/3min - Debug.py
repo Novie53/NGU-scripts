@@ -18,10 +18,10 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  3: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
 				  4: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  5: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
-				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 5},
+				  6: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": LOWEST_SLEEP_TO_KILL},
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 6 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 SCREENSHOT_BOOLEAN = {"aug1" : {"Use" : False, "Menu" : "augmentations"},
 					  "aug2" : {"Use" : True, "Menu" : "augmentations"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
@@ -135,13 +135,13 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.wandoos(True)
 
 			if not WANDOOS_energy_goal_reached:
-				idle_color = i.get_pixel_color(525, 250)
+				idle_color = i.get_pixel_color(355, 250)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "59CF81":
 					WANDOOS_energy_goal_reached = True
 
 			if not WANDOOS_magic_goal_reached:
-				idle_color = i.get_pixel_color(525, 350)
+				idle_color = i.get_pixel_color(355, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
 					WANDOOS_magic_goal_reached = True
@@ -212,6 +212,7 @@ c = Challenge()
 ScriptStart = time.time()
 runCounter = 0
 while True:
+	'''
 	before = time.time()
 	c.start_challenge(7)
 	duration = time.time() - before # sec
@@ -230,6 +231,7 @@ while True:
 	min = min if min > 9 else "0" + str(min)
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
+	'''
 
-	#Nov_SpeedRun_Two(3, runCounter)
-	#runCounter += 1
+	Nov_SpeedRun_Two(3, runCounter)
+	runCounter += 1
