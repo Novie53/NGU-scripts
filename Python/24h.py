@@ -15,7 +15,7 @@ import os
 
 TITANS = {#"GRB": {"LootGear": False, "KillTime": 0},
 		  #"GCT": {"LootGear": False, "KillTime": 0},
-		  "jake": {"LootGear": True, "KillTime": 0},
+		  #"jake": {"LootGear": True, "KillTime": 0},
 		  #"UUG": {"LootGear": True, "KillTime": 0},
 		  "walderp": {"LootGear": True, "KillTime": 0},
 		  "BEAST1": {"LootGear": True, "KillTime": 0}}
@@ -108,7 +108,7 @@ nav.menu("inventory")
 
 
 #settings
-FarmInZoneDuration = 180
+FarmInZoneDuration = 120
 
 
 
@@ -127,7 +127,8 @@ while True:
 	
 	tempZoneDuration = FarmInZoneDuration - durationOffset
 	before = time.time()
-	feature.snipe_hard(19, tempZoneDuration, highest=False, mobs=1, attackType=1)	# Equipment sniping
+	feature.snipe_hard(18, tempZoneDuration, highest=False, mobs=1, attackType=2)	# Equipment sniping
+	#feature.snipe_hard(19, tempZoneDuration, highest=False, mobs=1, attackType=1)	# Equipment sniping
 	durationOffsetTotal += (time.time() - before) - tempZoneDuration
 	durationOffsetCount += 1
 	durationOffset = round(durationOffsetTotal / durationOffsetCount, 2)
@@ -137,9 +138,9 @@ while True:
 	feature.merge_inventory(12) #mergar de första 25 slotsen
 	
 	#feature.boost_inventory(1)
-	#feature.boost_equipment() #boostar också Cube
-	feature.NOV_boost_equipment("legs")
-	feature.NOV_boost_equipment("cube")
+	feature.boost_equipment() #boostar också Cube
+	#feature.NOV_boost_equipment("legs")
+	#feature.NOV_boost_equipment("cube")
 	
 	feature.ygg()
 	feature.pit()
