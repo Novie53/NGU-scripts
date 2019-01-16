@@ -716,10 +716,10 @@ class Features(Navigation, Inputs):
 			page = ((diggerTarget-1)//4)
 			item = diggerTarget - (page * 4)
 			
+			self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
 			if diggerValue != -1:
-				self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
 				self.click(ncon.DIG_CAP[item]["x"] - 110, ncon.DIG_CAP[item]["y"])
-				self.NOV_send_text(str(diggerValue))
+				self.NOV_send_text(diggerValue)
 			if activate:
 				self.click(ncon.DIG_ACTIVE[item]["x"], ncon.DIG_ACTIVE[item]["y"])
 
