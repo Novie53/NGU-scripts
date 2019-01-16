@@ -22,11 +22,11 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
-SCREENSHOT_BOOLEAN = {"aug1" : {"Use" : False, "Menu" : "augmentations"},
-					  "aug2" : {"Use" : False, "Menu" : "augmentations"},
-					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
-					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
-					  "rebirth" : {"Use" : False}}
+SCREENSHOT_BOOLEAN = {"aug1" : {"Use" : True, "Menu" : "augmentations"},
+					  "aug2" : {"Use" : True, "Menu" : "augmentations"},
+					  "blood" : {"Use" : True, "Menu" : "bloodmagic"},
+					  "wandoos" : {"Use" : True, "Menu" : "wandoos"},
+					  "rebirth" : {"Use" : True}}
 
 
 
@@ -90,9 +90,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.7)
 	feature.adventure(highest=True)
-	feature.time_machine(39e6, magic=True)
-	feature.augments({"CI": 1}, 26e6)
-	feature.augments({"ML": 1}, 13e6)
+	feature.time_machine(50e6, magic=True)
+	feature.augments({"CI": 1}, 22e6)
+	feature.augments({"ML": 1}, 11e6)
 
 	while time.time() < (end - 14): 
 		feature.nuke()
@@ -130,10 +130,10 @@ def Nov_SpeedRun_Two(duration, counter):
 				Aug_Assigned = True
 			
 			if not Blood_Assigned:
-				feature.blood_magic(5)
-				nav.input_box()
-				i.NOV_send_text(25.1e6)
-				i.click(ncon.BMX - 75, ncon.BMY[5])
+				feature.blood_magic(6)
+				#nav.input_box()
+				#i.NOV_send_text(25.1e6)
+				#i.click(ncon.BMX - 75, ncon.BMY[5])
 				Blood_Assigned = True
 			
 			feature.wandoos(True)
