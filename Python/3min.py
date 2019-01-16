@@ -24,8 +24,8 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 SCREENSHOT_BOOLEAN = {"aug1" : {"Use" : False, "Menu" : "augmentations"},
 					  "aug2" : {"Use" : True, "Menu" : "augmentations"},
-					  "blood" : {"Use" : True, "Menu" : "bloodmagic"},
-					  "wandoos" : {"Use" : True, "Menu" : "wandoos"},
+					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
+					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
 					  "rebirth" : {"Use" : True}}
 
 
@@ -94,7 +94,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.augments({"CI": 1}, 24e6)
 	feature.augments({"ML": 1}, 12e6)
 
-	while time.time() < (end - 14): 
+	while time.time() < (end - 13): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
@@ -186,10 +186,12 @@ def Nov_SpeedRun_Two(duration, counter):
 	#u.em()
 	#tracker.adjustxp()
 	
+	debugScreenShot("rebirth", counter)
+	
 	while time.time() < end:
 		time.sleep(0.1)
 	
-	debugScreenShot("rebirth", counter)
+	
 
 
 w = Window()
