@@ -163,8 +163,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
-	#u.em()
-	#tracker.adjustxp()
+
 	
 	debugScreenShot("rebirth", counter)
 	
@@ -179,7 +178,7 @@ feature = Features()
 
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
-u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magic caps
+u = Upgrade(37500, 37500, 2.6, 2.6, 3) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
 tracker = Tracker(3)		#Progress tracker int val = tid för run
 
@@ -199,4 +198,7 @@ while True:
 	Basic Loot filter : OFF
 	"""
 	Nov_SpeedRun_Two(3, runCounter)
+	if runCounter % 20 == 0:
+		u.em()
+		tracker.adjustxp()
 	runCounter += 1
