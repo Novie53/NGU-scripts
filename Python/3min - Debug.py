@@ -135,7 +135,7 @@ def Nov_SpeedRun_Two(duration, counter):
 				if idle_color == "59CF81":
 					WANDOOS_energy_goal_reached = True
 
-			if not WANDOOS_magic_goal_reached:
+			if not WANDOOS_magic_goal_reached and time_since_start() > 60:
 				idle_color = i.get_pixel_color(393, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
@@ -152,7 +152,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	debugScreenShot("blood", counter)
 	debugScreenShot("wandoos", counter)
 
-	feature.NOV_boost_equipment("weapon")
+	feature.NOV_boost_equipment("boots")
 	feature.NOV_boost_equipment("cube")
 	
 	if Digger_Activated:
