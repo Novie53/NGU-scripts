@@ -125,8 +125,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			if not Aug_Assigned:
 				debugScreenShot("aug1", counter)
 
-				feature.augments({"CI": 1}, 86e6)
-				feature.augments({"ML": 1}, 44e6)
+				feature.augments({"CI": 1}, 87e6)
+				feature.augments({"ML": 1}, 45e6)
 				Aug_Assigned = True
 			
 			if not Blood_Assigned:
