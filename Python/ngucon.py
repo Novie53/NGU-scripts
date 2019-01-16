@@ -350,6 +350,8 @@ DIG_PAGEX = [340, 405, 470]
 DIG_PAGEY = 110
 DIG_ACTIVE = {1: {"x": 340, "y": 240}, 2: {"x": 655, "y": 240}, 3: {"x": 340, "y": 430}, 4: {"x": 655, "y": 430}} 
 DIG_CAP = {1: {"x": 550, "y": 185}, 2: {"x": 865, "y": 185}, 3: {"x": 550, "y": 375}, 4: {"x": 865, "y": 375}}
+DIG_DEACTIVATE_ALL_X = 850
+DIG_DEACTIVATE_ALL_Y = 110
 
 
 #EXP COSTS PER UNIT

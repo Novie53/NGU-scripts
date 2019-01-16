@@ -449,8 +449,7 @@ class Features(Navigation, Inputs):
 				if currentMoney < value:
 					self.reclaim_all_magic()
 					self.reclaim_all_energy()
-					self.menu("digger")
-					self.click(825, 110) #deactivate all digger
+					self.deactivate_all_diggers()
 					self.time_machine(1e12, magic=True)
 					print("Waiting on Money Pit")
 					self.menu("pit")
@@ -570,6 +569,7 @@ class Features(Navigation, Inputs):
 		
 			self.reclaim_all_magic()
 			self.reclaim_all_energy()
+			self.deactivate_all_diggers()
 			
 			start = time.time()
 			self.blood_magic(8)
@@ -594,7 +594,7 @@ class Features(Navigation, Inputs):
 				duration = userset.PILL
 
 			while time.time() < start + duration:
-				#self.gold_diggers([11])
+				self.gold_diggers([11])
 				time.sleep(5)
 			self.spells()
 			self.click(ncon.BMPILLX, ncon.BMPILLY)
@@ -697,6 +697,7 @@ class Features(Navigation, Inputs):
 		for i in targets:
 			self.click(ncon.NGU_PLUSX, ncon.NGU_PLUSY + i * 35)
 
+
 	def NOV_gold_diggers(self, targets, targetValues, activate=False):
 		"""Activate diggers.
 
@@ -740,6 +741,11 @@ class Features(Navigation, Inputs):
 				self.click(ncon.DIG_ACTIVE[item]["x"], ncon.DIG_ACTIVE[item]["y"])
 			else:
 				self.click(ncon.DIG_CAP[item]["x"], ncon.DIG_CAP[item]["y"])
+
+	def deactivate_all_diggers(self):
+		self.menu("digger")
+		self.click(ncon.DIG_DEACTIVATE_ALL_X, ncon.DIG_DEACTIVATE_ALL_Y)
+
 
 	def bb_ngu(self, value, targets, overcap=1, magic=False):
 		"""Estimates the BB value of each supplied NGU.
