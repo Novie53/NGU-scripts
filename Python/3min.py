@@ -10,7 +10,6 @@ from classes.window import Window
 import ngucon as ncon
 import time
 
-
 LOWEST_SLEEP_TO_KILL = 3.40
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -26,7 +25,6 @@ SCREENSHOT_BOOLEAN = {"aug" : {"Use" : True, "Menu" : "augmentations"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
 					  "rebirth" : {"Use" : False}}
-
 
 
 def debugScreenShot(name, counter):
@@ -101,14 +99,14 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
 
-		if not Blood_Assigned and time_since_start() > 25:
+		if not Blood_Assigned and time_since_start() > 20:
 			feature.blood_magic(6)
 			#nav.input_box()
 			#i.NOV_send_text(20e6)
 			#i.click(ncon.BMX - 75, ncon.BMY[6])
 			Blood_Assigned = True
 
-		if not Aug_Assigned and time_since_start() > 25:
+		if not Aug_Assigned and time_since_start() > 20:
 			feature.augments({"CI": 1}, 95e6)
 			feature.augments({"ML": 1}, 46e6)
 			Aug_Assigned = True
@@ -173,7 +171,6 @@ def Nov_SpeedRun_Two(duration, counter):
 	while time.time() < end:
 		time.sleep(0.1)	
 	
-
 
 w = Window()
 i = Inputs()
