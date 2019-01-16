@@ -152,14 +152,14 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.NOV_boost_equipment("boots")
 	feature.NOV_boost_equipment("cube")
 	
-	if Digger_Activated:
-		feature.gold_diggers([2,5,6,8], deactivate=True)
+	feature.pit(value=1e24)
 	feature.speedrun_bloodpill()
+	
+	feature.deactivate_all_diggers()
 	feature.gold_diggers([3])
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
-	feature.pit(value=1e24)
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
