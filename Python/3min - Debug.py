@@ -175,7 +175,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
-	feature.pit(value=1e21)
+	feature.pit(value=1e24)
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
@@ -208,8 +208,8 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
 
-c = Challenge()
-ScriptStart = time.time()
+#c = Challenge()
+#ScriptStart = time.time()
 runCounter = 0
 while True:
 	'''
