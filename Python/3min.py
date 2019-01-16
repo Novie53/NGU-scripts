@@ -89,7 +89,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.augments({"CI": 1}, 24e6)
 	feature.augments({"ML": 1}, 12e6)
 
-	while time.time() < (end - 13): 
+	while time.time() < (end - 12): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
