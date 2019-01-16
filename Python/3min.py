@@ -26,7 +26,7 @@ SCREENSHOT_BOOLEAN = {"aug1" : {"Use" : False, "Menu" : "augmentations"},
 					  "aug2" : {"Use" : True, "Menu" : "augmentations"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
-					  "rebirth" : {"Use" : True}}
+					  "rebirth" : {"Use" : False}}
 
 
 
@@ -125,15 +125,15 @@ def Nov_SpeedRun_Two(duration, counter):
 			if not Aug_Assigned:
 				debugScreenShot("aug1", counter)
 
-				feature.augments({"CI": 1}, 87e6)
-				feature.augments({"ML": 1}, 45e6)
+				feature.augments({"CI": 1}, 89e6)
+				feature.augments({"ML": 1}, 46e6)
 				Aug_Assigned = True
 			
 			if not Blood_Assigned:
 				feature.blood_magic(6)
-				#nav.input_box()
-				#i.NOV_send_text(25.1e6)
-				#i.click(ncon.BMX - 75, ncon.BMY[5])
+				nav.input_box()
+				i.NOV_send_text(25e6)
+				i.click(ncon.BMX - 75, ncon.BMY[6])
 				Blood_Assigned = True
 			
 			feature.wandoos(True)
