@@ -205,7 +205,8 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
 
-
+#2,5,6,8
+#43,19,19,7
 
 #c = Challenge()
 #ScriptStart = time.time()
