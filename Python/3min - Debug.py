@@ -80,9 +80,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	Digger_Activated = False
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
-	
-	testVar = 0
-	
+		
 	feature.do_rebirth()
 	start = time.time()
 	end = time.time() + (duration * 60)
@@ -123,16 +121,12 @@ def Nov_SpeedRun_Two(duration, counter):
 				nav.menu("timemachine")
 				i.click(570,235)
 				i.click(570,335)
-				
-				#nav.input_box()
-				#i.NOV_send_text(20e6)
-				#i.click(ncon.TMSPEEDX, ncon.TMSPEEDY)
 				TM_Done = True
 
 			if not Digger_Activated:
 				feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
 				Digger_Activated = True
-			
+
 			feature.wandoos(True)
 
 			if not WANDOOS_energy_goal_reached:
@@ -154,18 +148,12 @@ def Nov_SpeedRun_Two(duration, counter):
 				feature.assign_ngu(1e12, [3], magic=True)
 
 
-
-
 	debugScreenShot("aug2", counter)
 	debugScreenShot("blood", counter)
 	debugScreenShot("wandoos", counter)
-	
-	aaa = i.get_bitmap()
-	aaa.save("Pic\\money_" + str(counter) + ".png")
-	
+
 	feature.NOV_boost_equipment("weapon")
 	feature.NOV_boost_equipment("cube")
-	
 	
 	if Digger_Activated:
 		feature.gold_diggers([2,5,6,8], deactivate=True)
