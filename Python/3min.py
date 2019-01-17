@@ -127,13 +127,13 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.wandoos(True)
 
 			if not WANDOOS_energy_goal_reached:
-				idle_color = i.get_pixel_color(426, 250)
+				idle_color = i.get_pixel_color(525, 250)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "59CF81":
 					WANDOOS_energy_goal_reached = True
 
 			if not WANDOOS_magic_goal_reached and time_since_start() > 60:
-				idle_color = i.get_pixel_color(393, 350)
+				idle_color = i.get_pixel_color(426, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
 					WANDOOS_magic_goal_reached = True
