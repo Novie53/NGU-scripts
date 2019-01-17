@@ -16,16 +16,48 @@ class Level(Features):
 	target level on all used augments and time machine, as well as disabling
 	all beards before running.
 	"""
+	LOWEST_SLEEP_TO_KILL = 3.7
+	ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sleep": LOWEST_SLEEP_TO_KILL},
+					  1: {"name": "The Sky", "boss": 48, "floor": 5, "sleep": LOWEST_SLEEP_TO_KILL},
+					  2: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
+					  3: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
+					  4: {"name": "The 2D Universe", "boss": 74, "floor": 10, "sleep": LOWEST_SLEEP_TO_KILL},
+					  5: {"name": "Ancient Battlefield", "boss": 82, "floor": 11, "sleep": LOWEST_SLEEP_TO_KILL},
+					  6: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
+					  7: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": 8},
+					  8: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": 9}}
+	MAX_KILL_ADVENTURE_ZONE = 5 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
 	def intTryParse(value):
 		try:
 			return int(value)
 		except ValueError:
 			return 0
-	
-	
-	
-	
+
+	def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
+		room = 0
+		newBossToKill = False
+
+		for i in range(MAX_KILL_ADVENTURE_ZONE,-1,-1):
+			if GoldClearLevels >= i:
+				break
+			if currentBoss > ADVENTURE_ZONE[i]["boss"]:
+				highestBoss = currentBoss < ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
+				
+				feature.loadout(1)  # Gold drop equipment
+				if timeSinceStart >= 100: #before 100sec the game does not have the ability to manually attack
+					feature.snipe(ADVENTURE_ZONE[i]["floor"], 999, once=True, highest=highestBoss, bosses=True)
+				else:
+					feature.adventure(zone=ADVENTURE_ZONE[i]["floor"], highest=highestBoss)
+					time.sleep(ADVENTURE_ZONE[i]["sleep"])
+				feature.loadout(2)  # Bar/power equimpent
+
+				return True, i
+		return False, 0
+
+
+
+
 	def first_rebirth(self, duration, phase = 1):
 		"""Procedure for first rebirth after number reset."""
 		start = time.time()
@@ -36,25 +68,55 @@ class Level(Features):
 		TM_assigned = False
 		Blood_assigned = False
 
-		
-		self.menu("beard")
-		self.click(450, 230)#Disable all beards
-		if phase == 1:
-			self.click(313, 319)#Select Beard 1
-			self.click(316, 234)#Activate selected beard
 
+		self.nuke()
+		time.sleep(1)
 		self.loadout(1)
+		self.adventure(highest=True)
 		
 		while time.time() < (end - 5):
 			self.nuke()
 			self.fight()
 			currentBoss = Level.intTryParse(self.get_current_boss())
 
-			if (GoldClearLevels == 0 and currentBoss > 7) or (GoldClearLevels == 1 and currentBoss > 17) \
-				or (GoldClearLevels == 2 and currentBoss > 37) or (GoldClearLevels == 3 and currentBoss > 48):
-				self.adventure(highest=True)
-				GoldClearLevels += 1
+			if currentBoss > 37:
+				var1, var2 = Level.kill_bosses(currentBoss, 0, GoldClearLevels)
+				if var1:
+					#self.adventure(itopod=True, itopodauto=True)
+					GoldClearLevels = var2
 
+			if currentBoss > 30 and not TM_assigned:
+				self.menu("timemachine")
+				self.click(685, 235)#Energy
+				self.NOV_send_text(35)
+				self.click(685, 335)#Magic
+				self.NOV_send_text(35)
+				self.click(10, 10)#defocus magic textbox
+				
+				self.reclaim_all_energy()
+				self.reclaim_all_magic()
+				
+				self.loadout(2)
+				
+				self.time_machine(1e12, magic=True)
+				TM_assigned = True
+
+			if TM_assigned:
+				self.gold_diggers([3])
+
+			if currentBoss > 24 and augment_assigned == 0:
+				self.menu("augmentations")
+				self.click(630, 260 + 70 * 3)#SM
+				self.NOV_send_text(2)
+				self.click(630, 260 + 70 * 4)#EB
+				self.NOV_send_text(8)
+				
+				self.augments({"SM": 1}, 100e6)
+				augment_assigned += 1
+			elif TM_assigned and augment_assigned == 1:
+				self.augments({"EB": 1}, 100e6)
+				augment_assigned += 1
+			"""
 			if phase < 2:
 				if currentBoss > 17 and augment_assigned <= 0:
 					self.menu("augmentations")
@@ -96,53 +158,27 @@ class Level(Features):
 				elif currentBoss > 28 and augment_assigned == 1:
 					self.augments({"EB": 1}, 40e6)
 					augment_assigned += 1
+			"""
 
-			if currentBoss > 30 and not TM_assigned:
-				self.menu("timemachine")
-				self.click(685, 235)#Energy
-				self.NOV_send_text(40)
-				self.click(685, 335)#Magic
-				self.NOV_send_text(40)
-				self.click(10, 10)#defocus magic textbox
-				
-				if phase < 2:
-					self.reclaim_all_energy()
-					self.reclaim_all_magic()
-				
-				self.time_machine(1e9, magic=True)
-				TM_assigned = True
-				
-				#time.sleep(2)
-				#self.NOV_gold_diggers([3], [1], True)
-				
-				if phase < 2:
-					self.click(630, 260 + 70 * 4)#EB
-					self.NOV_send_text(0)
-					self.augments({"EB": 1}, 10e6)
 
-			#if TM_assigned:
-			#	self.gold_diggers([3])
-
-			if phase < 2:
-				self.assign_ngu(1e9, [1])
-				self.assign_ngu(1e9, [1], magic=True)
-
+			"""
 			if currentBoss > 37 and not Blood_assigned:
 				self.reclaim_all_magic()
 				self.menu("bloodmagic")
 				self.click(ncon.BMX, ncon.BMY[3])
 				Blood_assigned = True
+			"""
 
 		#self.reclaim_all_magic()
 		#self.reclaim_all_energy()
 		
 		self.menu("augmentations")
-		self.click(630, 260 + 70 * 0)#SS
-		self.NOV_send_text(-1)
-		self.click(630, 260 + 70 * 1)#MI
-		self.NOV_send_text(-1)
-		self.click(630, 260 + 70 * 2)#CI
-		self.NOV_send_text(-1)
+		#self.click(630, 260 + 70 * 0)#SS
+		#self.NOV_send_text(-1)
+		#self.click(630, 260 + 70 * 1)#MI
+		#self.NOV_send_text(-1)
+		#self.click(630, 260 + 70 * 2)#CI
+		#self.NOV_send_text(-1)
 		self.click(630, 260 + 70 * 3)#SM
 		self.NOV_send_text(-1)
 		self.click(630, 260 + 70 * 4)#EB
@@ -190,6 +226,30 @@ class Level(Features):
 		
 	def lc(self):
 		"""Handle LC run."""
+		
+		"""
+			Disabla bears
+			sätt -1 i alla augments
+			wandoos MEH
+			stäng av blood auto gold
+		
+		"""
+		"""
+		self.menu("beard")
+		self.click(450, 230)#Disable all beards
+		
+		self.menu("augmentations")
+		self.click(630, 260 + 70 * 0)#SS
+		self.NOV_send_text(-1)
+		self.click(630, 260 + 70 * 1)#MI
+		self.NOV_send_text(-1)
+		self.click(630, 260 + 70 * 2)#CI
+		self.NOV_send_text(-1)
+		self.click(630, 260 + 70 * 3)#SM
+		self.NOV_send_text(-1)
+		self.click(630, 260 + 70 * 4)#EB
+		self.NOV_send_text(-1)
+		"""		
 		
 		self.first_rebirth(3)
 		self.printScreen(1)
