@@ -58,7 +58,7 @@ class Level(Features):
 
 
 
-	def first_rebirth(self, duration, phase = 1):
+	def first_rebirth(self, duration, counter):
 		"""Procedure for first rebirth after number reset."""
 		start = time.time()
 		end = time.time() + (duration * 60)
@@ -66,8 +66,7 @@ class Level(Features):
 		currentBoss = 0
 		GoldClearLevels = 0 #1=Sewers,2=Forest
 		TM_assigned = False
-		Blood_assigned = False
-
+		tempVar = 0
 
 		self.nuke()
 		time.sleep(1)
@@ -116,7 +115,9 @@ class Level(Features):
 			elif TM_assigned and augment_assigned == 1:
 				self.augments({"EB": 1}, 100e6)
 				augment_assigned += 1
-			"""
+
+
+				"""
 			if phase < 2:
 				if currentBoss > 17 and augment_assigned <= 0:
 					self.menu("augmentations")
@@ -160,7 +161,14 @@ class Level(Features):
 					augment_assigned += 1
 			"""
 
-
+			if counter == 1 and tempVar == 0 and (time.time() - start) > 120:
+				self.gold_diggers([2])
+				self.reclaim_all_energy()
+				self.reclaim_all_magic()
+				self.wandoos(True)
+				tempVar += 1
+			
+			
 			"""
 			if currentBoss > 37 and not Blood_assigned:
 				self.reclaim_all_magic()
@@ -169,8 +177,15 @@ class Level(Features):
 				Blood_assigned = True
 			"""
 
-		#self.reclaim_all_magic()
-		#self.reclaim_all_energy()
+		self.reclaim_all_energy()
+		self.reclaim_all_magic()
+		
+		if currentBoss > 37:
+			self.menu("bloodmagic")
+			self.click(ncon.BMX, ncon.BMY[3])
+			time.sleep(0.25)
+			self.reclaim_all_magic()
+			input("inputAbc")
 		
 		self.menu("augmentations")
 		#self.click(630, 260 + 70 * 0)#SS
@@ -184,26 +199,20 @@ class Level(Features):
 		self.click(630, 260 + 70 * 4)#EB
 		self.NOV_send_text(-1)
 		
-		if TM_assigned:
-			self.menu("timemachine")
-			self.click(685, 235)#Energy
-			self.NOV_send_text(0)
-			self.click(685, 335)#Magic
-			self.NOV_send_text(0)	
+		self.menu("timemachine")
+		self.click(685, 235)#Energy
+		self.NOV_send_text(0)
+		self.click(685, 335)#Magic
+		self.NOV_send_text(0)
 		
-		self.menu("beard")
-		self.click(450, 230)#Disable all beards
-		
-		if phase == 1:
-			self.wandoos(True)
-		else:
-			self.gold_diggers([3], True)
+		self.wandoos(True)
 
 		self.nuke()
 		time.sleep(0.5)
 		for i in range(5):
 			self.fight()
-			time.sleep(0.5)
+			time.sleep(0.2)
+		input("herp50")
 
 		while time.time() < end:
 			time.sleep(0.1)
@@ -232,40 +241,15 @@ class Level(Features):
 			sätt -1 i alla augments
 			wandoos MEH
 			stäng av blood auto gold
-		
 		"""
-		"""
-		self.menu("beard")
-		self.click(450, 230)#Disable all beards
 		
-		self.menu("augmentations")
-		self.click(630, 260 + 70 * 0)#SS
-		self.NOV_send_text(-1)
-		self.click(630, 260 + 70 * 1)#MI
-		self.NOV_send_text(-1)
-		self.click(630, 260 + 70 * 2)#CI
-		self.NOV_send_text(-1)
-		self.click(630, 260 + 70 * 3)#SM
-		self.NOV_send_text(-1)
-		self.click(630, 260 + 70 * 4)#EB
-		self.NOV_send_text(-1)
-		"""		
-		
-		self.first_rebirth(3)
+		self.first_rebirth(3, 1)
 		self.printScreen(1)
 		
-		self.do_rebirth()
-		self.first_rebirth(3, phase = 1.25)
-		self.printScreen(2)
-		
-		self.do_rebirth()
-		self.first_rebirth(3)
-		self.printScreen(3)
-		
-		counter = 4
+		counter = 2
 		while True:
 			self.do_rebirth()
-			self.first_rebirth(3, phase = 2)
+			self.first_rebirth(3, counter)
 			self.printScreen(counter)
 			counter += 1
 			if not self.check_challenge():
