@@ -173,8 +173,6 @@ def Nov_SpeedRun_Two(duration, counter):
 	while time.time() < end:
 		time.sleep(0.1)
 	
-	
-
 
 w = Window(debug=True)
 i = Inputs()
@@ -192,16 +190,14 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
 
-#2,5,6,8
-#43,19,19,7
 
-#c = Challenge()
-#ScriptStart = time.time()
+
+c = Challenge()
+ScriptStart = time.time()
 runCounter = 0
 while True:
-	'''
 	before = time.time()
-	c.start_challenge(7)
+	c.start_challenge(4)
 	duration = time.time() - before # sec
 	runCounter += 1
 	
@@ -218,7 +214,6 @@ while True:
 	min = min if min > 9 else "0" + str(min)
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
-	'''
 
-	Nov_SpeedRun_Two(3, runCounter)
-	runCounter += 1
+	#Nov_SpeedRun_Two(3, runCounter)
+	#runCounter += 1
