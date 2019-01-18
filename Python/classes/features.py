@@ -461,6 +461,10 @@ class Features(Navigation, Inputs):
 			self.menu("pit")
 			self.click(ncon.PITX, ncon.PITY)
 			self.click(ncon.CONFIRMX, ncon.CONFIRMY)
+			
+			aaa = self.get_bitmap()
+			aaa.save("Pic\\MoneyPit_" + str(int(time.time())) + ".png")
+			
 			if loadout:
 				self.loadout(2)
 
