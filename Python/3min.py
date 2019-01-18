@@ -85,7 +85,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.7)
 	feature.adventure(highest=True)
-	feature.time_machine(60e6, magic=True)
+	feature.time_machine(1e12, magic=True)
 	feature.augments({"CI": 1}, 24e6)
 	feature.augments({"ML": 1}, 12e6)
 
@@ -107,8 +107,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			Blood_Assigned = True
 
 		if not Aug_Assigned and time_since_start() > 20:
-			feature.augments({"CI": 1}, 95e6)
-			feature.augments({"ML": 1}, 46e6)
+			feature.augments({"CI": 1}, 90e6)
+			feature.augments({"ML": 1}, 40e6)
 			Aug_Assigned = True
 
 		if (start + duration * 60 * 0.20) > time.time(): #the first 25% of the run
