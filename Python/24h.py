@@ -192,10 +192,10 @@ while True:
 
 
 	feature.merge_equipment()
-	feature.merge_inventory(8) #mergar de första 25 slotsen
+	feature.merge_inventory(12) #mergar de första 25 slotsen
 	
-	#feature.boost_inventory(1)
-	feature.boost_equipment() #boostar också Cube
+	feature.boost_equipment(cube=False) #boostar också Cube
+	feature.boost_inventory(3)
 	#feature.NOV_boost_equipment("legs")
 	#feature.NOV_boost_equipment("cube")
 	
