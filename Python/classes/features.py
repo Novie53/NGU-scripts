@@ -266,7 +266,7 @@ class Features(Navigation, Inputs):
 		return queue
 
 #----- Main Functions -----
-	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0, attackType=0):
+	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0, attackType=0, forceStay=False):
 		"""
 			Keyword arguments:
 			zone = the zone where you want to snipe unless you set highest to True
@@ -275,15 +275,17 @@ class Features(Navigation, Inputs):
 			highest = if True will go to the highest zone
 			mobs = 0=All Mobs, 1=Only bosses, 2=All execpt Bosses
 			attackType = 0=All skills, 1=Only attack skills and buffs, 2=ONLY BASIC attack
+			forceStay = if true will force adventure to stay in zone to save kill count for macguffin
 		"""
 		
 		if attackType == 2:
 			mobs = 0
-		self.adventure(zone=zone, highest=highest)
+		if not forceStay:
+			self.adventure(zone=zone, highest=highest)
 		end = time.time() + duration
 		while time.time() < end:
 			self._Set_IdleAttack_State(False)
-			if self._Lick_Wounds():
+			if not forceStay and self._Lick_Wounds():
 				self.adventure(zone=zone, highest=highest)
 
 			if self._Is_Mob_Alive():
@@ -298,7 +300,7 @@ class Features(Navigation, Inputs):
 						self._Manual_Kill(onlyAttack = attackBool)
 					if once:
 						break
-				else:
+				elif not forceStay:
 					# Send left arrow and right arrow to refresh monster.
 					win32gui.PostMessage(Window.id, wcon.WM_KEYDOWN, wcon.VK_LEFT, 0)
 					time.sleep(0.04)
@@ -430,9 +432,7 @@ class Features(Navigation, Inputs):
 				   sure that you don't get cap-blocked by either using
 				   the unassign setting in the game or swapping gear that
 				   doesn't have e/m cap.
-		"""
-		
-		
+		"""		
 		def _ocr():
 			try:
 				return float((self.ocr(15, 320, 140, 350)).replace(" ",""))
@@ -461,10 +461,6 @@ class Features(Navigation, Inputs):
 			self.menu("pit")
 			self.click(ncon.PITX, ncon.PITY)
 			self.click(ncon.CONFIRMX, ncon.CONFIRMY)
-			
-			aaa = self.get_bitmap()
-			aaa.save("Pic\\MoneyPit_" + str(int(time.time())) + ".png")
-			
 			if loadout:
 				self.loadout(2)
 
