@@ -278,6 +278,8 @@ class Features(Navigation, Inputs):
 			forceStay = if true will force adventure to stay in zone to save kill count for macguffin
 		"""
 		
+		self.menu("adventure")
+		self.click(10, 10)
 		if attackType == 2:
 			mobs = 0
 		if not forceStay:
