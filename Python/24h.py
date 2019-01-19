@@ -80,36 +80,13 @@ def kill_Titans_Two(timeToWait):
 			feature.assign_ngu(1e12, [3], magic=True)
 			time.sleep(2)
 
+	NotInFarmZone = False
 	for x in ManualKillList:
+		NotInFarmZone = True
+		print("Manually killing " + x)
 		while int(TITANS[x]["KillTime"] - time.time()) <= timeToWait:
 			createTimeStamp(x, feature.kill_titan(x))
-		DropChanceEquipment = False
-		LetsKillSomeBitches = False
-		KillList = []
-	
-
-
-		if LetsKillSomeBitches:
-			if DropChanceEquipment:
-				print("Equipping loot gear")
-				nav.reclaim_all_magic()
-				nav.reclaim_all_energy()
-				feature.loadout(3) #Equip dropchance Gear
-
-			for x in KillList:
-				while int(TITANS[x]["KillTime"] - time.time()) <= timeToWait:
-					createTimeStamp(x, feature.kill_titan(x))
-
-			if DropChanceEquipment:
-				print("Equipping NGU gear")
-				feature.loadout(2) #Equip EM POW Gear
-
-				for abcccccc in range(4):
-					feature.assign_ngu(1e12, [1])
-					feature.assign_ngu(1e12, [3], magic=True)
-					time.sleep(2)
-		else:
-			break
+	return NotInFarmZone
 
 def kill_Titans(timeToWait):
 	while True:
@@ -175,20 +152,17 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 
 
+while False:
+	feature.NOV_boost_equipment("chest")
+	feature.NOV_boost_equipment("legs")
+	feature.NOV_boost_equipment("weapon")
+	feature.snipe_hard(18, 120, highest=False, mobs=0, attackType=2, forceStay=True)
 
 
 #settings
 FarmInZoneDuration = 120
 NoRebirth_Challenge_Count = 14
-
-
-
-while True:
-	feature.NOV_boost_equipment("chest")
-	feature.NOV_boost_equipment("legs")
-	feature.NOV_boost_equipment("weapon")
-	feature.snipe_hard(18, 120, highest=False, mobs=0, attackType=2, forceStay=True)
-exit()
+ZoneToFarmIn = 18
 
 
 currentGearSet = 1
@@ -201,16 +175,17 @@ for x in TITANS.keys():
 	if int(TITANS[x]["KillTime"] - time.time()) <= 0:
 		print("error 23")
 		input("should not happen")
+	feature.adventure(zone=ZoneToFarmIn)
 
 while True:
 	printTimeLeftToBoss()
-	kill_Titans(FarmInZoneDuration + 30)
+	if kill_Titans_Two(FarmInZoneDuration + 30):
+		feature.adventure(zone=ZoneToFarmIn)
 
 	
 	tempZoneDuration = FarmInZoneDuration - durationOffset
 	before = time.time()
-	feature.snipe_hard(18, tempZoneDuration, highest=False, mobs=0, attackType=2, forceStay=True)	# Boost sniping
-	#feature.snipe_hard(19, tempZoneDuration, highest=False, mobs=1, attackType=1)	# Equipment sniping
+	feature.snipe_hard(ZoneToFarmIn, tempZoneDuration, mobs=0, attackType=2, forceStay=True)
 	durationOffsetTotal += (time.time() - before) - tempZoneDuration
 	durationOffsetCount += 1
 	durationOffset = round(durationOffsetTotal / durationOffsetCount, 2)
