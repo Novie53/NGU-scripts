@@ -18,7 +18,7 @@ TITANS = {#"GRB": {"LootGear": False, "KillTime": 0},
 		  #"jake": {"LootGear": True, "KillTime": 0},
 		  #"UUG": {"LootGear": True, "KillTime": 0},
 		  "walderp": {"LootGear": True, "KillTime": 0, "ManualKill":False, "BaseCoolDown":180},
-		  "BEAST1": {"LootGear": True, "KillTime": 0, "ManualKill":False, "BaseCoolDown":210}}
+		  "BEAST1": {"LootGear": True, "KillTime": 0, "ManualKill":True, "BaseCoolDown":210}}
 
 
 def clearConsole():
@@ -29,7 +29,6 @@ def createTimeStamp(TITAN, timeLeft):
 		TITANS[TITAN]["KillTime"] = time.time()
 		return
 
-
 	timeSplit = timeLeft.split(":")
 	if len(timeSplit) == 3:
 		sec = int(timeSplit[0]) * 3600 + int(timeSplit[1]) * 60 + int(timeSplit[2])
@@ -39,7 +38,79 @@ def createTimeStamp(TITAN, timeLeft):
 		sec = 0
 	
 	TITANS[TITAN]["KillTime"] = time.time() + sec
+
+def kill_Titans_Two(timeToWait):
+	DropChanceEquipment = False
+	ManualKillList = []
+
+	for BossID in TITANS.keys():
+		duration = int(TITANS[BossID]["KillTime"] - time.time())
+		
+		if (duration + 10) < 0:
+			print("boss(" + BossID + ") is (probably) already dead")
+			
+			if TITANS[BossID]["ManualKill"]:
+				print("Should never happen")
+				input("error 63")
+			else:
+				realTitanCoolDown = TITANS[BossID]["BaseCoolDown"] - 3 * NoRebirth_Challenge_Count
+				realTitanCoolDown = 60 if realTitanCoolDown < 60 else realTitanCoolDown
+				TITANS[BossID]["KillTime"] += realTitanCoolDown * 60
+		elif duration <= timeToWait:
+			print("Lets Kill: " + BossID)
+			DropChanceEquipment = DropChanceEquipment or TITANS[BossID]["LootGear"]
+			if TITANS[BossID]["ManualKill"]:
+				ManualKillList.append(BossID)
 	
+	if DropChanceEquipment and currentGearSet != 3:
+		print("Equipping loot gear")
+		nav.reclaim_all_magic()
+		nav.reclaim_all_energy()
+		feature.loadout(3) #Equip dropchance Gear
+		currentGearSet = 3
+	elif not DropChanceEquipment and currentGearSet == 3:
+		print("Equipping NGU gear")
+		nav.reclaim_all_magic()
+		nav.reclaim_all_energy()
+		feature.loadout(1) #Equip dropchance Gear
+		currentGearSet = 1
+		
+		for _ in range(5):
+			feature.assign_ngu(1e12, [1])
+			feature.assign_ngu(1e12, [3], magic=True)
+			time.sleep(2)
+
+	for x in ManualKillList:
+		while int(TITANS[x]["KillTime"] - time.time()) <= timeToWait:
+			createTimeStamp(x, feature.kill_titan(x))
+		DropChanceEquipment = False
+		LetsKillSomeBitches = False
+		KillList = []
+	
+
+
+		if LetsKillSomeBitches:
+			if DropChanceEquipment:
+				print("Equipping loot gear")
+				nav.reclaim_all_magic()
+				nav.reclaim_all_energy()
+				feature.loadout(3) #Equip dropchance Gear
+
+			for x in KillList:
+				while int(TITANS[x]["KillTime"] - time.time()) <= timeToWait:
+					createTimeStamp(x, feature.kill_titan(x))
+
+			if DropChanceEquipment:
+				print("Equipping NGU gear")
+				feature.loadout(2) #Equip EM POW Gear
+
+				for abcccccc in range(4):
+					feature.assign_ngu(1e12, [1])
+					feature.assign_ngu(1e12, [3], magic=True)
+					time.sleep(2)
+		else:
+			break
+
 def kill_Titans(timeToWait):
 	while True:
 		DropChanceEquipment = False
@@ -112,13 +183,24 @@ NoRebirth_Challenge_Count = 14
 
 
 
+while True:
+	feature.NOV_boost_equipment("chest")
+	feature.NOV_boost_equipment("legs")
+	feature.NOV_boost_equipment("weapon")
+	feature.snipe_hard(18, 120, highest=False, mobs=0, attackType=2, forceStay=True)
+exit()
 
+
+currentGearSet = 1
 durationOffset = 0
 durationOffsetTotal = 0
 durationOffsetCount = 0
 
 for x in TITANS.keys():
 	createTimeStamp(x, feature.kill_titan(x))
+	if int(TITANS[x]["KillTime"] - time.time()) <= 0:
+		print("error 23")
+		input("should not happen")
 
 while True:
 	printTimeLeftToBoss()
@@ -127,7 +209,7 @@ while True:
 	
 	tempZoneDuration = FarmInZoneDuration - durationOffset
 	before = time.time()
-	feature.snipe_hard(18, tempZoneDuration, highest=False, mobs=1, attackType=2)	# Equipment sniping
+	feature.snipe_hard(18, tempZoneDuration, highest=False, mobs=0, attackType=2, forceStay=True)	# Boost sniping
 	#feature.snipe_hard(19, tempZoneDuration, highest=False, mobs=1, attackType=1)	# Equipment sniping
 	durationOffsetTotal += (time.time() - before) - tempZoneDuration
 	durationOffsetCount += 1
@@ -135,7 +217,7 @@ while True:
 
 
 	feature.merge_equipment()
-	feature.merge_inventory(12) #mergar de första 25 slotsen
+	feature.merge_inventory(8) #mergar de första 25 slotsen
 	
 	#feature.boost_inventory(1)
 	feature.boost_equipment() #boostar också Cube
