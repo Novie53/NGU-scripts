@@ -38,19 +38,19 @@ class Level(Features):
 		room = 0
 		newBossToKill = False
 
-		for i in range(MAX_KILL_ADVENTURE_ZONE,-1,-1):
+		for i in range(Level.MAX_KILL_ADVENTURE_ZONE,-1,-1):
 			if GoldClearLevels >= i:
 				break
-			if currentBoss > ADVENTURE_ZONE[i]["boss"]:
-				highestBoss = currentBoss < ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
+			if currentBoss > Level.ADVENTURE_ZONE[i]["boss"]:
+				highestBoss = currentBoss < Level.ADVENTURE_ZONE[i + 1]["boss"] #Could be better with <= but then there is a rare bug where the game has killed one more boss since the last CurrentBoss was grabbed
 				
-				feature.loadout(1)  # Gold drop equipment
+				self.loadout(1)  # Gold drop equipment
 				if timeSinceStart >= 100: #before 100sec the game does not have the ability to manually attack
-					feature.snipe(ADVENTURE_ZONE[i]["floor"], 999, once=True, highest=highestBoss, bosses=True)
+					self.snipe(Level.ADVENTURE_ZONE[i]["floor"], 999, once=True, highest=highestBoss, bosses=True)
 				else:
-					feature.adventure(zone=ADVENTURE_ZONE[i]["floor"], highest=highestBoss)
-					time.sleep(ADVENTURE_ZONE[i]["sleep"])
-				feature.loadout(2)  # Bar/power equimpent
+					self.adventure(zone=Level.ADVENTURE_ZONE[i]["floor"], highest=highestBoss)
+					time.sleep(Level.ADVENTURE_ZONE[i]["sleep"])
+				self.loadout(2)  # Bar/power equimpent
 
 				return True, i
 		return False, 0
@@ -92,14 +92,14 @@ class Level(Features):
 			self.fight()
 			currentBoss = Level.intTryParse(self.get_current_boss())
 
-			if currentBoss > 37:
+			if currentBoss > 37 and (time.time() - start) < (duration * 60 - 45):
 				var1, var2 = Level.kill_bosses(currentBoss, 0, GoldClearLevels)
 				if var1:
 					#self.adventure(itopod=True, itopodauto=True)
 					GoldClearLevels = var2
 
 			if currentBoss > 30 and not TM_assigned:
-				self.loadout(2)				
+				#self.loadout(2)				
 			
 				self.menu("timemachine")
 				self.click(685, 235)#Energy
@@ -116,10 +116,11 @@ class Level(Features):
 				time.sleep(1)
 
 			if TM_assigned:
-				if not Wandoos_Done:
-					self.gold_diggers([3, 2])
-				else:
-					self.gold_diggers([3])
+				self.gold_diggers([3])
+				#if not Wandoos_Done:
+				#	self.gold_diggers([3, 2])
+				#else:
+				#	self.gold_diggers([3])
 				
 			if not Wandoos_Done and TM_assigned:
 				self.wandoos_amount(150e6, 150e6)
@@ -137,7 +138,7 @@ class Level(Features):
 						print("magic wandoos done")
 						m_wandoos_done = True
 				Wandoos_Done = True
-				self.NOV_gold_diggers([2], [-1], activate=True)
+				#self.NOV_gold_diggers([2], [-1], activate=True)
 
 			if currentBoss > 24 and augment_assigned == 0:
 				self.menu("augmentations")
@@ -197,26 +198,13 @@ class Level(Features):
 					augment_assigned += 1
 			"""
 
-
-			
-			
-			"""
-			if currentBoss > 37 and not Blood_assigned:
-				self.reclaim_all_magic()
-				self.menu("bloodmagic")
-				self.click(ncon.BMX, ncon.BMY[3])
-				Blood_assigned = True
-			"""
-
 		self.reclaim_all_energy()
 		self.reclaim_all_magic()
 		
 		if currentBoss > 37:
 			self.menu("bloodmagic")
 			self.click(ncon.BMX, ncon.BMY[3])
-			time.sleep(0.25)
-			self.reclaim_all_magic()
-			input("inputAbc")
+			self.click(ncon.BMX, ncon.BMY[2])
 		
 		self.menu("augmentations")
 		#self.click(630, 260 + 70 * 0)#SS
@@ -235,15 +223,13 @@ class Level(Features):
 		self.NOV_send_text(0)
 		self.click(685, 335)#Magic
 		self.NOV_send_text(0)
-		
-		self.wandoos(True)
 
 		self.nuke()
 		time.sleep(0.5)
 		for i in range(5):
 			self.fight()
 			time.sleep(0.2)
-		input("herp50")
+		input("chall4 rebirth done")
 
 		while time.time() < end:
 			time.sleep(0.1)
@@ -274,7 +260,7 @@ class Level(Features):
 			stäng av blood auto gold
 		"""
 		
-		self.first_rebirth(3, 1)
+		self.first_rebirth(4, 1)
 		self.printScreen(1)
 		
 		counter = 2
