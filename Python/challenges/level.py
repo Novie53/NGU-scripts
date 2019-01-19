@@ -34,7 +34,7 @@ class Level(Features):
 		except ValueError:
 			return 0
 
-	def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
+	def kill_bosses(self, currentBoss, timeSinceStart, GoldClearLevels):
 		room = 0
 		newBossToKill = False
 
@@ -77,7 +77,7 @@ class Level(Features):
 		end = time.time() + (duration * 60)
 		augment_assigned = 0
 		currentBoss = 0
-		GoldClearLevels = 0 #1=Sewers,2=Forest
+		GoldClearLevels = -1 #1=Sewers,2=Forest
 		TM_assigned = False
 		Wandoos_Done = False
 
@@ -92,14 +92,15 @@ class Level(Features):
 			self.fight()
 			currentBoss = Level.intTryParse(self.get_current_boss())
 
-			if currentBoss > 37 and (time.time() - start) < (duration * 60 - 45):
-				var1, var2 = Level.kill_bosses(currentBoss, 0, GoldClearLevels)
+			if currentBoss > 37 and (time.time() - start) < (duration * 60 - 30):
+				var1, var2 = self.kill_bosses(currentBoss, 0, GoldClearLevels)
 				if var1:
 					#self.adventure(itopod=True, itopodauto=True)
 					GoldClearLevels = var2
 
 			if currentBoss > 30 and not TM_assigned:
-				#self.loadout(2)				
+				if counter != 1:
+					self.loadout(2)				
 			
 				self.menu("timemachine")
 				self.click(685, 235)#Energy
@@ -123,6 +124,7 @@ class Level(Features):
 				#	self.gold_diggers([3])
 				
 			if not Wandoos_Done and TM_assigned:
+				time.sleep(2)
 				self.wandoos_amount(150e6, 150e6)
 				#self.wandoos(True)
 				
@@ -131,11 +133,9 @@ class Level(Features):
 				while not (e_wandoos_done and m_wandoos_done):
 					if not e_wandoos_done and self.wandoos_energy_lvl() >= 13:
 						self.wandoos_amount(-1e12, 0)
-						print("energy wandoos done")
 						e_wandoos_done = True
 					if not m_wandoos_done and self.wandoos_magic_lvl() >= 17:
 						self.wandoos_amount(0, -1e12)
-						print("magic wandoos done")
 						m_wandoos_done = True
 				Wandoos_Done = True
 				#self.NOV_gold_diggers([2], [-1], activate=True)
@@ -204,6 +204,7 @@ class Level(Features):
 		if currentBoss > 37:
 			self.menu("bloodmagic")
 			self.click(ncon.BMX, ncon.BMY[3])
+			time.sleep(0.2)
 			self.click(ncon.BMX, ncon.BMY[2])
 		
 		self.menu("augmentations")
@@ -229,7 +230,7 @@ class Level(Features):
 		for i in range(5):
 			self.fight()
 			time.sleep(0.2)
-		input("chall4 rebirth done")
+		#input("chall4 rebirth done")
 
 		while time.time() < end:
 			time.sleep(0.1)
@@ -260,7 +261,7 @@ class Level(Features):
 			stäng av blood auto gold
 		"""
 		
-		self.first_rebirth(4, 1)
+		self.first_rebirth(3, 1)
 		self.printScreen(1)
 		
 		counter = 2
