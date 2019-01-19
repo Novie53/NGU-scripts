@@ -245,12 +245,6 @@ class Level(Features):
 
 		return True if color == ncon.CHALLENGEACTIVECOLOR else False
 
-	def printScreen(self, counter):
-		self.rebirth()
-		self.click(10, 10)
-		aaa = self.get_bitmap()
-		aaa.save("Pic\\chall4_" + str(counter) + ".png")
-		
 	def lc(self):
 		"""Handle LC run."""
 		
@@ -262,13 +256,11 @@ class Level(Features):
 		"""
 		
 		self.first_rebirth(3, 1)
-		self.printScreen(1)
 		
 		counter = 2
 		while True:
 			self.do_rebirth()
 			self.first_rebirth(3, counter)
-			self.printScreen(counter)
 			counter += 1
 			if not self.check_challenge():
 				return
