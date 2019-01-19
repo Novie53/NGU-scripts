@@ -555,9 +555,31 @@ class Features(Navigation, Inputs):
 	def wandoos(self, magic=False):
 		"""Assign energy and/or magic to wandoos."""
 		self.menu("wandoos")
-		self.click(ncon.WANDOOSENERGYX, ncon.WANDOOSENERGYY)
+		self.click(ncon.WANDOOS_CAP_X, ncon.WANDOOS_ENERGY_BUTTONS_Y)
 		if magic:
-			self.click(ncon.WANDOOSMAGICX, ncon.WANDOOSMAGICY)
+			self.click(ncon.WANDOOS_CAP_X, ncon.WANDOOS_MAGIC_BUTTONS_Y)
+	
+	def wandoos_amount(self, e, m):
+		self.menu("wandoos")
+		if e != 0:
+			self.input_box()
+			self.NOV_send_text(abs(e))
+			if e > 0: #Add to Energy
+				self.click(ncon.WANDOOS_ADD_X, ncon.WANDOOS_ENERGY_BUTTONS_Y)
+			elif e < 0: #Reduce from Energy
+				self.click(ncon.WANDOOS_MINUS_X, ncon.WANDOOS_ENERGY_BUTTONS_Y)
+		
+		if m == 0:
+			return
+		
+		if abs(e) != abs(m): #if the value is the same for magic as energy, no need to insert the value again
+			self.input_box()
+			self.NOV_send_text(abs(m))
+			
+		if m > 0: #Add to Magic
+			self.click(ncon.WANDOOS_ADD_X, ncon.WANDOOS_MAGIC_BUTTONS_Y)
+		else: #Reduce from Magic
+			self.click(ncon.WANDOOS_MINUS_X, ncon.WANDOOS_MAGIC_BUTTONS_Y)
 
 	def loadout(self, target):
 		"""Equip targeted loadout."""
