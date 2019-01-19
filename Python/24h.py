@@ -17,8 +17,8 @@ TITANS = {#"GRB": {"LootGear": False, "KillTime": 0},
 		  #"GCT": {"LootGear": False, "KillTime": 0},
 		  #"jake": {"LootGear": True, "KillTime": 0},
 		  #"UUG": {"LootGear": True, "KillTime": 0},
-		  "walderp": {"LootGear": True, "KillTime": 0},
-		  "BEAST1": {"LootGear": True, "KillTime": 0}}
+		  "walderp": {"LootGear": True, "KillTime": 0, "ManualKill":False, "BaseCoolDown":180},
+		  "BEAST1": {"LootGear": True, "KillTime": 0, "ManualKill":False, "BaseCoolDown":210}}
 
 
 def clearConsole():
@@ -102,13 +102,13 @@ feature = Features()
 
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
-#print(w.x, w.y)
 
 
 
 
 #settings
 FarmInZoneDuration = 120
+NoRebirth_Challenge_Count = 14
 
 
 
