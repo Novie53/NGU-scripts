@@ -55,9 +55,22 @@ class Level(Features):
 				return True, i
 		return False, 0
 
+	def wandoos_energy_lvl(self):
+		try:
+			return int(self.ocr(840, 230, 880, 270))
+		except:
+			#print("Energy OCR Failed")
+			return 0
 
-
-
+	def wandoos_magic_lvl(self):
+		try:
+			return int(self.ocr(840, 330, 880, 370))
+		except:
+			#print("Magic OCR Failed")
+			return 0		
+		
+		
+		
 	def first_rebirth(self, duration, counter):
 		"""Procedure for first rebirth after number reset."""
 		start = time.time()
@@ -66,7 +79,8 @@ class Level(Features):
 		currentBoss = 0
 		GoldClearLevels = 0 #1=Sewers,2=Forest
 		TM_assigned = False
-		tempVar = 0
+		Wandoos_Done = False
+
 
 		self.nuke()
 		time.sleep(1)
@@ -85,23 +99,45 @@ class Level(Features):
 					GoldClearLevels = var2
 
 			if currentBoss > 30 and not TM_assigned:
+				self.loadout(2)				
+			
 				self.menu("timemachine")
 				self.click(685, 235)#Energy
-				self.NOV_send_text(35)
+				self.NOV_send_text(25)
 				self.click(685, 335)#Magic
-				self.NOV_send_text(35)
+				self.NOV_send_text(25)
 				self.click(10, 10)#defocus magic textbox
 				
 				self.reclaim_all_energy()
-				self.reclaim_all_magic()
-				
-				self.loadout(2)
+				self.reclaim_all_magic()				
 				
 				self.time_machine(1e12, magic=True)
 				TM_assigned = True
+				time.sleep(1)
 
 			if TM_assigned:
-				self.gold_diggers([3])
+				if not Wandoos_Done:
+					self.gold_diggers([3, 2])
+				else:
+					self.gold_diggers([3])
+				
+			if not Wandoos_Done and TM_assigned:
+				self.wandoos_amount(150e6, 150e6)
+				#self.wandoos(True)
+				
+				e_wandoos_done = False
+				m_wandoos_done = False
+				while not (e_wandoos_done and m_wandoos_done):
+					if not e_wandoos_done and self.wandoos_energy_lvl() >= 13:
+						self.wandoos_amount(-1e12, 0)
+						print("energy wandoos done")
+						e_wandoos_done = True
+					if not m_wandoos_done and self.wandoos_magic_lvl() >= 17:
+						self.wandoos_amount(0, -1e12)
+						print("magic wandoos done")
+						m_wandoos_done = True
+				Wandoos_Done = True
+				self.NOV_gold_diggers([2], [-1], activate=True)
 
 			if currentBoss > 24 and augment_assigned == 0:
 				self.menu("augmentations")
@@ -161,12 +197,7 @@ class Level(Features):
 					augment_assigned += 1
 			"""
 
-			if counter == 1 and tempVar == 0 and (time.time() - start) > 120:
-				self.gold_diggers([2])
-				self.reclaim_all_energy()
-				self.reclaim_all_magic()
-				self.wandoos(True)
-				tempVar += 1
+
 			
 			
 			"""
