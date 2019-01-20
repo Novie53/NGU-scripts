@@ -48,15 +48,9 @@ def kill_Titans_Two(timeToWait):
 		duration = int(TITANS[BossID]["KillTime"] - time.time())
 		
 		if (duration + 10) < 0:
-			print("boss(" + BossID + ") is (probably) already dead")
-			
-			if TITANS[BossID]["ManualKill"]:
-				print("Should never happen")
-				input("error 63")
-			else:
-				realTitanCoolDown = TITANS[BossID]["BaseCoolDown"] - 3 * NoRebirth_Challenge_Count
-				realTitanCoolDown = 60 if realTitanCoolDown < 60 else realTitanCoolDown
-				TITANS[BossID]["KillTime"] += realTitanCoolDown * 60
+			realTitanCoolDown = TITANS[BossID]["BaseCoolDown"] - 3 * NoRebirth_Challenge_Count
+			realTitanCoolDown = 60 if realTitanCoolDown < 60 else realTitanCoolDown
+			TITANS[BossID]["KillTime"] += realTitanCoolDown * 60
 		elif duration <= timeToWait:
 			print("Lets Kill: " + BossID)
 			DropChanceEquipment = DropChanceEquipment or TITANS[BossID]["LootGear"]
@@ -88,42 +82,6 @@ def kill_Titans_Two(timeToWait):
 		while int(TITANS[x]["KillTime"] - time.time()) <= timeToWait:
 			createTimeStamp(x, feature.kill_titan(x))
 	return NotInFarmZone
-
-def kill_Titans(timeToWait):
-	while True:
-		DropChanceEquipment = False
-		LetsKillSomeBitches = False
-		KillList = []
-	
-		for BossID in TITANS.keys():
-			duration = int(TITANS[BossID]["KillTime"] - time.time())
-			if duration <= timeToWait:
-				print("Lets Kill: " + BossID)
-				LetsKillSomeBitches = True
-				DropChanceEquipment = DropChanceEquipment or TITANS[BossID]["LootGear"]
-				KillList.append(BossID)
-
-		if LetsKillSomeBitches:
-			if DropChanceEquipment:
-				print("Equipping loot gear")
-				nav.reclaim_all_magic()
-				nav.reclaim_all_energy()
-				feature.loadout(3) #Equip dropchance Gear
-
-			for x in KillList:
-				while int(TITANS[x]["KillTime"] - time.time()) <= timeToWait:
-					createTimeStamp(x, feature.kill_titan(x))
-
-			if DropChanceEquipment:
-				print("Equipping NGU gear")
-				feature.loadout(2) #Equip EM POW Gear
-
-				for abcccccc in range(4):
-					feature.assign_ngu(1e12, [1])
-					feature.assign_ngu(1e12, [3], magic=True)
-					time.sleep(2)
-		else:
-			break
 
 def printTimeLeftToBoss():
 	TimeLeftToTitan = 9999
@@ -194,7 +152,7 @@ while True:
 
 
 	feature.merge_equipment()
-	feature.merge_inventory(12) #mergar de första 25 slotsen
+	feature.merge_inventory(17) #mergar de första 25 slotsen
 	
 	feature.boost_equipment(cube=False) #boostar också Cube
 	feature.boost_inventory(3)
