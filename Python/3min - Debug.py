@@ -10,7 +10,6 @@ from classes.window import Window
 import ngucon as ncon
 import time
 
-
 LOWEST_SLEEP_TO_KILL = 3.40
 ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "Clock Dimension", "boss": 66, "floor": 8, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -26,7 +25,6 @@ SCREENSHOT_BOOLEAN = {"aug" : {"Use" : True, "Menu" : "augmentations"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
 					  "rebirth" : {"Use" : False}}
-
 
 
 def debugScreenShot(name, counter):
@@ -87,11 +85,11 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.7)
 	feature.adventure(highest=True)
-	feature.time_machine(60e6, magic=True)
+	feature.time_machine(1e12, magic=True)
 	feature.augments({"CI": 1}, 24e6)
 	feature.augments({"ML": 1}, 12e6)
 
-	while time.time() < (end - 13): 
+	while time.time() < (end - 12): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
@@ -101,16 +99,16 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
 
-		if not Blood_Assigned and time_since_start() > 25:
+		if not Blood_Assigned and time_since_start() > 20:
 			feature.blood_magic(6)
 			#nav.input_box()
 			#i.NOV_send_text(20e6)
 			#i.click(ncon.BMX - 75, ncon.BMY[6])
 			Blood_Assigned = True
 
-		if not Aug_Assigned and time_since_start() > 25:
-			feature.augments({"CI": 1}, 95e6)
-			feature.augments({"ML": 1}, 46e6)
+		if not Aug_Assigned and time_since_start() > 20:
+			feature.augments({"CI": 1}, 90e6)
+			feature.augments({"ML": 1}, 40e6)
 			Aug_Assigned = True
 
 		if (start + duration * 60 * 0.20) > time.time(): #the first 25% of the run
@@ -129,13 +127,13 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.wandoos(True)
 
 			if not WANDOOS_energy_goal_reached:
-				idle_color = i.get_pixel_color(426, 250)
+				idle_color = i.get_pixel_color(525, 250)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "59CF81":
 					WANDOOS_energy_goal_reached = True
 
-			if not WANDOOS_magic_goal_reached and time_since_start() > 60:
-				idle_color = i.get_pixel_color(393, 350)
+			if not WANDOOS_magic_goal_reached:
+				idle_color = i.get_pixel_color(525, 350)
 				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
 				if idle_color == "A9BAF9":
 					WANDOOS_magic_goal_reached = True
@@ -154,25 +152,25 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.NOV_boost_equipment("boots")
 	feature.NOV_boost_equipment("cube")
 	
-	if Digger_Activated:
-		feature.gold_diggers([2,5,6,8], deactivate=True)
+	feature.pit(value=1e24)
 	feature.speedrun_bloodpill()
+	
+	feature.deactivate_all_diggers()
 	feature.gold_diggers([3])
 	feature.nuke()
 	feature.fight()
 	time.sleep(1)
-	feature.pit(value=1e24)
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
-	#u.em()
-	#tracker.adjustxp()
+
 	
 	debugScreenShot("rebirth", counter)
 	
 	while time.time() < end:
 		time.sleep(0.1)
-	
+
+
 
 w = Window(debug=True)
 i = Inputs()
