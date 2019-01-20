@@ -71,8 +71,6 @@ def Nov_SpeedRun_Two(duration, counter):
 
 	currentBoss = 0
 	GoldClearLevels = 4
-	TM_Done = False
-	Aug_Assigned = False
 	Blood_Assigned = False
 	Digger_Activated = False
 	WANDOOS_energy_goal_reached = False
@@ -83,11 +81,12 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60)
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(1.7)
+	time.sleep(1.3)
 	feature.adventure(highest=True)
 	feature.time_machine(100e6, magic=True)
-	feature.augments({"CI": 1}, 114e6)
-	feature.augments({"ML": 1}, 52e6)
+	time.sleep(1)
+	feature.augments({"SM": 1}, 300e6)
+	feature.augments({"AA": 1}, 150e6)
 
 	while time.time() < (end - 12): 
 		feature.nuke()
@@ -99,17 +98,18 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
 
-		if not Blood_Assigned and time_since_start() > 15:
+		if not Blood_Assigned:
 			feature.blood_magic(6)
 			#nav.input_box()
 			#i.NOV_send_text(20e6)
 			#i.click(ncon.BMX - 75, ncon.BMY[6])
 			Blood_Assigned = True
 
-		if not Digger_Activated and time_since_start() > 35:
-			feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
-			Digger_Activated = True
+		#if not Digger_Activated and time_since_start() > 35:
+		#	feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
+		#	Digger_Activated = True
 
+		feature.gold_diggers([2,5,6,8])
 		feature.wandoos(True)
 
 		if not WANDOOS_energy_goal_reached:
@@ -135,7 +135,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	debugScreenShot("blood", counter)
 	debugScreenShot("wandoos", counter)
 
-	feature.NOV_boost_equipment("boots")
+	#feature.NOV_boost_equipment("boots")
 	feature.NOV_boost_equipment("cube")
 	
 	feature.pit(value=1e24)
