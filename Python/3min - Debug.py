@@ -86,8 +86,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1.7)
 	feature.adventure(highest=True)
 	feature.time_machine(100e6, magic=True)
-	feature.augments({"CI": 1}, 24e6)
-	feature.augments({"ML": 1}, 12e6)
+	feature.augments({"CI": 1}, 114e6)
+	feature.augments({"ML": 1}, 52e6)
 
 	while time.time() < (end - 12): 
 		feature.nuke()
@@ -99,19 +99,14 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.adventure(itopod=True, itopodauto=True)
 			GoldClearLevels = var2
 
-		if not Blood_Assigned and time_since_start() > 20:
+		if not Blood_Assigned and time_since_start() > 15:
 			feature.blood_magic(6)
 			#nav.input_box()
 			#i.NOV_send_text(20e6)
 			#i.click(ncon.BMX - 75, ncon.BMY[6])
 			Blood_Assigned = True
 
-		if not Aug_Assigned and time_since_start() > 20:
-			feature.augments({"CI": 1}, 90e6)
-			feature.augments({"ML": 1}, 40e6)
-			Aug_Assigned = True
-
-		if not Digger_Activated and time_since_start() > 40:
+		if not Digger_Activated and time_since_start() > 35:
 			feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
 			Digger_Activated = True
 
