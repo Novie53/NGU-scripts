@@ -21,9 +21,9 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 6 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
-SCREENSHOT_BOOLEAN = {"aug" : {"Use" : True, "Menu" : "augmentations"},
-					  "TM" : {"Use" : True, "Menu" : "timemachine"},
-					  "blood" : {"Use" : True, "Menu" : "bloodmagic"},
+SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
+					  "TM" : {"Use" : False, "Menu" : "timemachine"},
+					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
 					  "rebirth" : {"Use" : False}}
 
