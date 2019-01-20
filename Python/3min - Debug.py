@@ -85,7 +85,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1.7)
 	feature.adventure(highest=True)
-	feature.time_machine(1e12, magic=True)
+	feature.time_machine(100e6, magic=True)
 	feature.augments({"CI": 1}, 24e6)
 	feature.augments({"ML": 1}, 12e6)
 
@@ -111,38 +111,29 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.augments({"ML": 1}, 40e6)
 			Aug_Assigned = True
 
-		if (start + duration * 60 * 0.20) > time.time(): #the first 25% of the run
-			feature.time_machine(1e12, magic=True)
-		else:
-			if not TM_Done:
-				nav.menu("timemachine")
-				i.click(570,235)
-				i.click(570,335)
-				TM_Done = True
+		if not Digger_Activated and time_since_start() > 40:
+			feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
+			Digger_Activated = True
 
-			if not Digger_Activated:
-				feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
-				Digger_Activated = True
+		feature.wandoos(True)
 
-			feature.wandoos(True)
+		if not WANDOOS_energy_goal_reached:
+			idle_color = i.get_pixel_color(525, 250)
+			#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
+			if idle_color == "59CF81":
+				WANDOOS_energy_goal_reached = True
 
-			if not WANDOOS_energy_goal_reached:
-				idle_color = i.get_pixel_color(525, 250)
-				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
-				if idle_color == "59CF81":
-					WANDOOS_energy_goal_reached = True
+		if not WANDOOS_magic_goal_reached:
+			idle_color = i.get_pixel_color(525, 350)
+			#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
+			if idle_color == "A9BAF9":
+				WANDOOS_magic_goal_reached = True
 
-			if not WANDOOS_magic_goal_reached:
-				idle_color = i.get_pixel_color(525, 350)
-				#100% = 525, 50% = 426, 33% = 393, 25% = 376, 20% = 366, (1/6)% = 359, (1/7)% = 355
-				if idle_color == "A9BAF9":
-					WANDOOS_magic_goal_reached = True
-
-			if WANDOOS_energy_goal_reached:
-				feature.assign_ngu(1e12, [1])
+		if WANDOOS_energy_goal_reached:
+			feature.assign_ngu(1e12, [1])
 				
-			if WANDOOS_magic_goal_reached:
-				feature.assign_ngu(1e12, [3], magic=True)
+		if WANDOOS_magic_goal_reached:
+			feature.assign_ngu(1e12, [3], magic=True)
 
 
 	debugScreenShot("aug", counter)
@@ -190,10 +181,11 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
 
-c = Challenge()
-ScriptStart = time.time()
+#c = Challenge()
+#ScriptStart = time.time()
 runCounter = 0
 while True:
+	'''
 	before = time.time()
 	c.start_challenge(4)
 	duration = time.time() - before # sec
@@ -212,6 +204,14 @@ while True:
 	min = min if min > 9 else "0" + str(min)
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
-
-	#Nov_SpeedRun_Two(3, runCounter)
-	#runCounter += 1
+	'''
+	
+	
+	
+	"""
+	Rätt beard (1,3,4)
+	Rätt Blood Auto(Number / Gold)
+	Diggers[2,5,6,8], [52,25,25,13]
+	"""
+	Nov_SpeedRun_Two(3, runCounter)
+	runCounter += 1
