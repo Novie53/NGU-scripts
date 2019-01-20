@@ -21,9 +21,9 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  7: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 6 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
-SCREENSHOT_BOOLEAN = {"aug" : {"Use" : True, "Menu" : "augmentations"},
+SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : True, "Menu" : "timemachine"},
-					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
+					  "blood" : {"Use" : True, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
 					  "rebirth" : {"Use" : False}}
 
@@ -82,7 +82,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60)
 
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(1.1)
+	time.sleep(1.2)
 	feature.adventure(highest=True)
 	feature.time_machine(100e6, magic=True)
 	time.sleep(2.2)
@@ -100,7 +100,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			GoldClearLevels = var2
 
 		if not Blood_Assigned:
-			feature.blood_magic(6)
+			feature.blood_magic(7)
 			#nav.input_box()
 			#i.NOV_send_text(20e6)
 			#i.click(ncon.BMX - 75, ncon.BMY[6])
@@ -146,14 +146,12 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.gold_diggers([3])
 	feature.nuke()
 	feature.fight()
-	time.sleep(1)
 	feature.spin()
 	feature.save_check()
 	tracker.progress()
 
-	
 	debugScreenShot("rebirth", counter)
-	
+
 	while time.time() < end:
 		time.sleep(0.1)
 	
