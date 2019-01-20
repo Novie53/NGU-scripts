@@ -12,7 +12,6 @@ import time
 import os
 
 
-
 TITANS = {#"GRB": {"LootGear": False, "KillTime": 0},
 		  #"GCT": {"LootGear": False, "KillTime": 0},
 		  #"jake": {"LootGear": True, "KillTime": 0},
@@ -40,6 +39,8 @@ def createTimeStamp(TITAN, timeLeft):
 	TITANS[TITAN]["KillTime"] = time.time() + sec
 
 def kill_Titans_Two(timeToWait):
+	global current_Gear_Loadout
+
 	DropChanceEquipment = False
 	ManualKillList = []
 
@@ -62,18 +63,18 @@ def kill_Titans_Two(timeToWait):
 			if TITANS[BossID]["ManualKill"]:
 				ManualKillList.append(BossID)
 	
-	if DropChanceEquipment and currentGearSet != 3:
+	if DropChanceEquipment and current_Gear_Loadout != 3:
 		print("Equipping loot gear")
 		nav.reclaim_all_magic()
 		nav.reclaim_all_energy()
 		feature.loadout(3) #Equip dropchance Gear
-		currentGearSet = 3
-	elif not DropChanceEquipment and currentGearSet == 3:
+		current_Gear_Loadout = 3
+	elif not DropChanceEquipment and current_Gear_Loadout == 3:
 		print("Equipping NGU gear")
 		nav.reclaim_all_magic()
 		nav.reclaim_all_energy()
 		feature.loadout(1) #Equip dropchance Gear
-		currentGearSet = 1
+		current_Gear_Loadout = 1
 		
 		for _ in range(5):
 			feature.assign_ngu(1e12, [1])
@@ -163,12 +164,13 @@ while False:
 FarmInZoneDuration = 120
 NoRebirth_Challenge_Count = 14
 ZoneToFarmIn = 18
-
+current_Gear_Loadout = 1
 
 currentGearSet = 1
 durationOffset = 0
 durationOffsetTotal = 0
 durationOffsetCount = 0
+
 
 for x in TITANS.keys():
 	createTimeStamp(x, feature.kill_titan(x))
@@ -204,6 +206,8 @@ while True:
 	if feature.speedrun_bloodpill():
 		nav.reclaim_all_energy()
 		nav.reclaim_all_magic()
+		feature.deactivate_all_diggers()
+		feature.gold_diggers([1,4,5,6])
 	feature.spin()
 	feature.save_check()	
 	
