@@ -22,6 +22,7 @@ ADVENTURE_ZONE = {0: {"name": "High Security Base", "boss": 58, "floor": 6, "sle
 				  8: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 6 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 SCREENSHOT_BOOLEAN = {"aug" : {"Use" : True, "Menu" : "augmentations"},
+					  "TM" : {"Use" : True, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
 					  "rebirth" : {"Use" : False}}
@@ -85,7 +86,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.adventure(highest=True)
 	feature.time_machine(100e6, magic=True)
 	time.sleep(2.2)
-	feature.augments({"SM": 1}, 300e6)
+	feature.augments({"SM": 1}, 310e6)
 	feature.augments({"AA": 1}, 150e6)
 
 	while time.time() < (end - 12): 
@@ -130,7 +131,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		if WANDOOS_magic_goal_reached:
 			feature.assign_ngu(1e12, [3], magic=True)
 
-
+	debugScreenShot("TM", counter)
 	debugScreenShot("aug", counter)
 	debugScreenShot("blood", counter)
 	debugScreenShot("wandoos", counter)
