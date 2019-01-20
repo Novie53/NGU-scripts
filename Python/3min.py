@@ -193,7 +193,7 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 runCounter = 1
 while True:
 	"""
-	Rätt digger (1,3,4)
+	Rätt beard (1,3,4)
 	Rätt Blood Auto(Number / Gold)
 	Diggers[2,5,6,8], [52,25,25,13]
 	"""
