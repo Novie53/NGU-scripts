@@ -176,13 +176,12 @@ tracker = Tracker(3)		#Progress tracker int val = tid för run
 
 
 
-#c = Challenge()
-#ScriptStart = time.time()
+c = Challenge()
+ScriptStart = time.time()
 runCounter = 0
 while True:
-	'''
 	before = time.time()
-	c.start_challenge(4)
+	c.start_challenge(3)
 	duration = time.time() - before # sec
 	runCounter += 1
 	
@@ -199,14 +198,11 @@ while True:
 	min = min if min > 9 else "0" + str(min)
 	print(f"Has completed {runCounter} challenges in the span of {hours}:{min} hours")
 	print("----------------------------------")
-	'''
-	
-	
-	
+
 	"""
 	Rätt beard (1,3,4)
 	Rätt Blood Auto(Number / Gold)
 	Diggers[2,5,6,8], [52,25,25,13]
 	"""
-	Nov_SpeedRun_Two(3, runCounter)
-	runCounter += 1
+	#Nov_SpeedRun_Two(3, runCounter)
+	#runCounter += 1
