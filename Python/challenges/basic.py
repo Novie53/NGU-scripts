@@ -119,23 +119,21 @@ class Basic(Features):
 		self.do_rebirth()
 		start = time.time()
 		end = time.time() + (duration * 60)
+
 		currentBoss = 0
 		GoldClearLevels = -1
 		TM_assigned = False
 		augment_assigned = 0
 		half_energy_WANDOOS = False
 		WANDOOS_magic_goal_reached = False
-		
-		
-		self.loadout(1)
+
+
+		#self.loadout(1)
 		self.nuke()
-		time.sleep(1)
+		#time.sleep(1)
 		self.adventure(highest=True)
 		
 		while time.time() < (end - 5):
-			if (currentBoss - 1) >= target and (time.time() - start) >= 180:
-				return
-		
 			self.nuke()
 			self.fight()
 			currentBoss = Basic.intTryParse(self.get_current_boss())
