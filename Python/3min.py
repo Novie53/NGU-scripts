@@ -23,7 +23,7 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
 				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 8 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
-SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
+SCREENSHOT_BOOLEAN = {"aug" : {"Use" : True, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
@@ -78,6 +78,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	Digger_Activated = False
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
+	Augment_Assigned = False
 		
 	feature.do_rebirth()
 	start = time.time()
@@ -88,9 +89,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.adventure(highest=True)
 	time.sleep(1)
 	feature.time_machine(100e6, magic=True)
-	time.sleep(2.5)
-	feature.augments({"SM": 1}, 400e6)
-	feature.augments({"AA": 1}, 150e6)
+	feature.augments({"SM": 1}, 200e6)
+	feature.augments({"AA": 1}, 100e6)
 
 	while time.time() < (end - 12): 
 		feature.nuke()
@@ -108,6 +108,11 @@ def Nov_SpeedRun_Two(duration, counter):
 			#i.NOV_send_text(20e6)
 			#i.click(ncon.BMX - 75, ncon.BMY[6])
 			Blood_Assigned = True
+			
+		if not Augment_Assigned:
+			feature.augments({"SM": 1}, 600e6)
+			feature.augments({"AA": 1}, 190e6)
+			Augment_Assigned = True
 
 		#if not Digger_Activated and time_since_start() > 35:
 		#	feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
