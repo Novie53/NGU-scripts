@@ -110,8 +110,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			Blood_Assigned = True
 			
 		if not Augment_Assigned:
-			feature.augments({"SM": 1}, 600e6)
-			feature.augments({"AA": 1}, 190e6)
+			feature.augments({"SM": 1}, 580e6)
+			feature.augments({"AA": 1}, 180e6)
 			Augment_Assigned = True
 
 		#if not Digger_Activated and time_since_start() > 35:
@@ -188,10 +188,9 @@ while True:
 	"""
 	Rätt beard (1,3,4)
 	Rätt Blood Auto(Number / Gold)
-	Diggers[2,5,6,8], [52,25,25,13]
 	"""
 	Nov_SpeedRun_Two(3, runCounter)
-	if runCounter % 20 == 0:
-		u.em()
-		tracker.adjustxp()
+	#if runCounter % 20 == 0:
+	#	u.em()
+	#	tracker.adjustxp()
 	runCounter += 1
