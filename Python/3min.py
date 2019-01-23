@@ -190,7 +190,7 @@ while True:
 	Rätt Blood Auto(Number / Gold)
 	"""
 	Nov_SpeedRun_Two(3, runCounter)
-	#if runCounter % 20 == 0:
-	#	u.em()
-	#	tracker.adjustxp()
+	if runCounter % 20 == 0:
+		u.em()
+		tracker.adjustxp()
 	runCounter += 1
