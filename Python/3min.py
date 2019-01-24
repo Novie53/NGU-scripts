@@ -75,7 +75,6 @@ def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = 0
 	GoldClearLevels = 4
 	Blood_Assigned = False
-	Digger_Activated = False
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
 	Augment_Assigned = False
@@ -110,15 +109,11 @@ def Nov_SpeedRun_Two(duration, counter):
 			Blood_Assigned = True
 			
 		if not Augment_Assigned:
-			feature.augments({"SM": 1}, 541e6)
-			feature.augments({"AA": 1}, 166e6)
+			feature.augments({"SM": 1}, 530e6)
+			feature.augments({"AA": 1}, 160e6)
 			Augment_Assigned = True
 
-		#if not Digger_Activated and time_since_start() > 35:
-		#	feature.NOV_gold_diggers([2,5,6,8], [-1,-1,-1,-1], activate=True)
-		#	Digger_Activated = True
-
-		feature.gold_diggers([2,5,6,8])
+		feature.gold_diggers([2,5,6,9])
 		feature.wandoos(True)
 
 		if not WANDOOS_energy_goal_reached:
