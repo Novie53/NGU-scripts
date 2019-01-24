@@ -115,6 +115,8 @@ class Rebirth(Features):
 
 			if currentBoss > 46 and augment_assigned < 4:
 				self.menu("augmentations")
+				self.input_box()
+				self.NOV_send_text(1e12)
 				self.click(575, 260 + 70 * 0)#SS
 				self.click(575, 290 + 70 * 0)#DS
 				self.click(575, 260 + 70 * 1)#MI
@@ -127,6 +129,8 @@ class Rebirth(Features):
 				augment_assigned = 4
 			elif currentBoss > 44 and augment_assigned < 3:
 				self.menu("augmentations")
+				self.input_box()
+				self.NOV_send_text(1e12)
 				self.click(575, 260 + 70 * 0)#SS
 				self.click(575, 290 + 70 * 0)#DS
 				self.click(575, 260 + 70 * 1)#MI
@@ -137,6 +141,8 @@ class Rebirth(Features):
 				augment_assigned = 3
 			elif currentBoss > 40 and augment_assigned < 2:
 				self.menu("augmentations")
+				self.input_box()
+				self.NOV_send_text(1e12)
 				self.click(575, 260 + 70 * 0)#SS
 				self.click(575, 290 + 70 * 0)#DS
 				
@@ -160,7 +166,7 @@ class Rebirth(Features):
 			
 			if not Wandoos_Done:
 				self.menu("wandoos")
-				self.click(10, 10)
+				#self.click(10, 10)
 				idle_color = self.get_pixel_color(525, 250) #100% = 525, 50% = 426, 25% = 393
 				idle_color2 = self.get_pixel_color(525, 350)
 				
