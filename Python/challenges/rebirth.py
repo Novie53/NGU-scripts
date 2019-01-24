@@ -64,8 +64,8 @@ class Rebirth(Features):
 		GoldClearLevels = -1
 		Wandoos_Done = False
 
-		self.nuke()
-		time.sleep(1)		
+		self.nuke(25)
+		#time.sleep(1)
 		self.loadout(1)
 		self.adventure(highest=True)
 		self.augments({"SM": 1}, 10e6)
@@ -114,7 +114,7 @@ class Rebirth(Features):
 				self.click(575, 260 + 70 * 3)#SM
 				self.click(575, 290 + 70 * 3)#AA
 				
-				self.augments({"EB": 1}, 1.5e9)
+				self.augments({"EB": 1}, 2.5e9)
 				self.augments({"CS": 1}, 500e6)
 				augment_assigned = 5
 			elif currentBoss > 46 and augment_assigned < 4:
@@ -166,7 +166,7 @@ class Rebirth(Features):
 				self.gold_diggers([2, 3, 8])
 
 			if currentBoss > 37:
-				self.blood_magic(7)			
+				self.blood_magic(6)			
 			
 			if not Wandoos_Done:
 				self.menu("wandoos")
