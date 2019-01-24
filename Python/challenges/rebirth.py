@@ -96,7 +96,8 @@ class Rebirth(Features):
 				self.reclaim_all_magic()
 				self.time_machine(100e6, magic=True)
 				self.loadout(2)
-				self.augments({"EB": 1}, 10e6)
+				if (time.time() - start) < 30:
+					self.augments({"EB": 1}, 10e6)
 				TM_assigned = True
 
 
