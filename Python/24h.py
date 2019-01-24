@@ -111,20 +111,24 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 
 
+#settings
+FarmInZoneDuration = 120
+NoRebirth_Challenge_Count = 36
+ZoneToFarmIn = 18 #18 = Badly Drawn World
+
+
+
+
+
 while False:
-	feature.NOV_boost_equipment("chest")
-	feature.NOV_boost_equipment("legs")
+	#feature.boost_equipment(cube=False)
+	#feature.NOV_boost_equipment("accessory1")
+	#feature.NOV_boost_equipment("legs")
 	feature.NOV_boost_equipment("weapon")
 	feature.snipe_hard(18, 120, highest=False, mobs=0, attackType=2, forceStay=True)
 
 
-#settings
-FarmInZoneDuration = 120
-NoRebirth_Challenge_Count = 14
-ZoneToFarmIn = 18
 current_Gear_Loadout = 1
-
-currentGearSet = 1
 durationOffset = 0
 durationOffsetTotal = 0
 durationOffsetCount = 0
@@ -135,7 +139,7 @@ for x in TITANS.keys():
 	if int(TITANS[x]["KillTime"] - time.time()) <= 0:
 		print("error 23")
 		input("should not happen")
-	feature.adventure(zone=ZoneToFarmIn)
+feature.adventure(zone=ZoneToFarmIn)
 
 while True:
 	printTimeLeftToBoss()
@@ -150,14 +154,20 @@ while True:
 	durationOffsetCount += 1
 	durationOffset = round(durationOffsetTotal / durationOffsetCount, 2)
 
+	nav.menu("inventory")
+	#i.click(10, 10)
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
 
 	feature.merge_equipment()
-	feature.merge_inventory(17) #mergar de första 25 slotsen
+	feature.merge_inventory(8) #mergar de första 25 slotsen
 	
 	feature.boost_equipment(cube=False) #boostar också Cube
-	feature.boost_inventory(3)
+	#feature.boost_inventory(3)
 	#feature.NOV_boost_equipment("legs")
 	#feature.NOV_boost_equipment("cube")
+	
+	
 	
 	feature.ygg()
 	feature.pit()
