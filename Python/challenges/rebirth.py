@@ -89,20 +89,7 @@ class Rebirth(Features):
 
 				TM_assigned = False
 				augment_assigned = 0
-				#self.menu("digger")
-				#self.click(810, 110)
-			"""
-			if currentBoss > 37:
-				var1, var2 = self.kill_bosses(currentBoss, 0, GoldClearLevels)
-				if var1:
-					self.adventure(itopod=True, itopodauto=True)
-					GoldClearLevels = var2
-					
-					TM_assigned = False
-					augment_assigned -= 1
-					self.menu("digger")
-					self.click(810, 110)
-			"""
+				Wandoos_Done = False
 
 			if currentBoss > 30 and not TM_assigned:
 				self.reclaim_all_energy()
