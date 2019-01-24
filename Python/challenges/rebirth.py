@@ -66,8 +66,9 @@ class Rebirth(Features):
 
 		self.nuke()
 		time.sleep(1)		
-		#self.loadout(1)
+		self.loadout(1)
 		self.adventure(highest=True)
+		self.augments({"SM": 1}, 10e6)
 
 		while True:
 			if time.time() > ThreeMinMark and (not self.check_challenge()):
@@ -107,7 +108,7 @@ class Rebirth(Features):
 				self.reclaim_all_energy()
 				self.reclaim_all_magic()
 				self.time_machine(100e6, magic=True)
-				#self.loadout(2)
+				self.loadout(2)
 				#self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
 
