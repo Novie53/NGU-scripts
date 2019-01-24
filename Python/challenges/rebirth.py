@@ -96,11 +96,27 @@ class Rebirth(Features):
 				self.reclaim_all_magic()
 				self.time_machine(100e6, magic=True)
 				self.loadout(2)
-				#self.augments({"EB": 1}, 80e6)
+				self.augments({"EB": 1}, 10e6)
 				TM_assigned = True
 
 
-			if currentBoss > 46 and augment_assigned < 4:
+			if currentBoss > 48 and augment_assigned < 5:
+				self.menu("augmentations")
+				self.input_box()
+				self.NOV_send_text(1e12)
+				self.click(575, 260 + 70 * 0)#SS
+				self.click(575, 290 + 70 * 0)#DS
+				self.click(575, 260 + 70 * 1)#MI
+				self.click(575, 290 + 70 * 1)#DTMT
+				self.click(575, 260 + 70 * 2)#CI
+				self.click(575, 290 + 70 * 2)#ML
+				self.click(575, 260 + 70 * 3)#SM
+				self.click(575, 290 + 70 * 3)#AA
+				
+				self.augments({"EB": 1}, 1.5e9)
+				self.augments({"CS": 1}, 500e6)
+				augment_assigned = 5
+			elif currentBoss > 46 and augment_assigned < 4:
 				self.menu("augmentations")
 				self.input_box()
 				self.NOV_send_text(1e12)
