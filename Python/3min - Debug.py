@@ -180,6 +180,7 @@ c = Challenge()
 ScriptStart = time.time()
 runCounter = 0
 while True:
+	feature.NOV_boost_equipment("cube")
 	before = time.time()
 	c.start_challenge(7)
 	duration = time.time() - before # sec
