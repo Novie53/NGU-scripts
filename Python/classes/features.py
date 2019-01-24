@@ -609,7 +609,7 @@ class Features(Navigation, Inputs):
 					self.click(ncon.BM_AUTOS[Auto]["x"], 
 								ncon.BM_AUTOS[Auto]["y"])
 
-			self.time_machine(1e12)
+			self.time_machine(1e12, magic=True)
 			
 			if userset.PILL == 0:
 				duration = 300
