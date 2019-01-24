@@ -110,8 +110,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			Blood_Assigned = True
 			
 		if not Augment_Assigned:
-			feature.augments({"SM": 1}, 580e6)
-			feature.augments({"AA": 1}, 180e6)
+			feature.augments({"SM": 1}, 541e6)
+			feature.augments({"AA": 1}, 166e6)
 			Augment_Assigned = True
 
 		#if not Digger_Activated and time_since_start() > 35:
