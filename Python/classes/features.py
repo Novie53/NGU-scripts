@@ -336,7 +336,7 @@ class Features(Navigation, Inputs):
 
 		if "titan" in available.lower():
 			self._Set_IdleAttack_State(False)
-			time.sleep(2.5)  # Make sure titans spawn, otherwise loop breaks
+			time.sleep(2)  # Make sure titans spawn, otherwise loop breaks
 			
 			while self._Is_Mob_Alive():
 				self._Manual_Kill()

@@ -68,8 +68,8 @@ ABILITY_PRIORITY_ONLY_ATTACK = {
                     3: 9,  # Piercing
                     4: 10,  # Ultimate
                     9: 12} # Charge
-PLAYER_HEAL_THRESHOLDX = 512
-PLAYER_HEAL_THRESHOLDY = 392
+PLAYER_HEAL_THRESHOLDX = 510
+PLAYER_HEAL_THRESHOLDY = 410
 PLAYER_HEAL_COLOR = "FFFFFF"
 
 OCR_ADV_POWX1 = 370
