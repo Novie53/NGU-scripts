@@ -63,7 +63,6 @@ class Rebirth(Features):
 		augment_assigned = 0
 		GoldClearLevels = -1
 		Wandoos_Done = False
-		diggers = [2, 3, 8]
 
 		self.nuke()
 		time.sleep(1)		
@@ -108,45 +107,55 @@ class Rebirth(Features):
 				self.reclaim_all_energy()
 				self.reclaim_all_magic()
 				self.time_machine(100e6, magic=True)
-				self.loadout(2)
-				self.augments({"EB": 1}, 80e6)
+				#self.loadout(2)
+				#self.augments({"EB": 1}, 80e6)
 				TM_assigned = True
+
+
+			if currentBoss > 46 and augment_assigned < 4:
+				self.menu("augmentations")
+				self.click(575, 260 + 70 * 0)#SS
+				self.click(575, 290 + 70 * 0)#DS
+				self.click(575, 260 + 70 * 1)#MI
+				self.click(575, 290 + 70 * 1)#DTMT
+				self.click(575, 260 + 70 * 2)#CI
+				self.click(575, 290 + 70 * 2)#ML
+				
+				self.augments({"SM": 1}, 400e6)
+				self.augments({"AA": 1}, 140e6)
+				augment_assigned = 4
+			elif currentBoss > 44 and augment_assigned < 3:
+				self.menu("augmentations")
+				self.click(575, 260 + 70 * 0)#SS
+				self.click(575, 290 + 70 * 0)#DS
+				self.click(575, 260 + 70 * 1)#MI
+				self.click(575, 290 + 70 * 1)#DTMT
+				
+				self.augments({"CI": 1}, 80e6)
+				self.augments({"ML": 1}, 40e6)
+				augment_assigned = 3
+			elif currentBoss > 40 and augment_assigned < 2:
+				self.menu("augmentations")
+				self.click(575, 260 + 70 * 0)#SS
+				self.click(575, 290 + 70 * 0)#DS
+				
+				self.augments({"MI": 1}, 5e6)
+				self.augments({"DTMT": 1}, 5e6)
+				augment_assigned = 2
+			elif currentBoss > 37 and augment_assigned < 1:
+				self.augments({"SS": 1}, 5e6)
+				self.augments({"DS": 1}, 5e6)
+				augment_assigned = 1
+
 
 			self.wandoos(True)
 
 
-			if augment_assigned == 0:
-				self.augments({"CI": 1}, 1e6)
-				augment_assigned += 1
-			elif currentBoss > 37 and augment_assigned == 1:
-				self.menu("augmentations")
-				self.input_box()
-				self.NOV_send_text(1e12)
-				self.click(570, 525) #reclaim EB energy
-
-				self.augments({"SS": 1}, 5e6)
-				self.augments({"DS": 1}, 5e6)
-				augment_assigned += 1
-			elif augment_assigned == 2 and (time.time() - start) > (3*60):
-				self.menu("timemachine")
-				self.input_box()
-				self.NOV_send_text(20e6)
-				self.click(570,235)
-			
-				self.menu("augmentations")
-				self.click(570, 265) #reclaim SS energy
-				self.click(570, 295) #reclaim DS energy
-				
-				self.augments({"MI": 1}, 10e6)
-				self.augments({"DTMT": 1}, 10e6)
-				augment_assigned += 1
-
-
 			if TM_assigned:
-				self.gold_diggers(diggers)
-				
+				self.gold_diggers([2, 3, 8])
+
 			if currentBoss > 37:
-				self.blood_magic(5)
+				self.blood_magic(7)			
 			
 			if not Wandoos_Done:
 				self.menu("wandoos")
@@ -157,8 +166,9 @@ class Rebirth(Features):
 				if idle_color == "59CF81" and idle_color2 == "A9BAF9":
 					Wandoos_Done = True
 			
-			if Wandoos_Done and (time.time() - start) > 100:
+			if Wandoos_Done:
 				self.time_machine(1e12, magic=True)
+
 
 	def check_challenge(self):
 		"""Check if a challenge is active."""
@@ -173,4 +183,3 @@ class Rebirth(Features):
 	def rebirth_challenge(self):
 		"""Defeat target boss."""
 		self.first_rebirth()
-		return
