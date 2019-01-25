@@ -57,23 +57,24 @@ def kill_Titans_Two(timeToWait):
 			if TITANS[BossID]["ManualKill"]:
 				ManualKillList.append(BossID)
 	
-	if DropChanceEquipment and current_Gear_Loadout != 3:
+	if DropChanceEquipment and current_Gear_Loadout != DropChanceGear_Loadout:
 		print("Equipping loot gear")
 		nav.reclaim_all_magic()
 		nav.reclaim_all_energy()
-		feature.loadout(3) #Equip dropchance Gear
-		current_Gear_Loadout = 3
-	elif not DropChanceEquipment and current_Gear_Loadout == 3:
+		feature.loadout(DropChanceGear_Loadout) #Equip dropchance Gear
+		current_Gear_Loadout = DropChanceGear_Loadout
+		
+		feature.assign_ngu(1e12, [1])
+		feature.assign_ngu(1e12, [3], magic=True)
+	elif not DropChanceEquipment and current_Gear_Loadout != MainGear_Loadout:
 		print("Equipping NGU gear")
 		nav.reclaim_all_magic()
 		nav.reclaim_all_energy()
-		feature.loadout(1) #Equip dropchance Gear
-		current_Gear_Loadout = 1
+		feature.loadout(MainGear_Loadout) #Equip dropchance Gear
+		current_Gear_Loadout = MainGear_Loadout
 		
-		for _ in range(5):
-			feature.assign_ngu(1e12, [1])
-			feature.assign_ngu(1e12, [3], magic=True)
-			time.sleep(2)
+		feature.assign_ngu(1e12, [1])
+		feature.assign_ngu(1e12, [3], magic=True)
 
 	NotInFarmZone = False
 	for x in ManualKillList:
@@ -115,7 +116,8 @@ nav.menu("inventory")
 FarmInZoneDuration = 120
 NoRebirth_Challenge_Count = 36
 ZoneToFarmIn = 18 #18 = Badly Drawn World
-
+MainGear_Loadout = 2
+DropChanceGear_Loadout = 3
 
 
 
@@ -160,12 +162,12 @@ while True:
 	aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
 
 	feature.merge_equipment()
-	feature.merge_inventory(8) #mergar de första 25 slotsen
+	feature.merge_inventory(12) #mergar de första 25 slotsen
 	
 	feature.boost_equipment(cube=False) #boostar också Cube
-	#feature.boost_inventory(3)
+	feature.boost_inventory(2)
 	#feature.NOV_boost_equipment("legs")
-	#feature.NOV_boost_equipment("cube")
+	feature.NOV_boost_equipment("cube")
 	
 	
 	
