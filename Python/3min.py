@@ -110,8 +110,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			Blood_Assigned = True
 			
 		if not Augment_Assigned:
-			feature.augments({"SM": 1}, 470e6)
-			feature.augments({"AA": 1}, 130e6)
+			feature.augments({"SM": 1}, 430e6)
+			feature.augments({"AA": 1}, 110e6)
 			Augment_Assigned = True
 
 		feature.gold_diggers([2,5,6,9])
