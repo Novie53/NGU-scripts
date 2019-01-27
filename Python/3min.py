@@ -21,7 +21,8 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  7: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 				  8: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": LOWEST_SLEEP_TO_KILL},
 				  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
-				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
+				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9},
+				  11: {"name": "Chocolate World", "boss": 137, "floor": 21, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 8 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
