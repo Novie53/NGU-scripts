@@ -10,7 +10,7 @@ from classes.window import Window
 import ngucon as ncon
 import time
 
-LOWEST_SLEEP_TO_KILL = 3.40
+LOWEST_SLEEP_TO_KILL = 3.30
 ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "The Sky", "boss": 48, "floor": 5, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -20,10 +20,10 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  6: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 				  7: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 				  8: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": LOWEST_SLEEP_TO_KILL},
-				  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
+				  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": LOWEST_SLEEP_TO_KILL},
 				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9},
 				  11: {"name": "Chocolate World", "boss": 137, "floor": 21, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 8 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 9 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
@@ -110,8 +110,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			Blood_Assigned = True
 			
 		if not Augment_Assigned:
-			feature.augments({"SM": 1}, 430e6)
-			feature.augments({"AA": 1}, 110e6)
+			feature.augments({"SM": 1}, 410e6)
+			feature.augments({"AA": 1}, 100e6)
 			Augment_Assigned = True
 
 		feature.gold_diggers([2,5,6,9])
