@@ -113,20 +113,26 @@ nav.menu("inventory")
 
 
 #settings
-FarmInZoneDuration = 120
+FarmInZoneDuration = 110 #120
 NoRebirth_Challenge_Count = 36
-ZoneToFarmIn = 18 #18 = Badly Drawn World
-MainGear_Loadout = 2
+ZoneToFarmIn = 19 #21 = Chocolate World, 19 = Boring-Ass Earth, 18 = Badly Drawn World
+MainGear_Loadout = 3 #2
 DropChanceGear_Loadout = 3
 
 
 
 
 while False:
-	#feature.boost_equipment(cube=False)
-	#feature.NOV_boost_equipment("accessory1")
-	#feature.NOV_boost_equipment("legs")
-	feature.NOV_boost_equipment("weapon")
+	feature.merge_equipment()
+	feature.merge_inventory(10)
+	feature.boost_equipment(cube=False)
+	feature.boost_inventory(1)
+	
+	nav.menu("inventory")
+	#i.click(10, 10)
+	aaa = i.get_bitmap()
+	aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
+	
 	feature.snipe_hard(18, 120, highest=False, mobs=0, attackType=2, forceStay=True)
 
 
@@ -162,11 +168,10 @@ while True:
 	aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
 
 	feature.merge_equipment()
-	feature.merge_inventory(12) #mergar de första 25 slotsen
+	feature.merge_inventory(14) #mergar de första 25 slotsen
 	
 	feature.boost_equipment(cube=False) #boostar också Cube
-	feature.boost_inventory(2)
-	#feature.NOV_boost_equipment("legs")
+	feature.boost_inventory(3)
 	feature.NOV_boost_equipment("cube")
 	
 	
