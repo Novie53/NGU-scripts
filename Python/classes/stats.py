@@ -1,10 +1,95 @@
 """Handles various statistics."""
 from classes.navigation import Navigation
-# from classes.discord import Discord
 
 import ngucon as ncon
 import time
 import datetime
+
+
+#https://pyformat.info/
+#https://scientificallysound.org/2016/10/17/python-print3/
+
+
+class NOV_Tracker(Navigation):
+
+	def __init__(self):
+		self.__start_time = time.time()
+		self.__iteration = 1
+		self.total_XP_gained = 0
+		self.total_PP_gained = 0
+		
+		self.currXP = self.__get_stat("XP")
+		self.currPP = self.__get_stat("PP")
+		
+		self.__printTopRow()
+		print('Starting: {:^8}{:^3}Starting: {:^8}'.format(self.__human_format(self.currXP), "|", 
+															self.__human_format(self.currPP)))
+		
+	def new_progress(self, display=True):
+		self.__iteration += 1
+		last_XP = self.currXP
+		last_PP = self.currPP
+		self.currXP = self.__get_stat("XP")
+		self.currPP = self.__get_stat("PP")
+		
+		XP_this_run = self.currXP - last_XP
+		PP_this_run = self.currPP - last_PP
+		self.total_XP_gained += XP_this_run
+		self.total_PP_gained += PP_this_run
+		
+		if display:
+			self.__display_progress(XP_this_run, PP_this_run)
+			
+			self.__printTopRow()
+		
+		
+		
+		
+	def __display_progress(self, XP_this_run, PP_this_run):
+		duration_sec = round(time.time() - self.__start_time)
+		XP_per_Hour = self.total_XP_gained / (duration_sec / 3600)
+		PP_per_Hour = self.total_PP_gained / (duration_sec / 3600)		
+		duration_converted = str(datetime.timedelta(seconds=duration_sec))
+		
+		print(f"{XP_per_Hour} = {self.total_XP_gained} / {duration_sec / 3600}")
+		print("")
+		print("This run: {:^8}{:^3}This run: {:^8}".format(self.__human_format(XP_this_run), "|", self.__human_format(PP_this_run)))
+		print('Current:  {:^8}{:^3}Current:  {:^8}'.format(self.__human_format(self.currXP), "|", self.__human_format(self.currPP)))
+		print('Total:    {:^8}{:^3}Total:    {:^8}'.format(self.__human_format(self.total_XP_gained), "|", self.__human_format(self.total_PP_gained)))
+		print('Per hour: {:^8}{:^3}Per hour: {:^8}'.format(self.__human_format(XP_per_Hour), "|", self.__human_format(PP_per_Hour)))
+		print("\n{0:^40}\n".format(duration_converted))
+	
+	def __printTopRow(self):
+		print("{0:{fill}{align}40}".format(f" {self.__iteration} ", fill="-", align="^"))
+		print("{:^18}{:^3}{:^18}".format("XP", "|", "PP"))
+		print("-" * 40)
+	
+	def __get_stat(self, value):
+		try:
+			if value == "TOTAL XP":
+				self.misc()
+				return int(float(self.ocr(ncon.OCR_EXPX1, ncon.OCR_EXPY1, ncon.OCR_EXPX2, ncon.OCR_EXPY2)))
+			elif value == "XP":
+				self.exp()
+				return int(self.remove_letters(self.ocr(ncon.EXPX1, ncon.EXPY1, ncon.EXPX2, ncon.EXPY2)))
+			elif value == "PP":
+				self.perks()
+				return int(self.remove_letters(self.ocr(ncon.PPX1, ncon.PPY1, ncon.PPX2, ncon.PPY2)))
+		except ValueError:
+			print(f"Failed to get data for {value}")
+
+	def __human_format(self, num):
+		if num <= 100 and num > 0:
+			return round(num, 2)
+
+		num = float('{:.3g}'.format(num))
+		if num > 1e14:
+			return
+		magnitude = 0
+		while abs(num) >= 1000:
+			magnitude += 1
+			num /= 1000.0
+		return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
 
 class Stats(Navigation):
