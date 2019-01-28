@@ -55,8 +55,6 @@ class NOV_Tracker(Navigation):
 		PP_per_Hour = self.total_PP_gained / (duration_sec / 3600)		
 		duration_converted = str(datetime.timedelta(seconds=duration_sec))
 		
-		print(f"{XP_per_Hour} = {self.total_XP_gained} / {duration_sec / 3600}")
-		print("")
 		print("This run: {:^8}{:^3}This run: {:^8}".format(self.__human_format(XP_this_run), "|", self.__human_format(PP_this_run)))
 		print('Current:  {:^8}{:^3}Current:  {:^8}'.format(self.__human_format(self.currXP), "|", self.__human_format(self.currPP)))
 		print('Total:    {:^8}{:^3}Total:    {:^8}'.format(self.__human_format(self.total_XP_gained), "|", self.__human_format(self.total_PP_gained)))
