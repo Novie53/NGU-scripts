@@ -24,8 +24,8 @@ class NOV_Tracker(Navigation):
 		self.__printTopRow()
 		print('Starting: {:^8}{:^3}Starting: {:^8}'.format(self.__human_format(self.currXP), "|", 
 															self.__human_format(self.currPP)))
-		
-	def new_progress(self, display=True):
+
+	def update_progress(self, display=True):
 		self.__iteration += 1
 		last_XP = self.currXP
 		last_PP = self.currPP
@@ -41,12 +41,14 @@ class NOV_Tracker(Navigation):
 			self.__display_progress(XP_this_run, PP_this_run)
 			
 			self.__printTopRow()
-		
+
 	def adjustxp(self):
 		self.currXP = self.__get_stat("XP")
 		self.currPP = self.__get_stat("PP")
-		
-		
+
+
+
+
 	def __display_progress(self, XP_this_run, PP_this_run):
 		duration_sec = round(time.time() - self.__start_time)
 		XP_per_Hour = self.total_XP_gained / (duration_sec / 3600)

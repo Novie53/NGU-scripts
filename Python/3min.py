@@ -3,7 +3,7 @@ from classes.challenge import Challenge
 from classes.features import Features
 from classes.inputs import Inputs
 from classes.navigation import Navigation
-from classes.stats import Stats, EstimateRate, Tracker
+from classes.stats import NOV_Tracker
 from classes.upgrade import Upgrade
 from classes.window import Window
 
@@ -152,7 +152,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.fight()
 	feature.spin()
 	feature.save_check()
-	tracker.progress()
+	tracker.update_progress()
 
 	debugScreenShot("rebirth", counter)
 
@@ -169,7 +169,8 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 2.6, 2.6, 3) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
-tracker = Tracker(3)		#Progress tracker int val = tid för run
+#tracker = Tracker(3)		#Progress tracker int val = tid för run
+tracker = NOV_Tracker()
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
@@ -186,7 +187,7 @@ while True:
 	Rätt Blood Auto(Number / Gold)
 	"""
 	Nov_SpeedRun_Two(3, runCounter)
-	if runCounter % 20 == 0:
-		u.em()
-		tracker.adjustxp()
+	#if runCounter % 20 == 0:
+	#	u.em()
+	#	tracker.adjustxp()
 	runCounter += 1
