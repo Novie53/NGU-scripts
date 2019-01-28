@@ -42,7 +42,9 @@ class NOV_Tracker(Navigation):
 			
 			self.__printTopRow()
 		
-		
+	def adjustxp(self):
+		self.currXP = self.__get_stat("XP")
+		self.currPP = self.__get_stat("PP")
 		
 		
 	def __display_progress(self, XP_this_run, PP_this_run):
@@ -92,6 +94,10 @@ class NOV_Tracker(Navigation):
 		return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
 
+'''
+		
+		
+		
 class Stats(Navigation):
 	"""Handles various statistics."""
 
@@ -281,3 +287,7 @@ class Tracker():
 			magnitude += 1
 			num /= 1000.0
 		return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
+		
+		
+		
+'''
