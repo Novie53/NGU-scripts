@@ -79,6 +79,7 @@ class NOV_Tracker(Navigation):
 				return int(self.remove_letters(self.ocr(ncon.PPX1, ncon.PPY1, ncon.PPX2, ncon.PPY2)))
 		except ValueError:
 			print(f"Failed to get data for {value}")
+			return 0
 
 	def __human_format(self, num):
 		if num <= 100 and num > 0:
