@@ -752,7 +752,7 @@ class Features(Navigation, Inputs):
 
 		Keyword arguments:
 		targets -- Array of diggers to use from 1-12. Example: [1, 2, 3, 4, 9].
-		activate -- Set to True if you wish to activate/deactivate these
+		deactivate -- Set to True if you wish to deactivate these
 					diggers otherwise it will just try to up the cap.
 		"""
 		self.menu("digger")
