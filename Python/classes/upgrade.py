@@ -1,11 +1,11 @@
 """Buys things for exp."""
-from classes.stats import Stats, Tracker
+from classes.stats import NOV_Tracker
 import ngucon as ncon
 import usersettings as userset
 import time
 
 
-class Upgrade(Stats):
+class Upgrade(NOV_Tracker):
 	"""Buys things for exp."""
 
 	def __init__(self, ecap, mcap, ebar, mbar, e2m_ratio):
@@ -49,12 +49,7 @@ class Upgrade(Stats):
 				  " spending exp.")
 			return
 
-		self.set_value_with_ocr("XP")
-		if Stats.OCR_failed:
-			print('OCR failed, exiting upgrade routine.')
-			return
-
-		current_exp = Stats.xp
+		current_XP = self.__get_stat("XP")
 
 		e_cost = ncon.EPOWER_COST + ncon.ECAP_COST * self.ecap + (
 				 ncon.EBAR_COST * self.ebar)
@@ -67,10 +62,10 @@ class Upgrade(Stats):
 		"""Skip upgrading if we don't have enough exp to buy at least one
 		complete set of upgrades, in order to maintain our perfect ratios :)"""
 
-		if total_price > current_exp:
+		if total_price > current_XP:
 			return
 
-		amount = int(current_exp // total_price)
+		amount = int(current_XP // total_price)
 
 		e_power = int(amount * self.e2m_ratio)
 		e_cap = int(amount * self.ecap * self.e2m_ratio)
