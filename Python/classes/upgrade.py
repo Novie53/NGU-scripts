@@ -49,7 +49,7 @@ class Upgrade(NOV_Tracker):
 				  " spending exp.")
 			return
 
-		current_XP = self.__get_stat("XP")
+		current_XP = self.get_stat("XP")
 
 		e_cost = ncon.EPOWER_COST + ncon.ECAP_COST * self.ecap + (
 				 ncon.EBAR_COST * self.ebar)
@@ -109,6 +109,3 @@ class Upgrade(NOV_Tracker):
 		self.click(ncon.EMPOWBUYX, ncon.EMBUYY)
 		self.click(ncon.EMCAPBUYX, ncon.EMBUYY)
 		self.click(ncon.EMBARBUYX, ncon.EMBUYY)
-
-		self.set_value_with_ocr("XP")
-

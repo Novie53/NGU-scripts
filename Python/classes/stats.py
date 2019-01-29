@@ -18,8 +18,8 @@ class NOV_Tracker(Navigation):
 		self.total_XP_gained = 0
 		self.total_PP_gained = 0
 		
-		self.currXP = self.__get_stat("XP")
-		self.currPP = self.__get_stat("PP")
+		self.currXP = self.get_stat("XP")
+		self.currPP = self.get_stat("PP")
 		
 		self.__printTopRow()
 		print('Starting: {:^8}{:^3}Starting: {:^8}'.format(self.__human_format(self.currXP), "|", 
@@ -29,8 +29,8 @@ class NOV_Tracker(Navigation):
 		self.__iteration += 1
 		last_XP = self.currXP
 		last_PP = self.currPP
-		self.currXP = self.__get_stat("XP")
-		self.currPP = self.__get_stat("PP")
+		self.currXP = self.get_stat("XP")
+		self.currPP = self.get_stat("PP")
 		
 		XP_this_run = self.currXP - last_XP
 		PP_this_run = self.currPP - last_PP
@@ -43,8 +43,23 @@ class NOV_Tracker(Navigation):
 			self.__printTopRow()
 
 	def adjustxp(self):
-		self.currXP = self.__get_stat("XP")
-		self.currPP = self.__get_stat("PP")
+		self.currXP = self.get_stat("XP")
+		self.currPP = self.get_stat("PP")
+
+	def get_stat(self, value):
+		try:
+			if value == "TOTAL XP":
+				self.misc()
+				return int(float(self.ocr(ncon.OCR_EXPX1, ncon.OCR_EXPY1, ncon.OCR_EXPX2, ncon.OCR_EXPY2)))
+			elif value == "XP":
+				self.exp()
+				return int(self.remove_letters(self.ocr(ncon.EXPX1, ncon.EXPY1, ncon.EXPX2, ncon.EXPY2)))
+			elif value == "PP":
+				self.perks()
+				return int(self.remove_letters(self.ocr(ncon.PPX1, ncon.PPY1, ncon.PPX2, ncon.PPY2)))
+		except ValueError:
+			print(f"Failed to get data for {value}")
+			return 0
 
 
 
@@ -65,21 +80,6 @@ class NOV_Tracker(Navigation):
 		print("{0:{fill}{align}40}".format(f" {self.__iteration} ", fill="-", align="^"))
 		print("{:^18}{:^3}{:^18}".format("XP", "|", "PP"))
 		print("-" * 40)
-	
-	def __get_stat(self, value):
-		try:
-			if value == "TOTAL XP":
-				self.misc()
-				return int(float(self.ocr(ncon.OCR_EXPX1, ncon.OCR_EXPY1, ncon.OCR_EXPX2, ncon.OCR_EXPY2)))
-			elif value == "XP":
-				self.exp()
-				return int(self.remove_letters(self.ocr(ncon.EXPX1, ncon.EXPY1, ncon.EXPX2, ncon.EXPY2)))
-			elif value == "PP":
-				self.perks()
-				return int(self.remove_letters(self.ocr(ncon.PPX1, ncon.PPY1, ncon.PPX2, ncon.PPY2)))
-		except ValueError:
-			print(f"Failed to get data for {value}")
-			return 0
 
 	def __human_format(self, num):
 		if num <= 100 and num > 0:

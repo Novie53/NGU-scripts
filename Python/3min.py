@@ -92,7 +92,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.augments({"SM": 1}, 200e6)
 	feature.augments({"AA": 1}, 100e6)
 
-	while time.time() < (end - 12): 
+	while time.time() < (end - 11): 
 		feature.nuke()
 		feature.fight()
 		currentBoss = intTryParse(feature.get_current_boss())
@@ -167,7 +167,7 @@ feature = Features()
 
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
-#u = Upgrade(37500, 37500, 2, 2, 2) #Hur den ska spendare EXP inom Energy & Magic caps
+u = Upgrade(37500, 37500, 2, 2, 2) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
 #tracker = Tracker(3)		#Progress tracker int val = tid för run
 tracker = NOV_Tracker()
@@ -187,7 +187,7 @@ while True:
 	Rätt Blood Auto(Number / Gold)
 	"""
 	Nov_SpeedRun_Two(3, runCounter)
-	#if runCounter % 20 == 0:
-	#	u.em()
-	#	tracker.adjustxp()
+	if runCounter % 10 == 0:
+		u.em()
+		tracker.adjustxp()
 	runCounter += 1
