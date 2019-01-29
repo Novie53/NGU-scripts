@@ -27,15 +27,19 @@ class NOV_Tracker(Navigation):
 
 	def update_progress(self, display=True):
 		self.__iteration += 1
-		last_XP = self.currXP
-		last_PP = self.currPP
-		self.currXP = self.get_stat("XP")
-		self.currPP = self.get_stat("PP")
 		
-		XP_this_run = self.currXP - last_XP
-		PP_this_run = self.currPP - last_PP
-		self.total_XP_gained += XP_this_run
-		self.total_PP_gained += PP_this_run
+		newXP = self.get_stat("XP")
+		newPP = self.get_stat("PP")
+		
+		if newXP != -1:#XP OCR success
+			XP_this_run = newXP - self.currXP
+			self.currXP = newXP
+			self.total_XP_gained += XP_this_run
+			
+		if newPP != -1:#PP OCR success
+			PP_this_run = newPP - self.currPP
+			self.currPP = newPP
+			self.total_PP_gained += PP_this_run
 		
 		if display:
 			self.__display_progress(XP_this_run, PP_this_run)
@@ -59,7 +63,7 @@ class NOV_Tracker(Navigation):
 				return int(self.remove_letters(self.ocr(ncon.PPX1, ncon.PPY1, ncon.PPX2, ncon.PPY2)))
 		except ValueError:
 			print(f"Failed to get data for {value}")
-			return 0
+			return -1
 
 
 
