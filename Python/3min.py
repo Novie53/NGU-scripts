@@ -87,7 +87,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	time.sleep(1)
 	feature.adventure(highest=True)
-	time.sleep(1)
+	#time.sleep(1)
 	feature.time_machine(100e6, magic=True)
 	feature.augments({"SM": 1}, 200e6)
 	feature.augments({"AA": 1}, 100e6)
@@ -114,7 +114,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.augments({"AA": 1}, 70e6)
 			Augment_Assigned = True
 
-		feature.gold_diggers([2,5,6,9])
+		feature.gold_diggers([2,5,6,9,12])
 		feature.wandoos(True)
 
 		if not WANDOOS_energy_goal_reached:
