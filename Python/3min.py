@@ -88,7 +88,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	feature.nuke(50) #83 = AncientBattlefield
 	feature.adventure(highest=True)
-	feature.time_machine(180e6, 200e6)
+	feature.time_machine(190e6, 250e6)
 	feature.augments({"SM": 1}, 200e6)
 	feature.augments({"AA": 1}, 100e6)
 	
@@ -114,7 +114,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			Blood_Assigned = True
 			
 		if not Augment_Assigned:
-			feature.augments({"SM": 1}, 240e6)
+			feature.augments({"SM": 1}, 200e6)
 			feature.augments({"AA": 1}, 30e6)
 			Augment_Assigned = True
 
