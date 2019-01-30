@@ -43,12 +43,14 @@ class Features(Navigation, Inputs):
 			self.click(self.equipment[whatEquipment]["x"], self.equipment[whatEquipment]["y"])
 			self.send_string("a")
 
+	'''
 	def get_current_boss(self):
 		"""Go to fight and read current boss number."""
 		self.menu("fight")
 		boss = self.ocr(ncon.OCRBOSSX1, ncon.OCRBOSSY1, ncon.OCRBOSSX2,
 						ncon.OCRBOSSY2, debug=False)
 		return self.remove_letters(boss)
+	'''
 	
 	def get_current_boss_two(self):
 		"""Go to fight and read current boss number."""
@@ -69,17 +71,14 @@ class Features(Navigation, Inputs):
 			for i in range(boss):
 				self.click(ncon.FIGHTX, ncon.FIGHTY, fast=True)
 			time.sleep(userset.SHORT_SLEEP)
-			current_boss = int(self.get_current_boss())
+			current_boss = self.get_current_boss_two()
 			x = 0
 			while current_boss < boss:
 				bossdiff = boss - current_boss
 				for i in range(0, bossdiff):
 					self.click(ncon.FIGHTX, ncon.FIGHTY, fast=True)
 				time.sleep(userset.SHORT_SLEEP)
-				try:
-					current_boss = int(self.get_current_boss())
-				except ValueError:
-					current_boss = 1
+				current_boss = self.get_current_boss_two()
 				x += 1
 				if x > 7:  # Safeguard if number is too low to reach target boss, otherwise we get stuck here
 					print("Couldn't reach the target boss, something probably went wrong the last rebirth.")

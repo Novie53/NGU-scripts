@@ -41,12 +41,6 @@ def debugScreenShot(name, counter):
 		aaa = i.get_bitmap()
 		aaa.save("Pic\\" + name + "_" + str(counter) + ".png")
 
-def intTryParse(value):
-	try:
-		return int(value)
-	except ValueError:
-		return 0
-
 def kill_bosses(currentBoss, timeSinceStart, GoldClearLevels):
 	room = 0
 	newBossToKill = False
@@ -93,13 +87,13 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.augments({"AA": 1}, 100e6)
 	
 	feature.nuke(44) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	currentBoss = intTryParse(feature.get_current_boss())
+	currentBoss = feature.get_current_boss()
 
 	while time.time() < (end - 11):
 		if XP_Digger:
 			feature.nuke()
 			feature.fight()
-			currentBoss = intTryParse(feature.get_current_boss())
+			currentBoss = feature.get_current_boss()
 		
 		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 		if var1:
@@ -171,7 +165,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		time.sleep(0.1)
 	
 
-w = Window()
+w = Window(True)
 i = Inputs()
 nav = Navigation()
 feature = Features()
