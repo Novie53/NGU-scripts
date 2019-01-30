@@ -165,7 +165,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		time.sleep(0.1)
 	
 
-w = Window(True)
+w = Window()
 i = Inputs()
 nav = Navigation()
 feature = Features()
