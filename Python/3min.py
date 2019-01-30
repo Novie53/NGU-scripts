@@ -23,7 +23,7 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": LOWEST_SLEEP_TO_KILL},
 				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9},
 				  11: {"name": "Chocolate World", "boss": 137, "floor": 21, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 9 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 7 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
@@ -74,28 +74,32 @@ def Nov_SpeedRun_Two(duration, counter):
 		return time.time() - start
 
 	currentBoss = 0
-	GoldClearLevels = 4
+	GoldClearLevels = 0
 	Blood_Assigned = False
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
 	Augment_Assigned = False
+	XP_Digger = False
 		
 	feature.do_rebirth()
 	start = time.time()
 	end = time.time() + (duration * 60)
 
-	feature.nuke() #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	time.sleep(1)
+	
+	feature.nuke(50) #83 = AncientBattlefield
 	feature.adventure(highest=True)
-	#time.sleep(1)
 	feature.time_machine(160e6, 100e6)
 	feature.augments({"SM": 1}, 200e6)
 	feature.augments({"AA": 1}, 100e6)
+	
+	feature.nuke(50) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
+	currentBoss = intTryParse(feature.get_current_boss())
 
-	while time.time() < (end - 11): 
-		feature.nuke()
-		feature.fight()
-		currentBoss = intTryParse(feature.get_current_boss())
+	while time.time() < (end - 11):
+		if XP_Digger:
+			feature.nuke()
+			feature.fight()
+			currentBoss = intTryParse(feature.get_current_boss())
 		
 		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 		if var1:
@@ -114,7 +118,14 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.augments({"AA": 1}, 50e6)
 			Augment_Assigned = True
 
-		feature.gold_diggers([2,5,6,9,12])
+		if time_since_start() > 150 and not XP_Digger:
+			feature.deactivate_all_diggers()
+			feature.gold_diggers([12])
+			feature.gold_diggers([2,5,6,9])
+			XP_Digger = True
+		else:
+			feature.gold_diggers([2,5,6,9,12])
+
 		feature.wandoos(True)
 
 		if not WANDOOS_energy_goal_reached:
