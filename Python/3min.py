@@ -88,7 +88,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	time.sleep(1)
 	feature.adventure(highest=True)
 	#time.sleep(1)
-	feature.time_machine(100e6, magic=True)
+	feature.time_machine(150e6, 100e6)
 	feature.augments({"SM": 1}, 200e6)
 	feature.augments({"AA": 1}, 100e6)
 
@@ -110,8 +110,8 @@ def Nov_SpeedRun_Two(duration, counter):
 			Blood_Assigned = True
 			
 		if not Augment_Assigned:
-			feature.augments({"SM": 1}, 350e6)
-			feature.augments({"AA": 1}, 70e6)
+			feature.augments({"SM": 1}, 330e6)
+			feature.augments({"AA": 1}, 60e6)
 			Augment_Assigned = True
 
 		feature.gold_diggers([2,5,6,9,12])
@@ -147,7 +147,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.speedrun_bloodpill()
 	
 	feature.deactivate_all_diggers()
-	feature.gold_diggers([3])
+	feature.gold_diggers([3,12])
 	feature.nuke()
 	feature.fight()
 	feature.spin()
