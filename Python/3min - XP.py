@@ -123,7 +123,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.gold_diggers([12])
 			feature.gold_diggers([2,5,6,9])
 			XP_Digger = True
-		else
+		else:
 			feature.gold_diggers([2,5,6,9,12])
 
 		feature.wandoos(True)
