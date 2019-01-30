@@ -84,7 +84,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	start = time.time()
 	end = time.time() + (duration * 60)
 
-	feature.nuke(83) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
+	feature.nuke(101) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
+	currentBoss = 101
 	#time.sleep(1)
 	feature.adventure(highest=True)
 	#time.sleep(1)
@@ -92,10 +93,11 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.augments({"SM": 1}, 200e6)
 	feature.augments({"AA": 1}, 100e6)
 
-	while time.time() < (end - 11): 
-		feature.nuke()
-		feature.fight()
-		currentBoss = intTryParse(feature.get_current_boss())
+	while time.time() < (end - 11):
+		if time_since_start() > 130:
+			feature.nuke()
+			feature.fight()
+			currentBoss = intTryParse(feature.get_current_boss())
 		
 		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 		if var1:
