@@ -49,6 +49,18 @@ class Features(Navigation, Inputs):
 		boss = self.ocr(ncon.OCRBOSSX1, ncon.OCRBOSSY1, ncon.OCRBOSSX2,
 						ncon.OCRBOSSY2, debug=False)
 		return self.remove_letters(boss)
+	
+	def get_current_boss_two(self):
+		"""Go to fight and read current boss number."""
+		self.menu("fight")
+		boss = self.ocr(ncon.OCRBOSSX1, ncon.OCRBOSSY1, ncon.OCRBOSSX2,
+						ncon.OCRBOSSY2, debug=False)
+		boss = self.remove_letters(boss)
+		try:
+			return int(boss)
+		except ValueError:
+			print("get_current_boss_two failed")
+			return -1
 
 	def nuke(self, boss=None):
 		"""Navigate to Fight Boss and Nuke or Fast Fight."""
