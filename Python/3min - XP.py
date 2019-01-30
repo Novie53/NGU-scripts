@@ -74,7 +74,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		return time.time() - start
 
 	currentBoss = 0
-	GoldClearLevels = 4
+	GoldClearLevels = 0
 	Blood_Assigned = False
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
@@ -162,7 +162,7 @@ def Nov_SpeedRun_Two(duration, counter):
 		time.sleep(0.1)
 	
 
-w = Window()
+w = Window(debug=True)
 i = Inputs()
 nav = Navigation()
 feature = Features()
