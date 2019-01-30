@@ -87,13 +87,13 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.augments({"AA": 1}, 100e6)
 	
 	feature.nuke(44) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
-	currentBoss = feature.get_current_boss()
+	currentBoss = feature.get_current_boss_two()
 
 	while time.time() < (end - 11):
 		if XP_Digger:
 			feature.nuke()
 			feature.fight()
-			currentBoss = feature.get_current_boss()
+			currentBoss = feature.get_current_boss_two()
 		
 		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 		if var1:
