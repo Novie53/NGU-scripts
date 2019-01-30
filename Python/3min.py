@@ -23,7 +23,7 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": LOWEST_SLEEP_TO_KILL},
 				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9},
 				  11: {"name": "Chocolate World", "boss": 137, "floor": 21, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 7 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 6 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
@@ -86,13 +86,13 @@ def Nov_SpeedRun_Two(duration, counter):
 	end = time.time() + (duration * 60)
 
 	
-	feature.nuke(50) #83 = AncientBattlefield
+	feature.nuke(46) #83 = AncientBattlefield
 	feature.adventure(highest=True)
 	feature.time_machine(190e6, 250e6)
 	feature.augments({"SM": 1}, 200e6)
 	feature.augments({"AA": 1}, 100e6)
 	
-	feature.nuke(50) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
+	feature.nuke(44) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	currentBoss = intTryParse(feature.get_current_boss())
 
 	while time.time() < (end - 11):
