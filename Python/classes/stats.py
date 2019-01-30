@@ -30,6 +30,8 @@ class NOV_Tracker(Navigation):
 		
 		newXP = self.get_stat("XP")
 		newPP = self.get_stat("PP")
+		XP_this_run = 0
+		PP_this_run = 0
 		
 		if newXP != -1:#XP OCR success
 			XP_this_run = newXP - self.currXP
