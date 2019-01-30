@@ -79,6 +79,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
 	Augment_Assigned = False
+	XP_Digger = False
 		
 	feature.do_rebirth()
 	start = time.time()
@@ -95,7 +96,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = intTryParse(feature.get_current_boss())
 
 	while time.time() < (end - 11):
-		if time_since_start() > 150:
+		if XP_Digger:
 			feature.nuke()
 			feature.fight()
 			currentBoss = intTryParse(feature.get_current_boss())
@@ -117,7 +118,14 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.augments({"AA": 1}, 60e6)
 			Augment_Assigned = True
 
-		feature.gold_diggers([2,5,6,9,12])
+		if time_since_start() > 150 and not XP_Digger:
+			feature.deactivate_all_diggers()
+			feature.gold_diggers([12])
+			feature.gold_diggers([2,5,6,9])
+			XP_Digger = True
+		else
+			feature.gold_diggers([2,5,6,9,12])
+
 		feature.wandoos(True)
 
 		if not WANDOOS_energy_goal_reached:
