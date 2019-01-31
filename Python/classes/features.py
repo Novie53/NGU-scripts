@@ -107,44 +107,6 @@ class Features(Navigation, Inputs):
 		self.click(ncon.SPIN_MENUX, ncon.SPIN_MENUY)
 		self.click(ncon.SPINX, ncon.SPINY)
 
-	def itopod_snipe(self, duration):
-		"""Manually snipes ITOPOD for increased speed PP/h.
-
-		Keyword arguments:
-		duration -- Duration in seconds to snipe, before toggling idle mode
-					back on and returning.
-		"""
-		end = time.time() + duration
-
-		self.menu("adventure")
-		self.click(625, 500)  # click somewhere to move tooltip
-		itopod_active = self.get_pixel_color(ncon.ITOPOD_ACTIVEX,
-											 ncon.ITOPOD_ACTIVEY)
-		# check if we're already in ITOPOD, otherwise enter
-		if itopod_active != ncon.ITOPOD_ACTIVE_COLOR:
-			self.click(ncon.ITOPODX, ncon.ITOPODY)
-			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
-			# set end to 0 in case it's higher than start
-			self.send_string("0")
-			self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
-			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
-
-		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX,
-										  ncon.ABILITY_ATTACKY)
-
-		if idle_color == ncon.IDLECOLOR:
-			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-
-		while time.time() < end:
-			health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
-			if health != ncon.DEAD:
-				self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-			else:
-				time.sleep(0.01)
-
-		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-
-
 #------------ Adventure ----------------
 
 #----- Sub Functions -----
@@ -276,6 +238,81 @@ class Features(Navigation, Inputs):
 		return queue
 
 #----- Main Functions -----
+
+
+	def itopod_snipe(self, duration):
+		"""Manually snipes ITOPOD for increased speed PP/h.
+
+		Keyword arguments:
+		duration -- Duration in seconds to snipe, before toggling idle mode
+					back on and returning.
+		"""
+		end = time.time() + duration
+
+		self.menu("adventure")
+		self.click(625, 500)  # click somewhere to move tooltip
+		itopod_active = self.get_pixel_color(ncon.ITOPOD_ACTIVEX,
+											 ncon.ITOPOD_ACTIVEY)
+		# check if we're already in ITOPOD, otherwise enter
+		if itopod_active != ncon.ITOPOD_ACTIVE_COLOR:
+			self.click(ncon.ITOPODX, ncon.ITOPODY)
+			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
+			# set end to 0 in case it's higher than start
+			self.send_string("0")
+			self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
+			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
+
+		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX,
+										  ncon.ABILITY_ATTACKY)
+
+		if idle_color == ncon.IDLECOLOR:
+			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+
+		while time.time() < end:
+			health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
+			if health != ncon.DEAD:
+				self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
+			else:
+				time.sleep(0.01)
+
+		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
+
+
+
+
+
+
+	def ITOPOD_sniping(self, duration, progress=False):
+		self.menu("adventure")
+
+		self.click(ncon.ITOPODX, ncon.ITOPODY)
+		if not progress:
+			self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
+		'''
+		else:
+			self.click(ncon.ITOPODSTARTX, ncon.ITOPODSTARTY)
+			self.NOV_send_text(str(itopod))
+			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
+			self.NOV_send_text(str(itopod))
+			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
+		'''
+
+		self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
+		input("here123")
+		
+		end = time.time() + duration
+		while time.time() < end:
+			self._Set_IdleAttack_State(False)
+		
+			if self._Is_Mob_Alive():
+				if not progress:
+					self._Manual_Basic_Attack()
+				else:
+					self._Manual_Kill()
+			else:
+				time.sleep(0.01)
+		self._Set_IdleAttack_State(True)
+
 	def snipe_hard(self, zone, duration, once=False, highest=False, mobs=0, attackType=0, forceStay=False):
 		"""
 			Keyword arguments:
