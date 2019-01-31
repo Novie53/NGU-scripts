@@ -3,7 +3,6 @@ from classes.challenge import Challenge
 from classes.features import Features
 from classes.inputs import Inputs
 from classes.navigation import Navigation
-from classes.stats import Stats, EstimateRate, Tracker
 from classes.upgrade import Upgrade
 from classes.window import Window
 
@@ -16,7 +15,7 @@ TITANS = {#"GRB": {"LootGear": False, "KillTime": 0},
 		  #"GCT": {"LootGear": False, "KillTime": 0},
 		  #"jake": {"LootGear": True, "KillTime": 0},
 		  #"UUG": {"LootGear": True, "KillTime": 0},
-		  "walderp": {"LootGear": True, "KillTime": 0, "ManualKill":False, "BaseCoolDown":180},
+		  #"walderp": {"LootGear": True, "KillTime": 0, "ManualKill":False, "BaseCoolDown":180},
 		  "BEAST1": {"LootGear": True, "KillTime": 0, "ManualKill":True, "BaseCoolDown":210}}
 
 
@@ -120,7 +119,7 @@ MainGear_Loadout = 3 #2
 DropChanceGear_Loadout = 3
 
 
-
+feature.ITOPOD_sniping(120)
 
 while False:
 	feature.merge_equipment()
