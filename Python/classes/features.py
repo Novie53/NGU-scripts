@@ -109,7 +109,7 @@ class Features(Navigation, Inputs):
 
 #------------ Adventure ----------------
 
-#----- Sub Functions -----
+#----- Sub Adv Functions -----
 	def _Is_Mob_Alive(self):
 		self.menu("adventure")
 	
@@ -280,7 +280,7 @@ class Features(Navigation, Inputs):
 
 		return queue
 
-#----- Main Functions -----
+#----- Main Adv Functions -----
 	def ITOPOD_sniping(self, duration, force=False):
 		self.menu("adventure")
 
@@ -443,6 +443,129 @@ class Features(Navigation, Inputs):
 				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
 			return
 
+#------------ Blood Magic --------------
+
+	def blood_magic(self, target):
+		"""Assign magic to BM."""
+		self.menu("bloodmagic")
+		for i in range(target):
+			self.click(ncon.BMX, ncon.BMY[i])
+
+	def speedrun_bloodpill(self):
+		"""Check if bloodpill is ready to cast."""
+		bm_color = self.get_pixel_color(ncon.BMLOCKEDX, ncon.BMLOCKEDY)
+		Autos_Enabled = []
+		
+		if bm_color == ncon.BM_PILL_READY:
+			all_Autos_Off = {}
+			for auto in ncon.BM_AUTOS:
+				all_Autos_Off[auto] = False		
+		
+			self.reclaim_all_magic()
+			self.reclaim_all_energy()
+			self.deactivate_all_diggers()
+			
+			self.blood_magic(8)
+			
+			currently_Active_Autos = self.get_Blood_Autos_States()
+			self.set_Auto_Blood_Spell(all_Autos_Off)
+			start = time.time()
+			
+			self.time_machine(1e12, magic=True)
+			
+			if userset.PILL == 0:
+				duration = 300
+			else:
+				duration = userset.PILL
+			
+			while time.time() < start + duration:
+				self.gold_diggers([11])
+				time.sleep(5)
+				
+			self.spells()
+			self.click(ncon.BMPILLX, ncon.BMPILLY)
+			time.sleep(userset.LONG_SLEEP)
+			
+			self.set_Auto_Blood_Spell(currently_Active_Autos)
+			return True
+		else:
+			return False
+			
+	def _Is_Blood_Auto_Active(self, auto):
+		self.spells()
+		result = self.image_search(ncon.BM_AUTOS[auto]["x"] - 7,
+									   ncon.BM_AUTOS[auto]["y"] - 7,
+									   ncon.BM_AUTOS[auto]["x"] + 7,
+									   ncon.BM_AUTOS[auto]["y"] + 7,
+									   self.get_file_path("images", "BMSpellEnabled.png"),
+									   0.8)
+		return True if result is not None else False
+
+	def get_Blood_Autos_States(self):
+		Autos_States = {}
+		self.spells()
+		for auto in ncon.BM_AUTOS:
+			Autos_States[auto] = self._Is_Blood_Auto_Active(auto)
+		return Autos_States
+		
+	def set_Auto_Blood_Spell(self, states):
+		for auto in states:
+			is_Active = self._Is_Blood_Auto_Active(auto)
+			if (is_Active and not states[auto]) or \
+				(not is_Active and states[auto]):
+				self.click(ncon.BM_AUTOS[auto]["x"], ncon.BM_AUTOS[auto]["y"])
+				self.click(10, 10)
+		
+#------------ Diggers ------------------
+
+	def NOV_gold_diggers(self, targets, targetValues, activate=False):
+		"""Activate diggers.
+
+		Keyword arguments:
+		targets -- Array of diggers to use from 1-12. Example: [1, 2, 3, 4, 9].
+		targetValues -- Array of digger-Levels to enter, 1-999. Example: [1, 2, 3, 4, 9].
+						corresponding with the digger target from targets.
+						enter -1 if it should let it stay on the preexisting level
+		activate -- Set to True if you wish to activate/deactivate these
+					diggers otherwise it will just try to up the cap.
+		"""
+		self.menu("digger")
+		
+		for i in range(len(targets)):
+			diggerTarget = targets[i]
+			diggerValue = targetValues[i]
+			page = ((diggerTarget-1)//4)
+			item = diggerTarget - (page * 4)
+			
+			self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
+			if diggerValue != -1:
+				self.click(ncon.DIG_CAP[item]["x"] - 110, ncon.DIG_CAP[item]["y"])
+				self.NOV_send_text(diggerValue)
+			if activate:
+				self.click(ncon.DIG_ACTIVE[item]["x"], ncon.DIG_ACTIVE[item]["y"])
+
+	def gold_diggers(self, targets, deactivate=False):
+		"""Activate diggers.
+
+		Keyword arguments:
+		targets -- Array of diggers to use from 1-12. Example: [1, 2, 3, 4, 9].
+		deactivate -- Set to True if you wish to deactivate these
+					diggers otherwise it will just try to up the cap.
+		"""
+		self.menu("digger")
+		for i in targets:
+			page = ((i-1)//4)
+			item = i - (page * 4)
+			self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
+			if deactivate:
+				self.click(ncon.DIG_ACTIVE[item]["x"], ncon.DIG_ACTIVE[item]["y"])
+			else:
+				self.click(ncon.DIG_CAP[item]["x"], ncon.DIG_CAP[item]["y"])
+
+	def deactivate_all_diggers(self):
+		self.menu("digger")
+		self.click(ncon.DIG_DEACTIVATE_ALL_X, ncon.DIG_DEACTIVATE_ALL_Y)
+
 #---------------------------------------
 
 	def do_rebirth(self):
@@ -575,44 +698,13 @@ class Features(Navigation, Inputs):
 				self.NOV_send_text(m)
 			self.click(ncon.TMMULTX, ncon.TMMULTY)
 
-	def blood_magic(self, target):
-		"""Assign magic to BM."""
-		self.menu("bloodmagic")
-		for i in range(target):
-			self.click(ncon.BMX, ncon.BMY[i])
-
-	def _Is_Blood_Auto_Active(self, auto):
-		self.spells()
-		result = self.image_search(ncon.BM_AUTOS[auto]["x"] - 7,
-									   ncon.BM_AUTOS[auto]["y"] - 7,
-									   ncon.BM_AUTOS[auto]["x"] + 7,
-									   ncon.BM_AUTOS[auto]["y"] + 7,
-									   self.get_file_path("images", "BMSpellEnabled.png"),
-									   0.8)
-		return True if result is not None else False
-
-	def get_Blood_Autos_States(self):
-		Autos_States = {}
-		self.spells()
-		for auto in ncon.BM_AUTOS:
-			Autos_States[auto] = self._Is_Blood_Auto_Active(auto)
-		return Autos_States
-		
-	def set_Auto_Blood_Spell(self, states):
-		for auto in states:
-			is_Active = self._Is_Blood_Auto_Active(auto)
-			if (is_Active and not states[auto]) or \
-				(not is_Active and states[auto]):
-				self.click(ncon.BM_AUTOS[auto]["x"], ncon.BM_AUTOS[auto]["y"])
-				self.click(10, 10)
-			
 	def wandoos(self, magic=False):
 		"""Assign energy and/or magic to wandoos."""
 		self.menu("wandoos")
 		self.click(ncon.WANDOOS_CAP_X, ncon.WANDOOS_ENERGY_BUTTONS_Y)
 		if magic:
 			self.click(ncon.WANDOOS_CAP_X, ncon.WANDOOS_MAGIC_BUTTONS_Y)
-	
+
 	def wandoos_amount(self, e, m):
 		self.menu("wandoos")
 		if e != 0:
@@ -639,46 +731,6 @@ class Features(Navigation, Inputs):
 		"""Equip targeted loadout."""
 		self.menu("inventory")
 		self.click(ncon.LOADOUTX[target], ncon.LOADOUTY)
-
-	def speedrun_bloodpill(self):
-		"""Check if bloodpill is ready to cast."""
-		bm_color = self.get_pixel_color(ncon.BMLOCKEDX, ncon.BMLOCKEDY)
-		Autos_Enabled = []
-		
-		if bm_color == ncon.BM_PILL_READY:
-			all_Autos_Off = {}
-			for auto in ncon.BM_AUTOS:
-				all_Autos_Off[auto] = False		
-		
-			self.reclaim_all_magic()
-			self.reclaim_all_energy()
-			self.deactivate_all_diggers()
-			
-			self.blood_magic(8)
-			
-			currently_Active_Autos = self.get_Blood_Autos_States()
-			self.set_Auto_Blood_Spell(all_Autos_Off)
-			start = time.time()
-			
-			self.time_machine(1e12, magic=True)
-			
-			if userset.PILL == 0:
-				duration = 300
-			else:
-				duration = userset.PILL
-			
-			while time.time() < start + duration:
-				self.gold_diggers([11])
-				time.sleep(5)
-				
-			self.spells()
-			self.click(ncon.BMPILLX, ncon.BMPILLY)
-			time.sleep(userset.LONG_SLEEP)
-			
-			self.set_Auto_Blood_Spell(currently_Active_Autos)
-			return True
-		else:
-			return False
 
 	def set_ngu(self, ngu, magic=False):
 		"""Handle NGU upgrades in a non-dumb way.
@@ -770,56 +822,6 @@ class Features(Navigation, Inputs):
 		self.NOV_send_text(str(int(value // len(targets))))
 		for i in targets:
 			self.click(ncon.NGU_PLUSX, ncon.NGU_PLUSY + i * 35)
-
-
-	def NOV_gold_diggers(self, targets, targetValues, activate=False):
-		"""Activate diggers.
-
-		Keyword arguments:
-		targets -- Array of diggers to use from 1-12. Example: [1, 2, 3, 4, 9].
-		targetValues -- Array of digger-Levels to enter, 1-999. Example: [1, 2, 3, 4, 9].
-						corresponding with the digger target from targets.
-						enter -1 if it should let it stay on the preexisting level
-		activate -- Set to True if you wish to activate/deactivate these
-					diggers otherwise it will just try to up the cap.
-		"""
-		self.menu("digger")
-		
-		for i in range(len(targets)):
-			diggerTarget = targets[i]
-			diggerValue = targetValues[i]
-			page = ((diggerTarget-1)//4)
-			item = diggerTarget - (page * 4)
-			
-			self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
-			if diggerValue != -1:
-				self.click(ncon.DIG_CAP[item]["x"] - 110, ncon.DIG_CAP[item]["y"])
-				self.NOV_send_text(diggerValue)
-			if activate:
-				self.click(ncon.DIG_ACTIVE[item]["x"], ncon.DIG_ACTIVE[item]["y"])
-
-	def gold_diggers(self, targets, deactivate=False):
-		"""Activate diggers.
-
-		Keyword arguments:
-		targets -- Array of diggers to use from 1-12. Example: [1, 2, 3, 4, 9].
-		deactivate -- Set to True if you wish to deactivate these
-					diggers otherwise it will just try to up the cap.
-		"""
-		self.menu("digger")
-		for i in targets:
-			page = ((i-1)//4)
-			item = i - (page * 4)
-			self.click(ncon.DIG_PAGEX[page], ncon.DIG_PAGEY)
-			if deactivate:
-				self.click(ncon.DIG_ACTIVE[item]["x"], ncon.DIG_ACTIVE[item]["y"])
-			else:
-				self.click(ncon.DIG_CAP[item]["x"], ncon.DIG_CAP[item]["y"])
-
-	def deactivate_all_diggers(self):
-		self.menu("digger")
-		self.click(ncon.DIG_DEACTIVATE_ALL_X, ncon.DIG_DEACTIVATE_ALL_Y)
-
 
 	def bb_ngu(self, value, targets, overcap=1, magic=False):
 		"""Estimates the BB value of each supplied NGU.
