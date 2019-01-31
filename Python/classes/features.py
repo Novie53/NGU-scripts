@@ -647,7 +647,6 @@ class Features(Navigation, Inputs):
 		
 		if bm_color == ncon.BM_PILL_READY:
 			all_Autos_Off = {}
-			active_Autos
 			for auto in ncon.BM_AUTOS:
 				all_Autos_Off[auto] = False		
 		
@@ -655,11 +654,10 @@ class Features(Navigation, Inputs):
 			self.reclaim_all_energy()
 			self.deactivate_all_diggers()
 			
-			currently_Active_Autos = self.get_Blood_Autos_States()
 			self.blood_magic(8)
 			
-			
-			feature.set_Auto_Blood_Spell(all_Autos_Off)
+			currently_Active_Autos = self.get_Blood_Autos_States()
+			self.set_Auto_Blood_Spell(all_Autos_Off)
 			start = time.time()
 			
 			self.time_machine(1e12, magic=True)
