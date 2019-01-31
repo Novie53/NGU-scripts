@@ -111,12 +111,16 @@ class Features(Navigation, Inputs):
 
 #----- Sub Functions -----
 	def _Is_Mob_Alive(self):
+		self.menu("adventure")
+	
 		health = self.get_pixel_color(706, 302) #if the "POWER:{DMG}" text is displayed"
 		healthRowTwo = self.get_pixel_color(706, 318) #if the "POWER:{DMG}" text is displayed". 
 		#In the case of mobs with names that are two lines long the Max HP info shifts
 		return health == "000000" or healthRowTwo == "000000"
 
 	def _Lick_Wounds(self):
+		self.menu("adventure")
+	
 		my_health = self.get_pixel_color(ncon.PLAYER_HEAL_THRESHOLDX, ncon.PLAYER_HEAL_THRESHOLDY)
 		if my_health == ncon.PLAYER_HEAL_COLOR:
 			print("going back to base to lick my wounds")
@@ -130,7 +134,9 @@ class Features(Navigation, Inputs):
 			return False
 
 	def _Set_IdleAttack_State(self, state):
-		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
+		self.menu("adventure")
+	
+		idle_color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
 		if (idle_color == ncon.IDLECOLOR and not state) or \
 					(idle_color != ncon.IDLECOLOR and state):
 			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
@@ -138,17 +144,32 @@ class Features(Navigation, Inputs):
 			time.sleep(1)
 
 	def _Is_Boss(self):
+		self.menu("adventure")
+	
 		crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
 		return crown == ncon.ISBOSS
 
-	def _Set_BEAST_MODE_State(self, state):
+	def _Set_BEAST_MODE_State(self, state, wait=False):
+		self.menu("adventure")
+	
+		border_color = self.get_pixel_color(ncon.BEAST_MODE_BORDER_X, ncon.BEAST_MODE_BORDER_Y)
+		Active = border_color == ncon.BEAST_MODE_ACTIVE_BORDER_COLOR
+		
+		if state and not Active and wait:#BEAST MODE is not active and wait is True
+	
+	
+	
 		return False
 
 	def _ITOPOD_Active(self):
+		self.menu("adventure")
+	
 		itopod_active = self.get_pixel_color(ncon.ITOPOD_ACTIVEX, ncon.ITOPOD_ACTIVEY)
 		return itopod_active == "000000"
 
 	def _Manual_Kill(self, onlyAttack=False):
+		self.menu("adventure")
+	
 		queue = deque(self._Get_Ability_Queue(onlyAttack=onlyAttack))
 		while self._Is_Mob_Alive():
 			if len(queue) == 0:
@@ -179,6 +200,8 @@ class Features(Navigation, Inputs):
 		self.click(10, 10)
 
 	def _Manual_Basic_Attack(self):
+		self.menu("adventure")
+	
 		while self._Is_Mob_Alive():
 			self.click(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
 			time.sleep(0.01)
@@ -190,6 +213,8 @@ class Features(Navigation, Inputs):
 		self.click(10, 10)
 
 	def _Get_Ability_Queue(self, onlyAttack=False):
+		self.menu("adventure")
+	
 		"""Return a queue of usable abilities."""
 		ready = []
 		queue = []
@@ -257,6 +282,7 @@ class Features(Navigation, Inputs):
 		end = time.time() + duration
 		while time.time() < end:
 			self._Set_IdleAttack_State(False)
+			self._Set_BEAST_MODE_State(True)
 			if self._Is_Mob_Alive():
 				self._Manual_Basic_Attack()
 			else:
