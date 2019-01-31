@@ -154,7 +154,7 @@ class Inputs():
 
 		return None
 
-	def image_search(self, x_start, y_start, x_end, y_end, image, threshold):
+	def image_search(self, x_start, y_start, x_end, y_end, image, threshold, debug=False):
 		"""Search the screen for the supplied picture.
 
 		Returns a tuple with x,y-coordinates, or None if result is below
@@ -171,6 +171,9 @@ class Inputs():
 		# Bitmaps are created with a 8px border
 		search_area = bmp.crop((x_start + 8, y_start + 8,
 								x_end + 8, y_end + 8))
+		if debug:
+			search_area.save("image_search_debug.png")
+								
 		search_area = numpy.asarray(search_area)
 		search_area = cv2.cvtColor(search_area, cv2.COLOR_BGR2GRAY)
 		template = cv2.imread(image, 0)
