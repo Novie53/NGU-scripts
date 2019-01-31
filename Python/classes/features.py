@@ -150,16 +150,23 @@ class Features(Navigation, Inputs):
 		return crown == ncon.ISBOSS
 
 	def _Set_BEAST_MODE_State(self, state, wait=False):
+		def Is_BEAST_MODE_Ready():
+			button_Color = self.get_pixel_color(ncon.ABILITY_ROW3X + ncon.ABILITY_OFFSETX * 2, ncon.ABILITY_ROW3Y)
+			return button_Color == ncon.ABILITY_ROW3_READY_COLOR
+	
 		self.menu("adventure")
 	
 		border_color = self.get_pixel_color(ncon.BEAST_MODE_BORDER_X, ncon.BEAST_MODE_BORDER_Y)
-		Active = border_color == ncon.BEAST_MODE_ACTIVE_BORDER_COLOR
-		
-		if state and not Active and wait:#BEAST MODE is not active and wait is True
-	
-	
-	
-		return False
+		BEAST_MODE_Active = border_color == ncon.BEAST_MODE_ACTIVE_BORDER_COLOR
+		if (state and not BEAST_MODE_Active) or \
+			(not state and BEAST_MODE_Active):
+			
+			while wait and not Is_BEAST_MODE_Ready():
+				time.sleep(0.1)
+			if Is_BEAST_MODE_Ready():
+				self.click(ncon.ABILITY_ROW3X + ncon.ABILITY_OFFSETX * 2, ncon.ABILITY_ROW3Y)
+				self.click(10, 10)
+				time.sleep(1)
 
 	def _ITOPOD_Active(self):
 		self.menu("adventure")
