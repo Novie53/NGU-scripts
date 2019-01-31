@@ -141,6 +141,9 @@ class Features(Navigation, Inputs):
 		crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
 		return crown == ncon.ISBOSS
 
+	def _Set_BEAST_MODE_State(self, state):
+		return False
+
 	def _ITOPOD_Active(self):
 		itopod_active = self.get_pixel_color(ncon.ITOPOD_ACTIVEX, ncon.ITOPOD_ACTIVEY)
 		return itopod_active == "000000"
@@ -243,49 +246,6 @@ class Features(Navigation, Inputs):
 		return queue
 
 #----- Main Functions -----
-
-
-	def itopod_snipe(self, duration):
-		"""Manually snipes ITOPOD for increased speed PP/h.
-
-		Keyword arguments:
-		duration -- Duration in seconds to snipe, before toggling idle mode
-					back on and returning.
-		"""
-		end = time.time() + duration
-
-		self.menu("adventure")
-		self.click(625, 500)  # click somewhere to move tooltip
-		
-		# check if we're already in ITOPOD, otherwise enter
-		if itopod_active != ncon.ITOPOD_ACTIVE_COLOR:
-			self.click(ncon.ITOPODX, ncon.ITOPODY)
-			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
-			# set end to 0 in case it's higher than start
-			self.send_string("0")
-			self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
-			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
-
-		idle_color = self.get_pixel_color(ncon.ABILITY_ATTACKX,
-										  ncon.ABILITY_ATTACKY)
-
-		if idle_color == ncon.IDLECOLOR:
-			self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-
-		while time.time() < end:
-			health = self.get_pixel_color(ncon.HEALTHX, ncon.HEALTHY)
-			if health != ncon.DEAD:
-				self.click(ncon.ABILITY_ATTACKX, ncon.ABILITY_ATTACKY)
-			else:
-				time.sleep(0.01)
-
-		self.click(ncon.IDLE_BUTTONX, ncon.IDLE_BUTTONY)
-
-
-
-
-
-
 	def ITOPOD_sniping(self, duration, force=False):
 		self.menu("adventure")
 
@@ -372,16 +332,11 @@ class Features(Navigation, Inputs):
 		available = self.ocr(ncon.OCR_ADV_TITANX1, ncon.OCR_ADV_TITANY1,
 							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
 
-		print(str(available))
 		if "titan" in available.lower():
-			print("here1")
 			self._Set_IdleAttack_State(False)
-			time.sleep(2.5)  # Make sure titans spawn, otherwise loop breaks
-			
+			time.sleep(2)  # Make sure titans spawn, otherwise loop breaks
 			while self._Is_Mob_Alive():
-				print("here2")
 				self._Manual_Kill()
-			print("here3")
 			self._Set_IdleAttack_State(True)
 		else:
 			return str(available)
@@ -446,13 +401,6 @@ class Features(Navigation, Inputs):
 				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
 			return
 
-
-
-		
-		
-		
-		
-		
 #---------------------------------------
 
 	def do_rebirth(self):
