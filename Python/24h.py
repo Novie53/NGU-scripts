@@ -118,9 +118,6 @@ ZoneToFarmIn = 19 #21 = Chocolate World, 19 = Boring-Ass Earth, 18 = Badly Drawn
 MainGear_Loadout = 3 #2
 DropChanceGear_Loadout = 3
 
-#feature.kill_titan("BEAST1")
-#input("herp")
-#feature.ITOPOD_sniping(120)
 
 while True:
 	#feature.merge_equipment()
