@@ -111,8 +111,9 @@ class Features(Navigation, Inputs):
 
 #----- Sub Functions -----
 	def _Is_Mob_Alive(self):
-		health = self.get_pixel_color(728, 354) #if the "Max HP: {HP}" text is displayed"
-		healthRowTwo = self.get_pixel_color(728, 370) #if the "Max HP: {HP}" text is displayed". In the case of mobs with names that are two lines long the Max HP info shifts
+		health = self.get_pixel_color(706, 302) #if the "POWER:{DMG}" text is displayed"
+		healthRowTwo = self.get_pixel_color(706, 318) #if the "POWER:{DMG}" text is displayed". 
+		#In the case of mobs with names that are two lines long the Max HP info shifts
 		return health == "000000" or healthRowTwo == "000000"
 
 	def _Lick_Wounds(self):
