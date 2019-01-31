@@ -140,6 +140,10 @@ class Features(Navigation, Inputs):
 		crown = self.get_pixel_color(ncon.CROWNX, ncon.CROWNY)
 		return crown == ncon.ISBOSS
 
+	def _ITOPOD_Active(self):
+		itopod_active = self.get_pixel_color(ncon.ITOPOD_ACTIVEX, ncon.ITOPOD_ACTIVEY)
+		return itopod_active == "000000"
+
 	def _Manual_Kill(self, onlyAttack=False):
 		queue = deque(self._Get_Ability_Queue(onlyAttack=onlyAttack))
 		while self._Is_Mob_Alive():
@@ -251,8 +255,7 @@ class Features(Navigation, Inputs):
 
 		self.menu("adventure")
 		self.click(625, 500)  # click somewhere to move tooltip
-		itopod_active = self.get_pixel_color(ncon.ITOPOD_ACTIVEX,
-											 ncon.ITOPOD_ACTIVEY)
+		
 		# check if we're already in ITOPOD, otherwise enter
 		if itopod_active != ncon.ITOPOD_ACTIVE_COLOR:
 			self.click(ncon.ITOPODX, ncon.ITOPODY)
@@ -282,33 +285,19 @@ class Features(Navigation, Inputs):
 
 
 
-	def ITOPOD_sniping(self, duration, progress=False):
+	def ITOPOD_sniping(self, duration, force=False):
 		self.menu("adventure")
 
-		self.click(ncon.ITOPODX, ncon.ITOPODY)
-		if not progress:
+		if not _ITOPOD_Active() or force:
+			self.click(ncon.ITOPODX, ncon.ITOPODY)
 			self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
-		'''
-		else:
-			self.click(ncon.ITOPODSTARTX, ncon.ITOPODSTARTY)
-			self.NOV_send_text(str(itopod))
-			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
-			self.NOV_send_text(str(itopod))
 			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
-		'''
-
-		self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
-		input("here123")
 		
 		end = time.time() + duration
 		while time.time() < end:
 			self._Set_IdleAttack_State(False)
-		
 			if self._Is_Mob_Alive():
-				if not progress:
-					self._Manual_Basic_Attack()
-				else:
-					self._Manual_Kill()
+				self._Manual_Basic_Attack()
 			else:
 				time.sleep(0.01)
 		self._Set_IdleAttack_State(True)
@@ -382,12 +371,16 @@ class Features(Navigation, Inputs):
 		available = self.ocr(ncon.OCR_ADV_TITANX1, ncon.OCR_ADV_TITANY1,
 							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
 
+		print(str(available))
 		if "titan" in available.lower():
+			print("here1")
 			self._Set_IdleAttack_State(False)
-			time.sleep(2)  # Make sure titans spawn, otherwise loop breaks
+			time.sleep(2.5)  # Make sure titans spawn, otherwise loop breaks
 			
 			while self._Is_Mob_Alive():
+				print("here2")
 				self._Manual_Kill()
+			print("here3")
 			self._Set_IdleAttack_State(True)
 		else:
 			return str(available)
