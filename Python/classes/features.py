@@ -249,9 +249,9 @@ class Features(Navigation, Inputs):
 	def ITOPOD_sniping(self, duration, force=False):
 		self.menu("adventure")
 
-		if not _ITOPOD_Active() or force:
-			self.click(ncon.ITOPODX, ncon.ITOPODY)
-			self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
+		if not self._ITOPOD_Active() or force:
+			self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
+			self.click(ncon.ITOPOD_AUTO_FLOOR_X, ncon.ITOPOD_AUTO_FLOOR_Y)
 			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
 		
 		end = time.time() + duration
@@ -381,9 +381,9 @@ class Features(Navigation, Inputs):
 		"""
 		self.menu("adventure")
 		if itopod:
-			self.click(ncon.ITOPODX, ncon.ITOPODY)
+			self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
 			if itopodauto:
-				self.click(ncon.ITOPODAUTOX, ncon.ITOPODAUTOY)
+				self.click(ncon.ITOPOD_AUTO_FLOOR_X, ncon.ITOPOD_AUTO_FLOOR_Y)
 				self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
 				return
 			self.click(ncon.ITOPODSTARTX, ncon.ITOPODSTARTY)
