@@ -581,6 +581,31 @@ class Features(Navigation, Inputs):
 		for i in range(target):
 			self.click(ncon.BMX, ncon.BMY[i])
 
+	def _Is_Blood_Auto_Active(self, auto):
+		self.spells()
+		result = self.image_search(ncon.BM_AUTOS[auto]["x"] - 7,
+									   ncon.BM_AUTOS[auto]["y"] - 7,
+									   ncon.BM_AUTOS[auto]["x"] + 7,
+									   ncon.BM_AUTOS[auto]["y"] + 7,
+									   self.get_file_path("images", "BMSpellEnabled.png"),
+									   0.8)
+		return True if result is not None else False
+
+	def get_Blood_Autos_States(self):
+		Autos_States = {}
+		self.spells()
+		for auto in ncon.BM_AUTOS:
+			Autos_States[auto] = self._Is_Blood_Auto_Active(auto)
+		return Autos_States
+		
+	def set_Auto_Blood_Spell(self, states):
+		for auto in states:
+			is_Active = self._Is_Blood_Auto_Active(auto)
+			if (is_Active and not states[auto]) or \
+				(not is_Active and states[auto]):
+				self.click(ncon.BM_AUTOS[auto]["x"], ncon.BM_AUTOS[auto]["y"])
+				self.click(10, 10)
+			
 	def wandoos(self, magic=False):
 		"""Assign energy and/or magic to wandoos."""
 		self.menu("wandoos")
@@ -621,42 +646,38 @@ class Features(Navigation, Inputs):
 		Autos_Enabled = []
 		
 		if bm_color == ncon.BM_PILL_READY:
+			all_Autos_Off = {}
+			active_Autos
+			for auto in ncon.BM_AUTOS:
+				all_Autos_Off[auto] = False		
 		
 			self.reclaim_all_magic()
 			self.reclaim_all_energy()
 			self.deactivate_all_diggers()
 			
-			start = time.time()
+			currently_Active_Autos = self.get_Blood_Autos_States()
 			self.blood_magic(8)
-			self.spells()
-			for Auto in ncon.BM_AUTOS:
-				result = self.image_search(ncon.BM_AUTOS[Auto]["x"] + Window.x - 7,
-										   ncon.BM_AUTOS[Auto]["y"] + Window.y - 7,
-										   ncon.BM_AUTOS[Auto]["x"] + Window.x + 7,
-										   ncon.BM_AUTOS[Auto]["y"] + Window.y + 7,
-										   self.get_file_path("images", "BMSpellEnabled.png"),
-										   0.8)
-				if result is not None:
-					Autos_Enabled.append(Auto)
-					self.click(ncon.BM_AUTOS[Auto]["x"], 
-								ncon.BM_AUTOS[Auto]["y"])
-
+			
+			
+			feature.set_Auto_Blood_Spell(all_Autos_Off)
+			start = time.time()
+			
 			self.time_machine(1e12, magic=True)
 			
 			if userset.PILL == 0:
 				duration = 300
 			else:
 				duration = userset.PILL
-
+			
 			while time.time() < start + duration:
 				self.gold_diggers([11])
 				time.sleep(5)
+				
 			self.spells()
 			self.click(ncon.BMPILLX, ncon.BMPILLY)
 			time.sleep(userset.LONG_SLEEP)
-			for AutoEnabled in Autos_Enabled:
-				self.click(ncon.BM_AUTOS[AutoEnabled]["x"], 
-							ncon.BM_AUTOS[AutoEnabled]["y"])
+			
+			self.set_Auto_Blood_Spell(currently_Active_Autos)
 			return True
 		else:
 			return False
@@ -916,6 +937,8 @@ class Features(Navigation, Inputs):
 					 between 0.7 - 0.95.
 		consume -- Set to true if item is consumable instead.
 		"""
+		raise RuntimeError("Not implemented")
+		
 		self.menu("inventory")
 		slot = self.get_inventory_slots(slot)[-1]
 		self.click(*slot)
