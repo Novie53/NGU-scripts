@@ -156,12 +156,15 @@ class Features(Navigation, Inputs):
 	
 		self.menu("adventure")
 	
+		start = time.time()
 		border_color = self.get_pixel_color(ncon.BEAST_MODE_BORDER_X, ncon.BEAST_MODE_BORDER_Y)
 		BEAST_MODE_Active = border_color == ncon.BEAST_MODE_ACTIVE_BORDER_COLOR
 		if (state and not BEAST_MODE_Active) or \
 			(not state and BEAST_MODE_Active):
 			
 			while wait and not Is_BEAST_MODE_Ready():
+				if (time.time() - start) > 20:
+					raise RuntimeError("BEAST MODE has waited for longed than 20 sec when it should only possibly need to wait 15 sec. SHOULD NOT HAPPEN")
 				time.sleep(0.1)
 			if Is_BEAST_MODE_Ready():
 				self.click(ncon.ABILITY_ROW3X + ncon.ABILITY_OFFSETX * 2, ncon.ABILITY_ROW3Y)
@@ -355,6 +358,7 @@ class Features(Navigation, Inputs):
 				  "BEAST4"]
 		"""
 		self.menu("adventure")
+		self._Lick_Wounds()
 
 		self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
 		for i in range(ncon.TITAN_ZONE[target]):
@@ -366,8 +370,13 @@ class Features(Navigation, Inputs):
 							 ncon.OCR_ADV_TITANX2, ncon.OCR_ADV_TITANY2)
 
 		if "titan" in available.lower():
+			self.click(ncon.LEFTARROWX, ncon.LEFTARROWY, button="right")
 			self._Set_IdleAttack_State(False)
-			time.sleep(2)  # Make sure titans spawn, otherwise loop breaks
+			self._Set_BEAST_MODE_State(False, True)
+			for i in range(ncon.TITAN_ZONE[target]):
+				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
+
+			time.sleep(2.6)  # Make sure titans spawn, otherwise loop breaks
 			while self._Is_Mob_Alive():
 				self._Manual_Kill()
 			self._Set_IdleAttack_State(True)
