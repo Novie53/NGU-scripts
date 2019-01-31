@@ -169,8 +169,8 @@ class Inputs():
 		"""
 		bmp = self.get_bitmap()
 		# Bitmaps are created with a 8px border
-		search_area = bmp.crop((x_start + 8, y_start + 8,
-								x_end + 8, y_end + 8))
+		search_area = bmp.crop((x_start + window.x + 8, y_start + window.y + 8,
+								x_end + window.x + 8, y_end + window.y + 8))
 		if debug:
 			search_area.save("image_search_debug.png")
 								
