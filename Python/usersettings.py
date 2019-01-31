@@ -9,8 +9,3 @@ LONG_SLEEP = 0.3
 # How long to farm blood for iron pill (in seconds)
 
 PILL = 300
-
-# DISCORD WEBHOOK URLS
-
-ERROR_URL = ""
-INFO_URL = ""
