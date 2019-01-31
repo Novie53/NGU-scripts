@@ -250,9 +250,9 @@ class Features(Navigation, Inputs):
 		self.menu("adventure")
 
 		if not self._ITOPOD_Active() or force:
-			self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
+			self.click(ncon.ITOPOD_MENU_X, ncon.ITOPOD_MENU_Y)
 			self.click(ncon.ITOPOD_AUTO_FLOOR_X, ncon.ITOPOD_AUTO_FLOOR_Y)
-			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
+			self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
 		
 		end = time.time() + duration
 		while time.time() < end:
@@ -381,16 +381,16 @@ class Features(Navigation, Inputs):
 		"""
 		self.menu("adventure")
 		if itopod:
-			self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
+			self.click(ncon.ITOPOD_MENU_X, ncon.ITOPOD_MENU_Y)
 			if itopodauto:
 				self.click(ncon.ITOPOD_AUTO_FLOOR_X, ncon.ITOPOD_AUTO_FLOOR_Y)
-				self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
+				self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
 				return
 			self.click(ncon.ITOPODSTARTX, ncon.ITOPODSTARTY)
 			self.send_string(str(itopod))
 			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
 			self.send_string(str(itopod))
-			self.click(ncon.ITOPODENTERX, ncon.ITOPODENTERY)
+			self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
 			return
 		if highest:
 			self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, button="right")
