@@ -201,6 +201,7 @@ class Features(Navigation, Inputs):
 				y = ncon.ABILITY_ROW3Y
 
 			self.click(x, y)
+			self.click(10, 10)
 			time.sleep(userset.LONG_SLEEP)
 			color = self.get_pixel_color(ncon.ABILITY_ROW1X, ncon.ABILITY_ROW1Y)
 
@@ -320,7 +321,12 @@ class Features(Navigation, Inputs):
 		end = time.time() + duration
 		while time.time() < end:
 			self._Set_IdleAttack_State(False)
-			if not forceStay and self._Lick_Wounds():
+			if attackType >= 1:
+				self._Set_BEAST_MODE_State(True)
+			else:
+				self._Set_BEAST_MODE_State(False)
+			
+			if not self._Is_Mob_Alive() and not forceStay and self._Lick_Wounds():
 				self.adventure(zone=zone, highest=highest)
 
 			if self._Is_Mob_Alive():
