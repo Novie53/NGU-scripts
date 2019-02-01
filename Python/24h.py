@@ -180,7 +180,7 @@ while True:
 		nav.reclaim_all_energy()
 		nav.reclaim_all_magic()
 		feature.deactivate_all_diggers()
-		feature.gold_diggers([1,4,5,6])
+		feature.gold_diggers([1,4,5,6,10])
 	feature.spin()
 	feature.save_check()	
 	
