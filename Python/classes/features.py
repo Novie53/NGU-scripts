@@ -43,6 +43,20 @@ class Features(Navigation, Inputs):
 			self.click(self.equipment[whatEquipment]["x"], self.equipment[whatEquipment]["y"])
 			self.send_string("a")
 
+	def get_Inventory_Slot_Pos(self, x, y):
+		"""Gives the X,Y Pos for inventory slots
+		   Zero start so first inventory slot is 0,0 """
+		return (ncon.NOV_INVENTORY_START_X + ncon.NOV_INVENTORY_OFFSET * x, 
+				ncon.NOV_INVENTORY_START_Y + ncon.NOV_INVENTORY_OFFSET * y)
+		'''
+		for i in range(0, 60):
+			row = int(i / 12)
+			column = i - 12 * row
+			win32api.SetCursorPos((Window.x + ncon.NOV_INVENTORY_START_X + ncon.NOV_INVENTORY_OFFSET * column,
+									Window.y + ncon.NOV_INVENTORY_START_Y + ncon.NOV_INVENTORY_OFFSET * row))
+			time.sleep(0.2)
+		'''
+
 	'''
 	def get_current_boss(self):
 		"""Go to fight and read current boss number."""
