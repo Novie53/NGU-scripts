@@ -101,10 +101,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			GoldClearLevels = var2
 
 		if not Blood_Assigned:
-			feature.blood_magic(7)
-			#nav.input_box()
-			#i.NOV_send_text(20e6)
-			#i.click(ncon.BMX - 75, ncon.BMY[6])
+			feature.blood_magic(8)
 			Blood_Assigned = True
 			
 		if not Augment_Assigned:
@@ -161,8 +158,10 @@ def Nov_SpeedRun_Two(duration, counter):
 
 	debugScreenShot("rebirth", counter)
 
-	while time.time() < end:
+	
+	while time.time() < (end - 0.5):
 		time.sleep(0.1)
+	feature.stop_fight()
 	
 
 w = Window()
