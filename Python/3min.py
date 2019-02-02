@@ -171,9 +171,8 @@ feature = Features()
 
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
-u = Upgrade(37500, 37500, 2, 2, 2) #Hur den ska spendare EXP inom Energy & Magic caps
+u = Upgrade(37500, 37500, 2, 2, 2)
 print(w.x, w.y)
-#tracker = Tracker(3)		#Progress tracker int val = tid för run
 tracker = NOV_Tracker()
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
