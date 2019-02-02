@@ -114,24 +114,38 @@ nav.menu("inventory")
 #settings
 FarmInZoneDuration = 110 #120
 NoRebirth_Challenge_Count = 36
-ZoneToFarmIn = 19 #21 = Chocolate World, 19 = Boring-Ass Earth, 18 = Badly Drawn World
+ZoneToFarmIn = 21 #21 = Chocolate World, 19 = Boring-Ass Earth, 18 = Badly Drawn World
 MainGear_Loadout = 3 #2
 DropChanceGear_Loadout = 3
 
 
-while True:
+
+#import win32api
+#result = i.image_search(320, 300, 930, 560, i.get_file_path("images", "Mega_Lands_Quest_Item.png"), 0.8, debug=True)
+#print(str(result))
+#win32api.SetCursorPos((Window.x + result[0] + 320, Window.y + result[1] + 300))
+#exit()
+
+#feature.kill_titan("BEAST1")
+#exit()
+
+while False:
 	#feature.merge_equipment()
-	feature.merge_inventory(1)
+	feature.merge_inventory(14)
 	#feature.boost_equipment(cube=False)
 	#feature.boost_inventory(1)
 	feature.NOV_boost_equipment("cube")
+	
+	nav.menu("inventory")
+	inv_pos = feature.get_Inventory_Slot_Pos(15)
+	i.click(inv_pos[0], inv_pos[1], button="right")
 	
 	nav.menu("inventory")
 	#i.click(10, 10)
 	aaa = i.get_bitmap()
 	aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
 	
-	feature.snipe_hard(18, 120, highest=False, mobs=0, attackType=2, forceStay=True)
+	feature.snipe_hard(18, 180, highest=False, mobs=0, attackType=2, forceStay=True)
 
 
 current_Gear_Loadout = 1
@@ -155,7 +169,7 @@ while True:
 	
 	tempZoneDuration = FarmInZoneDuration - durationOffset
 	before = time.time()
-	feature.snipe_hard(ZoneToFarmIn, tempZoneDuration, mobs=0, attackType=2, forceStay=True)
+	feature.snipe_hard(ZoneToFarmIn, tempZoneDuration, highest=True, mobs=1, attackType=1, forceStay=False)
 	durationOffsetTotal += (time.time() - before) - tempZoneDuration
 	durationOffsetCount += 1
 	durationOffset = round(durationOffsetTotal / durationOffsetCount, 2)
@@ -165,11 +179,11 @@ while True:
 	aaa = i.get_bitmap()
 	aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
 
-	feature.merge_equipment()
-	feature.merge_inventory(14) #mergar de första 25 slotsen
+	#feature.merge_equipment()
+	feature.merge_inventory(12) #mergar de första 25 slotsen
 	
-	feature.boost_equipment(cube=False) #boostar också Cube
-	feature.boost_inventory(3)
+	#feature.boost_equipment(cube=False) #boostar också Cube
+	#feature.boost_inventory(3)
 	feature.NOV_boost_equipment("cube")
 	
 	
