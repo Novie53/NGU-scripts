@@ -23,7 +23,7 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": LOWEST_SLEEP_TO_KILL},
 				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9},
 				  11: {"name": "Chocolate World", "boss": 137, "floor": 21, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 6 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+MAX_KILL_ADVENTURE_ZONE = 6 # 6 if you only want to kill up towards "Mega Lands", no more
 SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
@@ -145,7 +145,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	debugScreenShot("blood", counter)
 	debugScreenShot("wandoos", counter)
 
-	#feature.NOV_boost_equipment("boots")
+	feature.NOV_boost_equipment("chest")
 	feature.NOV_boost_equipment("cube")
 	
 	feature.pit(value=1e24)
@@ -157,9 +157,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.fight()
 	feature.spin()
 	feature.save_check()
-	tracker.update_progress()
+	#tracker.update_progress()
 
-	debugScreenShot("rebirth", counter)
+	#debugScreenShot("rebirth", counter)
 
 	while time.time() < end:
 		time.sleep(0.1)
