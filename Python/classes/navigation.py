@@ -103,7 +103,7 @@ class Navigation(Inputs):
 		if Navigation.current_menu == "perks":
 			return
 		self.menu("adventure")
-		self.click(ncon.ITOPODX + ncon.ITOPODPERKSOFFSETX, ncon.ITOPODY)
+		self.click(ncon.ITOPOD_SHOP_X, ncon.ITOPOD_SHOP_Y)
 		time.sleep(userset.SHORT_SLEEP)
 		Navigation.current_menu = "perks"
 
