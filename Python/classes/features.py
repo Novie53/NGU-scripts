@@ -19,28 +19,28 @@ class Features(Navigation, Inputs):
 	def merge_equipment(self):
 		"""Navigate to inventory and merge equipment."""
 		self.menu("inventory")
-		for slot in self.equipment:
+		for slot in ncon.EQUIPMENTSLOTS:
 			if (slot != "cube"):
-				self.click(self.equipment[slot]["x"], self.equipment[slot]["y"])
+				self.click(ncon.EQUIPMENTSLOTS[slot]["x"], ncon.EQUIPMENTSLOTS[slot]["y"])
 				self.send_string("d")
 
 	def boost_equipment(self, cube=True):
 		"""Boost all equipment."""
 		self.menu("inventory")
-		for slot in self.equipment:
+		for slot in ncon.EQUIPMENTSLOTS:
 			if (slot == "cube" and cube):
-				self.click(self.equipment[slot]["x"],
-						   self.equipment[slot]["y"], "right")
+				self.click(ncon.EQUIPMENTSLOTS[slot]["x"],
+						   ncon.EQUIPMENTSLOTS[slot]["y"], "right")
 			elif slot != "cube":
-				self.click(self.equipment[slot]["x"], self.equipment[slot]["y"])
+				self.click(ncon.EQUIPMENTSLOTS[slot]["x"], ncon.EQUIPMENTSLOTS[slot]["y"])
 				self.send_string("a")
 
 	def NOV_boost_equipment(self, whatEquipment):
 		self.menu("inventory")
 		if whatEquipment == "cube":
-			self.click(self.equipment[whatEquipment]["x"], self.equipment[whatEquipment]["y"], "right")
+			self.click(ncon.EQUIPMENTSLOTS[whatEquipment]["x"], ncon.EQUIPMENTSLOTS[whatEquipment]["y"], "right")
 		else:
-			self.click(self.equipment[whatEquipment]["x"], self.equipment[whatEquipment]["y"])
+			self.click(ncon.EQUIPMENTSLOTS[whatEquipment]["x"], ncon.EQUIPMENTSLOTS[whatEquipment]["y"])
 			self.send_string("a")
 
 	def get_Inventory_Slot_Pos(self, x, y=1):

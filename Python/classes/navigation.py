@@ -8,15 +8,15 @@ import time
 class Navigation(Inputs):
 	"""Navigate through menus."""
 
-	menus = ncon.MENUITEMS
-	equipment = ncon.EQUIPMENTSLOTS
+	#menus = ncon.MENUITEMS
+	#equipment = ncon.EQUIPMENTSLOTS
 	current_menu = ""
 
 	def menu(self, target):
 		"""Navigate through main menu."""
 		if Navigation.current_menu == target:
 			return
-		y = ncon.MENUOFFSETY + ((self.menus.index(target) + 1) *
+		y = ncon.MENUOFFSETY + ((ncon.MENUITEMS.index(target) + 1) *
 								ncon.MENUDISTANCEY)
 		self.click(ncon.MENUOFFSETX, y)
 		time.sleep(userset.LONG_SLEEP)
