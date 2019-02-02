@@ -28,7 +28,7 @@ SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
-					  "rebirth" : {"Use" : False}}
+					  "rebirth" : {"Use" : True}}
 
 
 def debugScreenShot(name, counter):
@@ -157,9 +157,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.fight()
 	feature.spin()
 	feature.save_check()
-	#tracker.update_progress()
+	tracker.update_progress()
 
-	#debugScreenShot("rebirth", counter)
+	debugScreenShot("rebirth", counter)
 
 	while time.time() < end:
 		time.sleep(0.1)
