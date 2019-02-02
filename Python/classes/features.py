@@ -592,14 +592,9 @@ class Features(Navigation, Inputs):
 	def do_rebirth(self):
 		"""Start a rebirth or challenge."""
 		self.rebirth()
-
-		self.click(ncon.REBIRTHX, ncon.REBIRTHY)
-		time.sleep(0.1)
 		self.click(ncon.REBIRTHBUTTONX, ncon.REBIRTHBUTTONY)
-		time.sleep(0.1)
-		self.click(ncon.CONFIRMX, ncon.CONFIRMY)
-		time.sleep(0.1)
-		return
+		time.sleep(0.3)
+		self.confirm()
 
 	def pit(self, loadout=0, value=0):
 		"""Throws money into the pit.
