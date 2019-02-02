@@ -78,7 +78,6 @@ class Challenge(Features):
 				time.sleep(userset.LONG_SLEEP)
 				self.confirm()
 				b.basic(58)
-
 			elif challenge == 3:
 				try:
 					self.click(x, y, button="right")
@@ -96,7 +95,6 @@ class Challenge(Features):
 					b.basic(target)
 				except ValueError:
 					print("couldn't detect the target level of 24HC")
-
 			elif challenge == 4:
 				self.click(x, y)
 				time.sleep(userset.LONG_SLEEP)
@@ -112,7 +110,9 @@ class Challenge(Features):
 				time.sleep(userset.LONG_SLEEP)
 				self.confirm()
 				laser.laser()
-
+			else:
+				raise RuntimeError("Not implemented challenge " + str(challenge))
+				
 	def check_challenge(self):
 		"""Check if a challenge is active."""
 		self.rebirth()
