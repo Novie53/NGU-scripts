@@ -84,7 +84,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.adventure(highest=True)
 	feature.time_machine(190e6, 250e6)
 	feature.augments({"SM": 1}, 200e6)
-	feature.augments({"AA": 1}, 100e6)
+	feature.augments({"AA": 1}, 130e6)
 	
 	feature.nuke(44) #67 = Clock Dimension, #75 = The2DUniverse, #83 = AncientBattlefield
 	currentBoss = feature.get_current_boss_two()
@@ -106,7 +106,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			
 		if not Augment_Assigned:
 			feature.augments({"SM": 1}, 200e6)
-			feature.augments({"AA": 1}, 30e6)
+			#feature.augments({"AA": 1}, 30e6)
 			Augment_Assigned = True
 
 		if time_since_start() > 150 and not XP_Digger:
