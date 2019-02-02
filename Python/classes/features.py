@@ -16,48 +16,7 @@ import usersettings as userset
 class Features(Navigation, Inputs):
 	"""Handles the different features in the game."""
 
-	def merge_equipment(self):
-		"""Navigate to inventory and merge equipment."""
-		self.menu("inventory")
-		for slot in ncon.EQUIPMENTSLOTS:
-			if (slot != "cube"):
-				self.click(ncon.EQUIPMENTSLOTS[slot]["x"], ncon.EQUIPMENTSLOTS[slot]["y"])
-				self.send_string("d")
-
-	def boost_equipment(self, cube=True):
-		"""Boost all equipment."""
-		self.menu("inventory")
-		for slot in ncon.EQUIPMENTSLOTS:
-			if (slot == "cube" and cube):
-				self.click(ncon.EQUIPMENTSLOTS[slot]["x"],
-						   ncon.EQUIPMENTSLOTS[slot]["y"], "right")
-			elif slot != "cube":
-				self.click(ncon.EQUIPMENTSLOTS[slot]["x"], ncon.EQUIPMENTSLOTS[slot]["y"])
-				self.send_string("a")
-
-	def NOV_boost_equipment(self, whatEquipment):
-		self.menu("inventory")
-		if whatEquipment == "cube":
-			self.click(ncon.EQUIPMENTSLOTS[whatEquipment]["x"], ncon.EQUIPMENTSLOTS[whatEquipment]["y"], "right")
-		else:
-			self.click(ncon.EQUIPMENTSLOTS[whatEquipment]["x"], ncon.EQUIPMENTSLOTS[whatEquipment]["y"])
-			self.send_string("a")
-
-	def get_Inventory_Slot_Pos(self, x, y=1):
-		"""Gives the X,Y Pos for inventory slots.
-		   x=1 --> first slot in the entire inventory
-		   x=1,y=2 --> first slot in the second row
-		   x=23 --> last slot in the second row
-		   """
-
-		y -= 1
-		x -= 1
-		if y == 0:
-			y = int(x / 12)
-			x = x - 12 * y
-		return (ncon.NOV_INVENTORY_START_X + ncon.NOV_INVENTORY_OFFSET * x, 
-				ncon.NOV_INVENTORY_START_Y + ncon.NOV_INVENTORY_OFFSET * y)
-
+#------------ Fight Boss ---------------
 	'''
 	def get_current_boss(self):
 		"""Go to fight and read current boss number."""
@@ -84,14 +43,14 @@ class Features(Navigation, Inputs):
 		self.menu("fight")
 		if boss:
 			for i in range(boss):
-				self.click(ncon.FIGHTX, ncon.FIGHTY, fast=True)
+				self.click(ncon.FIGHT_BOSS_X, ncon.FIGHT_Y, fast=True)
 			time.sleep(userset.SHORT_SLEEP)
 			current_boss = self.get_current_boss_two()
 			x = 0
 			while current_boss < boss:
 				bossdiff = boss - current_boss
 				for i in range(0, bossdiff):
-					self.click(ncon.FIGHTX, ncon.FIGHTY, fast=True)
+					self.click(ncon.FIGHT_BOSS_X, ncon.FIGHT_Y, fast=True)
 				time.sleep(userset.SHORT_SLEEP)
 				current_boss = self.get_current_boss_two()
 				x += 1
@@ -99,32 +58,68 @@ class Features(Navigation, Inputs):
 					print("Couldn't reach the target boss, something probably went wrong the last rebirth.")
 					break
 		else:
-			self.click(ncon.NUKEX, ncon.NUKEY)
+			self.click(ncon.FIGHT_BOSS_X, ncon.NUKE_Y)
 			time.sleep(userset.MEDIUM_SLEEP)
 
 	def fight(self):
 		"""Navigate to Fight Boss and click fight."""
 		self.menu("fight")
-		self.click(ncon.FIGHTX, ncon.FIGHTY)
+		self.click(ncon.FIGHT_BOSS_X, ncon.FIGHT_Y)
 
-	def ygg(self, rebirth=False):
-		"""Navigate to inventory and handle fruits."""
-		self.menu("yggdrasil")
-		if rebirth:
-			for i in ncon.FRUITSX:
-				self.click(ncon.FRUITSX[i], ncon.FRUITSY[i])
-		else:
-			self.click(ncon.HARVESTX, ncon.HARVESTY)
+	def stop_fight(self):
+		self.menu("fight")
+		self.click(ncon.FIGHT_BOSS_X, ncon.STOP_Y)
 
+#------------ Money Pit ----------------
 	def spin(self):
 		"""Spin the wheel."""
 		self.menu("pit")
 		self.click(ncon.SPIN_MENUX, ncon.SPIN_MENUY)
 		self.click(ncon.SPINX, ncon.SPINY)
 
-#------------ Adventure ----------------
+	def pit(self, loadout=0, value=0):
+		"""Throws money into the pit.
+		Keyword arguments:
+		loadout -- The loadout you wish to equip before throwing gold
+				   into the pit, for gear you wish to shock. Make
+				   sure that you don't get cap-blocked by either using
+				   the unassign setting in the game or swapping gear that
+				   doesn't have e/m cap.
+		"""		
+		def _ocr():
+			try:
+				return float((self.ocr(15, 320, 140, 350)).replace(" ",""))
+			except:
+				print("Money Pit OCR Failed")
+				return 1e99
+			
+		color = self.get_pixel_color(ncon.PITCOLORX, ncon.PITCOLORY)
+		if (color == ncon.PITREADY):
+			self.menu("pit")
 
-#----- Sub Adv Functions -----
+			if value != 0:
+				currentMoney = _ocr()
+				if currentMoney < value:
+					self.reclaim_all_magic()
+					self.reclaim_all_energy()
+					self.deactivate_all_diggers()
+					self.time_machine(1e12, magic=True)
+					print("Waiting on Money Pit")
+					self.menu("pit")
+					while currentMoney < value:
+						currentMoney = _ocr()
+						time.sleep(0.25)
+			if loadout:
+				self.loadout(loadout)
+			self.menu("pit")
+			self.click(ncon.PITX, ncon.PITY)
+			self.click(ncon.CONFIRMX, ncon.CONFIRMY)
+			if loadout:
+				self.loadout(2)
+
+
+#------------ Adventure ----------------
+#Sub Adv Functions
 	def _Is_Mob_Alive(self):
 		self.menu("adventure")
 	
@@ -296,7 +291,7 @@ class Features(Navigation, Inputs):
 
 		return queue
 
-#----- Main Adv Functions -----
+#Main Adv Functions
 	def ITOPOD_sniping(self, duration, force=False):
 		self.menu("adventure")
 
@@ -464,8 +459,57 @@ class Features(Navigation, Inputs):
 				self.click(ncon.RIGHTARROWX, ncon.RIGHTARROWY, fast=True)
 			return
 
-#------------ Blood Magic --------------
 
+#------------ Inventory ----------------
+	def merge_equipment(self):
+		"""Navigate to inventory and merge equipment."""
+		self.menu("inventory")
+		for slot in ncon.EQUIPMENTSLOTS:
+			if (slot != "cube"):
+				self.click(ncon.EQUIPMENTSLOTS[slot]["x"], ncon.EQUIPMENTSLOTS[slot]["y"])
+				self.send_string("d")
+
+	def boost_equipment(self, cube=True):
+		"""Boost all equipment."""
+		self.menu("inventory")
+		for slot in ncon.EQUIPMENTSLOTS:
+			if (slot == "cube" and cube):
+				self.click(ncon.EQUIPMENTSLOTS[slot]["x"],
+						   ncon.EQUIPMENTSLOTS[slot]["y"], "right")
+			elif slot != "cube":
+				self.click(ncon.EQUIPMENTSLOTS[slot]["x"], ncon.EQUIPMENTSLOTS[slot]["y"])
+				self.send_string("a")
+
+	def NOV_boost_equipment(self, whatEquipment):
+		self.menu("inventory")
+		if whatEquipment == "cube":
+			self.click(ncon.EQUIPMENTSLOTS[whatEquipment]["x"], ncon.EQUIPMENTSLOTS[whatEquipment]["y"], "right")
+		else:
+			self.click(ncon.EQUIPMENTSLOTS[whatEquipment]["x"], ncon.EQUIPMENTSLOTS[whatEquipment]["y"])
+			self.send_string("a")
+
+	def get_Inventory_Slot_Pos(self, x, y=1):
+		"""Gives the X,Y Pos for inventory slots.
+		   x=1 --> first slot in the entire inventory
+		   x=1,y=2 --> first slot in the second row
+		   x=23 --> last slot in the second row
+		   """
+
+		y -= 1
+		x -= 1
+		if y == 0:
+			y = int(x / 12)
+			x = x - 12 * y
+		return (ncon.NOV_INVENTORY_START_X + ncon.NOV_INVENTORY_OFFSET * x, 
+				ncon.NOV_INVENTORY_START_Y + ncon.NOV_INVENTORY_OFFSET * y)
+
+	def loadout(self, target):
+		"""Equip targeted loadout."""
+		self.menu("inventory")
+		self.click(ncon.LOADOUTX[target], ncon.LOADOUTY)
+
+
+#------------ Blood Magic --------------
 	def blood_magic(self, target):
 		"""Assign magic to BM."""
 		self.menu("bloodmagic")
@@ -536,9 +580,9 @@ class Features(Navigation, Inputs):
 				(not is_Active and states[auto]):
 				self.click(ncon.BM_AUTOS[auto]["x"], ncon.BM_AUTOS[auto]["y"])
 				self.click(10, 10)
-		
-#------------ Diggers ------------------
 
+
+#------------ Diggers ------------------
 	def NOV_gold_diggers(self, targets, targetValues, activate=False):
 		"""Activate diggers.
 
@@ -587,54 +631,24 @@ class Features(Navigation, Inputs):
 		self.menu("digger")
 		self.click(ncon.DIG_DEACTIVATE_ALL_X, ncon.DIG_DEACTIVATE_ALL_Y)
 
+
 #---------------------------------------
+
+	def ygg(self, rebirth=False):
+		"""Navigate to inventory and handle fruits."""
+		self.menu("yggdrasil")
+		if rebirth:
+			for i in ncon.FRUITSX:
+				self.click(ncon.FRUITSX[i], ncon.FRUITSY[i])
+		else:
+			self.click(ncon.HARVESTX, ncon.HARVESTY)
 
 	def do_rebirth(self):
 		"""Start a rebirth or challenge."""
 		self.rebirth()
 		self.click(ncon.REBIRTHBUTTONX, ncon.REBIRTHBUTTONY)
-		time.sleep(0.3)
+		time.sleep(0.1)
 		self.confirm()
-
-	def pit(self, loadout=0, value=0):
-		"""Throws money into the pit.
-		Keyword arguments:
-		loadout -- The loadout you wish to equip before throwing gold
-				   into the pit, for gear you wish to shock. Make
-				   sure that you don't get cap-blocked by either using
-				   the unassign setting in the game or swapping gear that
-				   doesn't have e/m cap.
-		"""		
-		def _ocr():
-			try:
-				return float((self.ocr(15, 320, 140, 350)).replace(" ",""))
-			except:
-				print("Money Pit OCR Failed")
-				return 1e99
-			
-		color = self.get_pixel_color(ncon.PITCOLORX, ncon.PITCOLORY)
-		if (color == ncon.PITREADY):
-			self.menu("pit")
-
-			if value != 0:
-				currentMoney = _ocr()
-				if currentMoney < value:
-					self.reclaim_all_magic()
-					self.reclaim_all_energy()
-					self.deactivate_all_diggers()
-					self.time_machine(1e12, magic=True)
-					print("Waiting on Money Pit")
-					self.menu("pit")
-					while currentMoney < value:
-						currentMoney = _ocr()
-						time.sleep(0.25)
-			if loadout:
-				self.loadout(loadout)
-			self.menu("pit")
-			self.click(ncon.PITX, ncon.PITY)
-			self.click(ncon.CONFIRMX, ncon.CONFIRMY)
-			if loadout:
-				self.loadout(2)
 
 	def augments(self, augments, energy):
 		"""Dump energy into augmentations.
@@ -742,11 +756,6 @@ class Features(Navigation, Inputs):
 			self.click(ncon.WANDOOS_ADD_X, ncon.WANDOOS_MAGIC_BUTTONS_Y)
 		else: #Reduce from Magic
 			self.click(ncon.WANDOOS_MINUS_X, ncon.WANDOOS_MAGIC_BUTTONS_Y)
-
-	def loadout(self, target):
-		"""Equip targeted loadout."""
-		self.menu("inventory")
-		self.click(ncon.LOADOUTX[target], ncon.LOADOUTY)
 
 	def set_ngu(self, ngu, magic=False):
 		"""Handle NGU upgrades in a non-dumb way.
