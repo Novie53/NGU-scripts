@@ -186,7 +186,6 @@ tracker = NOV_Tracker()
 
 
 
-
 runCounter = 1
 while True:
 	"""
