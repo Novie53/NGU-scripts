@@ -21,9 +21,9 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  7: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 				  8: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": LOWEST_SLEEP_TO_KILL},
 				  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": LOWEST_SLEEP_TO_KILL},
-				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9},
+				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 5},
 				  11: {"name": "Chocolate World", "boss": 137, "floor": 21, "sleep": 9}}
-MAX_KILL_ADVENTURE_ZONE = 6 # 6 if you only want to kill up towards "Mega Lands", no more
+MAX_KILL_ADVENTURE_ZONE = 10 # 6 if you only want to kill up towards "Mega Lands", no more
 SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
@@ -93,10 +93,11 @@ def Nov_SpeedRun_Two(duration, counter):
 			feature.fight()
 			currentBoss = feature.get_current_boss_two()
 		
-		var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
-		if var1:
-			feature.adventure(itopod=True, itopodauto=True)
-			GoldClearLevels = var2
+		if time_since_start() < 60:
+			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
+			if var1:
+				feature.adventure(itopod=True, itopodauto=True)
+				GoldClearLevels = var2
 
 		if not Blood_Assigned:
 			feature.blood_magic(8)
