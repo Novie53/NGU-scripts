@@ -136,7 +136,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			if not BB_NGU and time_since_start() > 51:
 				nav.menu("ngu")
 				i.click(565, 450)
-				feature.bb_ngu(3e9, [1, 3], 1.02)
+				feature.bb_ngu(3e9, [1])
 				BB_NGU = True
 			feature.assign_ngu(1e12, [4])
 				
