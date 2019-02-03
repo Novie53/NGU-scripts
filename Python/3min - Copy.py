@@ -28,7 +28,7 @@ SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
-					  "rebirth" : {"Use" : True}}
+					  "rebirth" : {"Use" : False}}
 
 
 def debugScreenShot(name, counter):
@@ -164,7 +164,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.stop_fight()
 	
 
-w = Window()
+w = Window(True)
 i = Inputs()
 nav = Navigation()
 feature = Features()
@@ -180,7 +180,6 @@ tracker = NOV_Tracker()
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
-
 
 
 
