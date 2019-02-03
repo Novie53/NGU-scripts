@@ -85,9 +85,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke(101)
 	currentBoss = feature.get_current_boss_two()
 	feature.adventure(highest=True)
-	feature.time_machine(170e6, 247e6)
-	feature.augments({"SM": 1}, 370e6)
-	feature.augments({"AA": 1}, 120e6)
+	feature.time_machine(150e6, 241e6)
+	feature.augments({"SM": 1}, 310e6)
+	feature.augments({"AA": 1}, 100e6)
 
 	while time.time() < (end - 11):
 		if XP_Digger:
@@ -133,10 +133,12 @@ def Nov_SpeedRun_Two(duration, counter):
 				WANDOOS_magic_goal_reached = True
 
 		if WANDOOS_energy_goal_reached:
-			if not BB_NGU:
-				feature.bb_ngu(5e9, [1], 1.02)
+			if not BB_NGU and time_since_start() > 51:
+				nav.menu("ngu")
+				i.click(565, 450)
+				feature.bb_ngu(5e9, [1, 3], 1.02)
 				BB_NGU = True
-			feature.assign_ngu(1e12, [2])
+			feature.assign_ngu(1e12, [4])
 				
 		if WANDOOS_magic_goal_reached:
 			feature.assign_ngu(1e12, [3], magic=True)
@@ -148,6 +150,8 @@ def Nov_SpeedRun_Two(duration, counter):
 
 	feature.NOV_boost_equipment("accessory1")
 	feature.NOV_boost_equipment("cube")
+	
+	debugScreenShot("ngu", counter)
 	
 	feature.pit(value=1e24)
 	feature.speedrun_bloodpill()
@@ -161,7 +165,6 @@ def Nov_SpeedRun_Two(duration, counter):
 	tracker.update_progress()
 
 	debugScreenShot("rebirth", counter)
-	debugScreenShot("ngu", counter)
 	
 	while time.time() < (end - 0.5):
 		time.sleep(0.1)
