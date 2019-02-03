@@ -25,7 +25,7 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  11: {"name": "Chocolate World", "boss": 137, "floor": 21, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 6 # 6 if you only want to kill up towards "Mega Lands", no more
 SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
-					  "TM" : {"Use" : True, "Menu" : "timemachine"},
+					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
 					  "rebirth" : {"Use" : False}}
