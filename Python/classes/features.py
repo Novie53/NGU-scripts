@@ -43,7 +43,8 @@ class Features(Navigation, Inputs):
 		self.menu("fight")
 		if boss:
 			for i in range(boss):
-				self.click(ncon.FIGHT_BOSS_X, ncon.FIGHT_Y, fast=True)
+				self.click(ncon.FIGHT_BOSS_X, ncon.FIGHT_Y, fast=0.05)
+			print("done")
 			time.sleep(userset.SHORT_SLEEP)
 			current_boss = self.get_current_boss_two()
 			x = 0
@@ -861,7 +862,7 @@ class Features(Navigation, Inputs):
 			self.menu("ngu")
 
 		self.input_box()
-		self.send_string(str(int(value)))
+		self.NOV_send_text(value)
 
 		for target in targets:
 			self.click(ncon.NGU_PLUSX, ncon.NGU_PLUSY + target * 35)
@@ -877,7 +878,7 @@ class Features(Navigation, Inputs):
 					pixel_coefficient = x / 198
 					value_coefficient = overcap / pixel_coefficient
 					energy = (value_coefficient * value) - value
-					#print(f"estimated energy to BB this NGU is {Decimal(energy):.2E}")
+					print(f"estimated energy to BB this NGU is {Decimal(energy):.2E}")
 					break
 			self.input_box()
 			self.send_string(str(int(energy)))
