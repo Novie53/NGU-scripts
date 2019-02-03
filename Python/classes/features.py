@@ -877,7 +877,9 @@ class Features(Navigation, Inputs):
 					pixel_coefficient = x / 198
 					value_coefficient = overcap / pixel_coefficient
 					energy = (value_coefficient * value) - value
-					print(f"estimated energy to BB this NGU is {Decimal(energy):.2E}")
+					
+					total_Needed = (value_coefficient * value)
+					print(f"estimated energy to BB this NGU is {Decimal(total_Needed):.2E}")
 					break
 			self.input_box()
 			self.send_string(str(int(energy)))
