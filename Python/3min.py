@@ -28,6 +28,7 @@ SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
+					  "ngu" : {"Use" : False, "Menu" : "ngu"},
 					  "rebirth" : {"Use" : False}}
 
 
@@ -74,6 +75,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	WANDOOS_magic_goal_reached = False
 	Augment_Assigned = False
 	XP_Digger = False
+	BB_NGU = False
 		
 	feature.do_rebirth()
 	start = time.time()
@@ -131,7 +133,10 @@ def Nov_SpeedRun_Two(duration, counter):
 				WANDOOS_magic_goal_reached = True
 
 		if WANDOOS_energy_goal_reached:
-			feature.assign_ngu(1e12, [1])
+			if not BB_NGU:
+				feature.bb_ngu(1e9, [1], 1.02)
+				BB_NGU = True
+			feature.assign_ngu(1e12, [2])
 				
 		if WANDOOS_magic_goal_reached:
 			feature.assign_ngu(1e12, [3], magic=True)
@@ -156,7 +161,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	tracker.update_progress()
 
 	debugScreenShot("rebirth", counter)
-
+	debugScreenShot("ngu", counter)
 	
 	while time.time() < (end - 0.5):
 		time.sleep(0.1)
