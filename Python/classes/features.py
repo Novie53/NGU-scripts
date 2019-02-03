@@ -42,7 +42,7 @@ class Features(Navigation, Inputs):
 		"""Navigate to Fight Boss and Nuke or Fast Fight."""
 		self.menu("fight")
 		if boss:
-			for i in range(boss):
+			for i in range(1, boss):
 				self.click(ncon.FIGHT_BOSS_X, ncon.FIGHT_Y, fast=0.05)
 			time.sleep(userset.SHORT_SLEEP)
 			current_boss = self.get_current_boss_two()

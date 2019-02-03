@@ -85,9 +85,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke(101)
 	currentBoss = feature.get_current_boss_two()
 	feature.adventure(highest=True)
-	feature.time_machine(150e6, 241e6)
-	feature.augments({"SM": 1}, 310e6)
-	feature.augments({"AA": 1}, 100e6)
+	feature.time_machine(140e6, 241e6)
+	feature.augments({"SM": 1}, 280e6)
+	feature.augments({"AA": 1}, 90e6)
 
 	while time.time() < (end - 11):
 		if XP_Digger:
@@ -136,7 +136,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			if not BB_NGU and time_since_start() > 51:
 				nav.menu("ngu")
 				i.click(565, 450)
-				feature.bb_ngu(5e9, [1, 3], 1.02)
+				feature.bb_ngu(3e9, [1, 3], 1.02)
 				BB_NGU = True
 			feature.assign_ngu(1e12, [4])
 				
