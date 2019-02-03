@@ -43,7 +43,9 @@ class Inputs():
 			win32gui.PostMessage(window.id, wcon.WM_RBUTTONUP,
 								 wcon.MK_RBUTTON, lParam)
 		# Sleep lower than 0.1 might cause issues when clicking in succession
-		if fast:
+		if type(fast) == float:
+			time.sleep(fast)
+		elif fast:
 			time.sleep(0.11)
 		else:
 			time.sleep(userset.MEDIUM_SLEEP)
