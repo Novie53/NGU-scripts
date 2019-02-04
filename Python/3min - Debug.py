@@ -3,7 +3,7 @@ from classes.challenge import Challenge
 from classes.features import Features
 from classes.inputs import Inputs
 from classes.navigation import Navigation
-from classes.stats import Stats, EstimateRate, Tracker
+from classes.stats import NOV_Tracker
 from classes.upgrade import Upgrade
 from classes.window import Window
 
@@ -167,7 +167,7 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
-tracker = Tracker(3)		#Progress tracker int val = tid för run
+tracker = NOV_Tracker()
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
