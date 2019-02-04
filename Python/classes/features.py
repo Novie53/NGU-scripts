@@ -506,8 +506,8 @@ class Features(Navigation, Inputs):
 	def loadout(self, target):
 		"""Equip targeted loadout."""
 		self.menu("inventory")
-		self.click(ncon.LOADOUTX[target], ncon.LOADOUTY)
-
+		self.click(ncon.INVENTORY_LOADOUT_START_X + ncon.INVENTORY_LOADOUT_OFFSET * (target - 1), 
+					ncon.INVENTORY_LOADOUT_START_Y)
 
 #------------ Blood Magic --------------
 	def blood_magic(self, target):
@@ -947,7 +947,7 @@ class Features(Navigation, Inputs):
 		for slot in coords:
 			self.click(slot.x, slot.y)
 			self.send_string("a")
-			
+
 	def transform_slot(self, slot, threshold=0.8, consume=False):
 		"""Check if slot is transformable and transform if it is.
 

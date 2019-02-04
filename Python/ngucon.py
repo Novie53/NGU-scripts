@@ -162,8 +162,11 @@ EQUIPMENTSLOTS = {"accessory1" : {"x": 480, "y": 65},
                   "boots": {"x": 527, "y": 212},
                   "weapon": {"x": 575, "y": 115},
                   "cube": {"x": 627, "y": 115}}
-LOADOUTX = {1: 330, 2: 360, 3: 390, 4: 420, 5: 450, 6: 480, 7: 510, 8: 540, 9: 570, 10: 600}
-LOADOUTY = 255
+INVENTORY_LOADOUT_START_X = 330
+INVENTORY_LOADOUT_START_Y = 260
+INVENTORY_LOADOUT_OFFSET = 30
+#LOADOUTX = {1: 330, 2: 360, 3: 390, 4: 420, 5: 450, 6: 480, 7: 510, 8: 540, 9: 570, 10: 600}
+#LOADOUTY = 255 				2019-02-04
 NOV_INVENTORY_START_X = 350
 NOV_INVENTORY_START_Y = 330
 NOV_INVENTORY_OFFSET = 50
