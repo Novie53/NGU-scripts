@@ -10,7 +10,7 @@ from classes.window import Window
 import ngucon as ncon
 import time
 
-LOWEST_SLEEP_TO_KILL = 3.10
+LOWEST_SLEEP_TO_KILL = 3.00
 ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sleep": LOWEST_SLEEP_TO_KILL},
 				  1: {"name": "The Sky", "boss": 48, "floor": 5, "sleep": LOWEST_SLEEP_TO_KILL},
 				  2: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -85,8 +85,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke(101)
 	currentBoss = feature.get_current_boss_two()
 	feature.adventure(highest=True)
-	feature.time_machine(140e6, 241e6)
-	feature.augments({"SM": 1}, 280e6)
+	feature.time_machine(137e6, 236e6)
+	feature.augments({"SM": 1}, 270e6)
 	feature.augments({"AA": 1}, 90e6)
 
 	while time.time() < (end - 11):
@@ -134,11 +134,11 @@ def Nov_SpeedRun_Two(duration, counter):
 
 		if WANDOOS_energy_goal_reached:
 			if not BB_NGU and time_since_start() > 51:
-				nav.menu("ngu")
-				i.click(565, 450)
-				feature.bb_ngu(3e9, [3, 4])
+				#nav.menu("ngu")
+				#i.click(565, 450)
+				#feature.bb_ngu(3e9, [6])
 				BB_NGU = True
-			feature.assign_ngu(1e12, [5])
+			feature.assign_ngu(1e12, [7])
 				
 		if WANDOOS_magic_goal_reached:
 			feature.assign_ngu(1e12, [3], magic=True)
