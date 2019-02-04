@@ -978,3 +978,35 @@ class Features(Navigation, Inputs):
 
 		if coords:
 			self.ctrl_click(*slot)
+
+			
+#-------------- Questing ---------------
+	def _get_Quest_Zone(self):
+		self.menu("questing")
+		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
+						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
+		desc = desc.replace("\n", " ")
+		desc = desc[-10:]
+		desc = desc.lower()
+		
+		for name in ncon.QUESTING_ZONES:
+			if name in desc:
+				print(f"found \"{name}\" in \"{desc}\"")
+				return name
+		raise RuntimeError("Find no quest zone, not good")
+
+	def collect_Quest_Items(self, questZone):
+		self.menu("inventory")
+		result = self.image_search(ncon.INVENTORY_GRID_REGION_X1,
+								   ncon.INVENTORY_GRID_REGION_Y1,
+								   ncon.INVENTORY_GRID_REGION_X2,
+								   ncon.INVENTORY_GRID_REGION_Y2,
+								   self.get_file_path("images", ncon.QUESTING_ZONES[questZone]["filename"]),
+								   0.9, debug=False)
+		if result != None:
+			self.click(ncon.INVENTORY_GRID_REGION_X1 + result[0] + 20,
+					   ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20, button="right")
+
+	def questing(self):
+		questZone = self._get_Quest_Zone()
+		self.collect_Quest_Items(questZone)
