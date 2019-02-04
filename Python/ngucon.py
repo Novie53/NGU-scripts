@@ -417,5 +417,11 @@ QUESTING_DESCRIPTION_X1 = 302
 QUESTING_DESCRIPTION_Y1 = 300
 QUESTING_DESCRIPTION_X2 = 620
 QUESTING_DESCRIPTION_Y2 = 371
-QUESTING_ZONES = {"forest": {"filename": "Forest.png", "floor": 3},
-				 {"sewers": {"filename": "Sewers.png", "floor": 2}} #key is case sensitive
+QUESTING_DONE_TEXT_X = 315
+QUESTING_DONE_TEXT_Y = 449
+QUESTING_COMPLETE_BUTTON_X = 710
+QUESTING_COMPLETE_BUTTON_Y = 165
+QUESTING_ZONES = {"forest": {"filename": "Forest.png", "floor": 3}, #key is case sensitive
+				  "megaland": {"filename": "Mega Lands.png", "floor": 14},
+				  "sewers": {"filename": "Sewers.png", "floor": 2}}
+				  

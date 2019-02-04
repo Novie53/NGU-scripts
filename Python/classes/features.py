@@ -993,8 +993,18 @@ class Features(Navigation, Inputs):
 			if name in desc:
 				print(f"found \"{name}\" in \"{desc}\"")
 				return name
-		raise RuntimeError("Find no quest zone, not good")
+		raise RuntimeError(f"Find no quest zone in \"{desc}\", not good")
 
+	def _is_Quest_Done(self):
+		self.menu("questing")
+		return self.get_pixel_color(ncon.QUESTING_DONE_TEXT_X, ncon.QUESTING_DONE_TEXT_Y) == "000000"
+		
+	def _is_Quest_Active(self):
+		self.menu("questing")
+		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
+						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
+		return not "start quest" in desc.lower()
+		
 	def collect_Quest_Items(self, questZone):
 		self.menu("inventory")
 		result = self.image_search(ncon.INVENTORY_GRID_REGION_X1,
@@ -1008,5 +1018,21 @@ class Features(Navigation, Inputs):
 					   ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20, button="right")
 
 	def questing(self):
+		print("Note: Respawn gear helps, script does not auto equip")
+		if not self._is_Quest_Active():
+			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)	
 		questZone = self._get_Quest_Zone()
-		self.collect_Quest_Items(questZone)
+		self.adventure(zone=ncon.QUESTING_ZONES[questZone]["floor"])
+
+		first = True
+		while not self._is_Quest_Done():
+			if first:
+				print("Farming quest items")
+				first = False
+			self.NOV_boost_equipment("cube")
+			self.collect_Quest_Items(questZone)
+			self.snipe_hard(0, 180, mobs=0, attackType=2, forceStay=True)
+
+		print("Quest done")
+		self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
+		
