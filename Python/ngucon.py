@@ -113,7 +113,7 @@ OCR_COMBAT_LOGY2 = 589
 #MENU OFFSETS
 MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations",
              "advtraining", "timemachine", "bloodmagic", "wandoos", "ngu",
-             "yggdrasil", "digger", "beard", "settings"]
+             "yggdrasil", "digger", "beard", "questing"]
 
 MENUOFFSETX = 230
 MENUOFFSETY = 45
