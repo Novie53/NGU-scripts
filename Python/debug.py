@@ -58,16 +58,22 @@ def get_pixel_color(x, y):
 
 		return None
 	
+
+	
+	
 '''
-for y in range(313 - 1, 329 + 1):
-	for x in range(702 - 1, 751 + 1):
+x1 = 302
+y1 = 446
+x2 = 522
+y2 = 465
+for y in range(y1 - 1, y2 + 1):
+	for x in range(x1 - 1, x2 + 1):
 		pixel = get_pixel_color(x, y)
 		if pixel == "000000":
 			win32api.SetCursorPos((Window.x + x, Window.y + y))
 			print(f"X={x} Y={y} Pixel={pixel}")
 			input("FOUND IT")
 '''
-
 
 '''
 print(w.x, w.y)
