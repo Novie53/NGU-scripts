@@ -119,13 +119,6 @@ MainGear_Loadout = 3 #2
 DropChanceGear_Loadout = 3
 
 
-
-#import win32api
-#result = i.image_search(320, 300, 930, 560, i.get_file_path("images", "Mega_Lands_Quest_Item.png"), 0.8, debug=True)
-#print(str(result))
-#win32api.SetCursorPos((Window.x + result[0] + 320, Window.y + result[1] + 300))
-#exit()
-
 #feature.kill_titan("BEAST1")
 #exit()
 
