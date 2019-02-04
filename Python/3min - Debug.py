@@ -167,12 +167,16 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 u = Upgrade(37500, 37500, 3, 3, 10) #Hur den ska spendare EXP inom Energy & Magic caps
 print(w.x, w.y)
-tracker = NOV_Tracker()
+#tracker = NOV_Tracker()
 
 #MENUITEMS = ["fight", "pit", "adventure", "inventory", "augmentations","advtraining", "timemachine", 
 #				"bloodmagic", "wandoos", "ngu","yggdrasil", "digger", "beard", "settings"]
 #EQUIPMENTSLOTS = {"accessory1","accessory2","accessory3","accessory4","accessory5","head","chest",
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
+
+
+feature.questing()
+exit()
 
 
 

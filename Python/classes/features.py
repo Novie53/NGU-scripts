@@ -1031,7 +1031,12 @@ class Features(Navigation, Inputs):
 				first = False
 			self.NOV_boost_equipment("cube")
 			self.collect_Quest_Items(questZone)
-			self.snipe_hard(0, 180, mobs=0, attackType=2, forceStay=True)
+			self.snipe_hard(0, 120, mobs=0, attackType=2, forceStay=True)
+			
+			self.menu("inventory")
+			#i.click(10, 10)
+			aaa = self.get_bitmap()
+			aaa.save("Pic\\questing_" + str(int(time.time())) + ".png")
 
 		print("Quest done")
 		self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)

@@ -148,7 +148,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	debugScreenShot("blood", counter)
 	debugScreenShot("wandoos", counter)
 
-	feature.NOV_boost_equipment("accessory1")
+	feature.NOV_boost_equipment("chest")
 	feature.NOV_boost_equipment("cube")
 	
 	debugScreenShot("ngu", counter)
