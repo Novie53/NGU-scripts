@@ -16,9 +16,9 @@ class Navigation(Inputs):
 		"""Navigate through main menu."""
 		if Navigation.current_menu == target:
 			return
-		y = ncon.MENUOFFSETY + ((ncon.MENUITEMS.index(target) + 1) *
-								ncon.MENUDISTANCEY)
-		self.click(ncon.MENUOFFSETX, y)
+		y = ncon.MENU_START_Y + ((ncon.MENUITEMS.index(target) + 1) *
+								ncon.MENU_OFFSET)
+		self.click(ncon.MENU_START_X, y)
 		time.sleep(userset.LONG_SLEEP)
 		Navigation.current_menu = target
 
