@@ -1013,6 +1013,8 @@ class Features(Navigation, Inputs):
 		return not "start quest" in desc.lower()
 
 	def collect_Quest_Items(self, questZone, cleanup=False):
+		#ToDo: could use input.multi_image_search instead of single image_search when doing cleanup
+		#		to save some IO requests and CPU time
 		self.menu("inventory")
 		result = self.image_search(ncon.INVENTORY_GRID_REGION_X1,
 								   ncon.INVENTORY_GRID_REGION_Y1,
@@ -1031,7 +1033,7 @@ class Features(Navigation, Inputs):
 		print("Clean up old Quest Items")
 		while self.collect_Quest_Items(questZone, cleanup=True):
 			time.sleep(0.1)
-			
+
 	def questing(self):
 		print("Note: Respawn gear helps, script does not auto equip")
 		if not self._is_Quest_Active():
@@ -1042,7 +1044,7 @@ class Features(Navigation, Inputs):
 
 		if not self._is_Major_Quest():
 			print("Completed all Major Quests")
-			return
+			return False
 
 		questZone = self._get_Quest_Zone()
 		self.adventure(zone=ncon.QUESTING_ZONES[questZone]["floor"])
@@ -1068,4 +1070,5 @@ class Features(Navigation, Inputs):
 		print("Quest done")
 		self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
 		self.cleanup_Old_Quest_Items(questZone)
-		
+		return True
+
