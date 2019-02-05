@@ -985,10 +985,11 @@ class Features(Navigation, Inputs):
 #-------------- Questing ---------------
 	def _get_Quest_Zone(self):
 		self.menu("questing")
+		self.click(10, 10)
 		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
 						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
 		desc = desc.replace("\n", " ")
-		desc = desc[-11:]
+		desc = desc[-15:]
 		desc = desc.lower()
 		
 		for name in ncon.QUESTING_ZONES:
@@ -999,16 +1000,23 @@ class Features(Navigation, Inputs):
 
 	def _is_Major_Quest(self):
 		self.menu("questing")
-		desc = self.ocr(ncon.QUESTING_MAJORQUEST_DESC_X1, ncon.QUESTING_MAJORQUEST_DESC_Y1, 
-						ncon.QUESTING_MAJORQUEST_DESC_X2, ncon.QUESTING_MAJORQUEST_DESC_Y2, debug=False)
+		self.click(10, 10)
+		desc = self.ocr(ncon.QUESTING_STATUS_TEXT_X1, ncon.QUESTING_STATUS_TEXT_Y1, 
+						ncon.QUESTING_STATUS_TEXT_X2, ncon.QUESTING_STATUS_TEXT_Y2, debug=False)
+		desc = desc.replace("\n", " ")
 		return "major" in desc.lower()
 
 	def _is_Quest_Done(self):
 		self.menu("questing")
-		return self.get_pixel_color(ncon.QUESTING_DONE_TEXT_X, ncon.QUESTING_DONE_TEXT_Y) == "000000"
+		self.click(10, 10)
+		desc = self.ocr(ncon.QUESTING_STATUS_TEXT_X1, ncon.QUESTING_STATUS_TEXT_Y1, 
+						ncon.QUESTING_STATUS_TEXT_X2, ncon.QUESTING_STATUS_TEXT_Y2, debug=False)
+		desc = desc.replace("\n", " ")
+		return "handed in" in desc.lower()
 
 	def _is_Quest_Active(self):
 		self.menu("questing")
+		self.click(10, 10)
 		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
 						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
 		return not "start quest" in desc.lower()
@@ -1045,13 +1053,12 @@ class Features(Navigation, Inputs):
 			return False
 
 		questZone = self._get_Quest_Zone()
-		self.adventure(zone=ncon.QUESTING_ZONES[questZone]["floor"])
-
 		farm_start = time.time()
 		first = True
 		while not self._is_Quest_Done():
 			if first:
 				print("Farming quest items")
+				self.adventure(zone=ncon.QUESTING_ZONES[questZone]["floor"])
 				first = False
 			self.snipe_hard(0, 60, mobs=0, attackType=2, forceStay=True)
 			

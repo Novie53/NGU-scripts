@@ -416,16 +416,16 @@ MISCY = 200
 QUESTING_DESCRIPTION_X1 = 302
 QUESTING_DESCRIPTION_Y1 = 300
 QUESTING_DESCRIPTION_X2 = 620
-QUESTING_DESCRIPTION_Y2 = 371
-QUESTING_MAJORQUEST_DESC_X1 = 300
-QUESTING_MAJORQUEST_DESC_Y1 = 395
-QUESTING_MAJORQUEST_DESC_X2 = 456
-QUESTING_MAJORQUEST_DESC_Y2 = 431
-QUESTING_DONE_TEXT_X = 315
-QUESTING_DONE_TEXT_Y = 449
+QUESTING_DESCRIPTION_Y2 = 385
+QUESTING_STATUS_TEXT_X1 = 300
+QUESTING_STATUS_TEXT_Y1 = 395
+QUESTING_STATUS_TEXT_X2 = 600
+QUESTING_STATUS_TEXT_Y2 = 490
 QUESTING_COMPLETE_BUTTON_X = 710
 QUESTING_COMPLETE_BUTTON_Y = 165
-QUESTING_ZONES = {"forest": {"filename": "Forest.png", "floor": 3}, #key is case sensitive
+QUESTING_ZONES = {"sewers": {"filename": "Sewers.png", "floor": 2}, #key is case sensitive
+				  "forest": {"filename": "Forest.png", "floor": 3},
+				  "universe": {"filename": "The 2D Universe.png", "floor": 10},
+				  "strange": {"filename": "A Very Strange Place.png", "floor": 13},
 				  "megaland": {"filename": "Mega Lands.png", "floor": 14},
-				  "beardverse": {"filename": "The Beardverse.png", "floor": 16},
-				  "sewers": {"filename": "Sewers.png", "floor": 2}}
+				  "beardverse": {"filename": "The Beardverse.png", "floor": 16}}
