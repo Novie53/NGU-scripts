@@ -9,7 +9,7 @@ import time
 class Basic(Features):
 	"""Contains functions for running a basic challenge."""
 	
-	LOWEST_SLEEP_TO_KILL = 3.40
+	LOWEST_SLEEP_TO_KILL = 3.0
 	ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sleep": LOWEST_SLEEP_TO_KILL},
 					  1: {"name": "The Sky", "boss": 48, "floor": 5, "sleep": LOWEST_SLEEP_TO_KILL},
 					  2: {"name": "High Security Base", "boss": 58, "floor": 6, "sleep": LOWEST_SLEEP_TO_KILL},
@@ -19,16 +19,10 @@ class Basic(Features):
 					  6: {"name": "A Very Strange Place", "boss": 90, "floor": 13, "sleep": LOWEST_SLEEP_TO_KILL},
 					  7: {"name": "Mega Lands", "boss": 100, "floor": 14, "sleep": LOWEST_SLEEP_TO_KILL},
 					  8: {"name": "The Beardverse", "boss": 108, "floor": 16, "sleep": LOWEST_SLEEP_TO_KILL},
-					  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 9},
+					  9: {"name": "Badly Drawn World", "boss": 116, "floor": 18, "sleep": 5},
 					  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 9}}
-	MAX_KILL_ADVENTURE_ZONE = 8 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
+	MAX_KILL_ADVENTURE_ZONE = 9 #if you only want to kill up towards "Mega Lands" enter 5 and it will avoid Beardverse and onwards
 
-	def intTryParse(value):
-		try:
-			return int(value)
-		except ValueError:
-			return 0
-	
 	def kill_bosses(self, currentBoss, timeSinceStart, GoldClearLevels):
 		room = 0
 		newBossToKill = False
@@ -51,8 +45,7 @@ class Basic(Features):
 
 				return True, i
 		return False, 0
-	
-	
+
 	def OneFuncToRuleTheAll(self, duration, counter, target):
 		if counter != 1:
 			self.do_rebirth()
@@ -78,7 +71,7 @@ class Basic(Features):
 		while time.time() < (end - 5):
 			self.nuke()
 			self.fight()
-			currentBoss = Basic.intTryParse(self.get_current_boss())
+			currentBoss = self.get_current_boss_two()
 			
 			var1, var2 = self.kill_bosses(currentBoss, 0, GoldClearLevels)
 			if var1:
@@ -172,8 +165,6 @@ class Basic(Features):
 
 		while time.time() < end:
 			time.sleep(0.1)
-	
-
 
 	def check_challenge(self):
 		"""Check if a challenge is active."""
