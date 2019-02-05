@@ -65,7 +65,7 @@ class Challenge(Features):
 				print("starting no rebirth challenge script")
 				rebirth.rebirth_challenge()
 			else:
-				raise RuntimeError("Couldn't determine which script to start from the OCR input"
+				raise RuntimeError("Couldn't determine which script to start from the OCR input")
 		else:
 			x = ncon.CHALLENGEX
 			y = ncon.CHALLENGEY + challenge * ncon.CHALLENGEOFFSET
