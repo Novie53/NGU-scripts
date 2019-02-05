@@ -21,7 +21,7 @@ import win32ui
 class Inputs():
 	"""This class handles inputs."""
 
-	def click(self, x, y, button="left", fast=False):
+	def click(self, x, y, button="left", fast=False, ctrl=False):
 		"""Click at pixel xy."""
 		x += window.x
 		y += window.y
@@ -32,6 +32,9 @@ class Inputs():
 			   win32api.GetKeyState(wcon.VK_SHIFT) < 0 or
 			   win32api.GetKeyState(wcon.VK_MENU) < 0):
 			time.sleep(0.005)
+
+		if ctrl:
+			win32gui.PostMessage(window.id, wcon.WM_KEYDOWN, wcon.VK_CONTROL, 0)
 		if (button == "left"):
 			win32gui.PostMessage(window.id, wcon.WM_LBUTTONDOWN,
 								 wcon.MK_LBUTTON, lParam)
@@ -42,6 +45,9 @@ class Inputs():
 								 wcon.MK_RBUTTON, lParam)
 			win32gui.PostMessage(window.id, wcon.WM_RBUTTONUP,
 								 wcon.MK_RBUTTON, lParam)
+		if ctrl:
+			win32gui.PostMessage(window.id, wcon.WM_KEYUP, wcon.VK_CONTROL, 0)
+		
 		# Sleep lower than 0.1 might cause issues when clicking in succession
 		if type(fast) == float:
 			time.sleep(fast)
@@ -49,26 +55,6 @@ class Inputs():
 			time.sleep(0.11)
 		else:
 			time.sleep(userset.MEDIUM_SLEEP)
-
-	'''
-	def ctrl_click(self, x, y):
-		"""Clicks at pixel x, y while simulating the CTRL button to be down."""
-		x += window.x
-		y += window.y
-		lParam = win32api.MAKELONG(x, y)
-		while (win32api.GetKeyState(wcon.VK_CONTROL) < 0 or
-			   win32api.GetKeyState(wcon.VK_SHIFT) < 0 or
-			   win32api.GetKeyState(wcon.VK_MENU) < 0):
-			time.sleep(0.005)
-
-		win32gui.PostMessage(window.id, wcon.WM_KEYDOWN, wcon.VK_CONTROL, 0)
-		win32gui.PostMessage(window.id, wcon.WM_LBUTTONDOWN,
-							 wcon.MK_LBUTTON, lParam)
-		win32gui.PostMessage(window.id, wcon.WM_LBUTTONUP,
-							 wcon.MK_LBUTTON, lParam)
-		win32gui.PostMessage(window.id, wcon.WM_KEYUP, wcon.VK_CONTROL, 0)
-		time.sleep(userset.MEDIUM_SLEEP)
-	'''
 
 	def NOV_send_text(self, string):
 		if type(string) == float:  # Remove decimal
