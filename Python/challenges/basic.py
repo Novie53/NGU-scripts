@@ -93,14 +93,18 @@ class Basic(Features):
 					self.augments({"EB": 1}, 1e6)
 				TM_assigned = True
 
-			if currentBoss > 46 and augment_assigned < 4:
-				self.menu("augmentations")
-				self.click(575, 260 + 70 * 0)#SS
-				self.click(575, 290 + 70 * 0)#DS
-				self.click(575, 260 + 70 * 1)#MI
-				self.click(575, 290 + 70 * 1)#DTMT
-				self.click(575, 260 + 70 * 2)#CI
-				self.click(575, 290 + 70 * 2)#ML
+			if currentBoss > 48 and augment_assigned < 5:
+				self.augments({"EB": 1}, 1e9)
+				self.augments({"CS": 1}, 250e6)
+				augment_assigned = 5
+			elif currentBoss > 46 and augment_assigned < 4:
+				#self.menu("augmentations")
+				#self.click(575, 260 + 70 * 0)#SS
+				#self.click(575, 290 + 70 * 0)#DS
+				#self.click(575, 260 + 70 * 1)#MI
+				#self.click(575, 290 + 70 * 1)#DTMT
+				#self.click(575, 260 + 70 * 2)#CI
+				#self.click(575, 290 + 70 * 2)#ML
 				
 				self.augments({"SM": 1}, 400e6)
 				self.augments({"AA": 1}, 140e6)
@@ -157,10 +161,15 @@ class Basic(Features):
 		self.nuke()
 		self.fight()
 
-		#self.menu("augmentations")
-		#self.click(10, 10)
-		#aaa = self.get_bitmap()
-		#aaa.save("Pic\\cha1Aug_" + str(counter) + ".png")
+		self.menu("augmentations")
+		self.click(10, 10)
+		aaa = self.get_bitmap()
+		aaa.save("Pic\\cha1Aug_" + str(counter) + ".png")
+		
+		self.menu("timemachine")
+		self.click(10, 10)
+		aaa = self.get_bitmap()
+		aaa.save("Pic\\cha1TM_" + str(counter) + ".png")
 
 		while time.time() < end:
 			time.sleep(0.1)
@@ -179,9 +188,7 @@ class Basic(Features):
 		"""Defeat target boss."""
 		
 		for x in range(1,50):
-			print(f"starting ring {x}")
 			self.OneFuncToRuleTheAll(3, x, target)
-			print(f"ring {x} done")
 			if not self.check_challenge():
 				return
 
