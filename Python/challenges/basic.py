@@ -88,8 +88,9 @@ class Basic(Features):
 					self.loadout(2)
 				self.reclaim_all_energy()
 				self.reclaim_all_magic()
-				self.time_machine(100e6, magic=True)
-				self.augments({"EB": 1}, 1e6)
+				self.time_machine(200e6, magic=True)
+				if GoldClearLevels == -1:
+					self.augments({"EB": 1}, 1e6)
 				TM_assigned = True
 
 			if currentBoss > 46 and augment_assigned < 4:
@@ -127,13 +128,11 @@ class Basic(Features):
 				self.augments({"DS": 1}, 5e6)
 				augment_assigned = 1
 
-			if currentBoss > 37 and counter == 1:
-				self.blood_magic(6)
-			elif currentBoss > 37:
-				self.blood_magic(7)
+			if currentBoss > 37:
+				self.blood_magic(8)
 
 			if TM_assigned:
-				self.gold_diggers([2, 3, 4, 8])
+				self.gold_diggers([2, 3, 8, 9, 11])
 
 			self.wandoos(True)
 			
@@ -180,14 +179,9 @@ class Basic(Features):
 		"""Defeat target boss."""
 		
 		for x in range(1,50):
+			print(f"starting ring {x}")
 			self.OneFuncToRuleTheAll(3, x, target)
+			print(f"ring {x} done")
 			if not self.check_challenge():
 				return
-		'''
-		self.first_rebirth(3, 1)
 
-		for x in range(2, 80):
-			self.speedrun(3, x, target)
-			if not self.check_challenge():
-				return
-		'''
