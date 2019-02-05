@@ -168,7 +168,6 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	while time.time() < (end - 0.5):
 		time.sleep(0.1)
-	feature.stop_fight()
 	
 
 w = Window()

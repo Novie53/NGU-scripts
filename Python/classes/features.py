@@ -646,6 +646,7 @@ class Features(Navigation, Inputs):
 
 	def do_rebirth(self):
 		"""Start a rebirth or challenge."""
+		self.stop_fight()
 		self.rebirth()
 		self.click(ncon.REBIRTHBUTTONX, ncon.REBIRTHBUTTONY)
 		time.sleep(0.1)
