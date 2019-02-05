@@ -94,8 +94,8 @@ class Basic(Features):
 				TM_assigned = True
 
 			if currentBoss > 48 and augment_assigned < 5:
-				self.augments({"EB": 1}, 1e9)
-				self.augments({"CS": 1}, 250e6)
+				self.augments({"EB": 1}, 2e9)
+				self.augments({"CS": 1}, 500e6)
 				augment_assigned = 5
 			elif currentBoss > 46 and augment_assigned < 4:
 				#self.menu("augmentations")

@@ -175,10 +175,6 @@ print(w.x, w.y)
 #"legs","boots","weapon","cube"} acc1=vänsterOmHelm,acc2=underAcc1,acc3=underAcc2
 
 
-feature.questing()
-exit()
-
-
 
 c = Challenge()
 ScriptStart = time.time()
@@ -186,7 +182,7 @@ runCounter = 0
 while True:
 	feature.NOV_boost_equipment("cube")
 	before = time.time()
-	c.start_challenge(7)
+	c.start_challenge(3)
 	duration = time.time() - before # sec
 	runCounter += 1
 	
