@@ -1000,7 +1000,7 @@ class Features(Navigation, Inputs):
 	def _is_Major_Quest(self):
 		self.menu("questing")
 		desc = self.ocr(ncon.QUESTING_MAJORQUEST_DESC_X1, ncon.QUESTING_MAJORQUEST_DESC_Y1, 
-						ncon.QUESTING_MAJORQUEST_DESC_X2, ncon.QUESTING_MAJORQUEST_DESC_Y2, debug=True)
+						ncon.QUESTING_MAJORQUEST_DESC_X2, ncon.QUESTING_MAJORQUEST_DESC_Y2, debug=False)
 		return "major" in desc.lower()
 
 	def _is_Quest_Done(self):
@@ -1053,14 +1053,15 @@ class Features(Navigation, Inputs):
 			if first:
 				print("Farming quest items")
 				first = False
-			self.NOV_boost_equipment("cube")
-			self.collect_Quest_Items(questZone)
 			self.snipe_hard(0, 60, mobs=0, attackType=2, forceStay=True)
 			
 			self.menu("inventory")
 			#i.click(10, 10)
 			aaa = self.get_bitmap()
 			aaa.save("Pic\\questing_" + str(int(time.time())) + ".png")
+			
+			self.collect_Quest_Items(questZone)
+			self.NOV_boost_equipment("cube")
 		if not first:
 			duration_sec = round(time.time() - farm_start)	
 			duration_converted = str(datetime.timedelta(seconds=duration_sec))
