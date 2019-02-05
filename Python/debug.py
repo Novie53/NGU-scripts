@@ -34,12 +34,18 @@ def find_multi_image_search(scanImagePath, matchImagePath):
 	threshold = 0.8
 	loc = numpy.where( res >= threshold)
 	
-	for x in range(len(loc[0])):
-		print(str(x) + " - X:" + str(loc[1][x]) + " - Y:" + str(loc[0][x]))
+	returnloc = {}
+	for counter in range(len(loc[0])):
+		#print(str(counter) + " - X:" + str(loc[1][counter]) + " - Y:" + str(loc[0][counter]))
+		returnloc[counter] = {}
+		returnloc[counter]["X"] = int(loc[1][counter])
+		returnloc[counter]["Y"] = int(loc[0][counter])
 	
 	for pt in zip(*loc[::-1]):
 		cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
 	cv2.imwrite('result.png',img_rgb)
+	
+	return returnloc
 
 def get_pixel_color(x, y):
 	def rgb_to_hex(tup):
@@ -77,7 +83,13 @@ def get_pixel_color(x, y):
 		return None
 
 
-
+'''
+i.get_bitmap().save("herp.png")
+locs = find_multi_image_search("herp.png", "images\\The Beardverse.png")
+for x in locs:
+	win32api.SetCursorPos((locs[x]["X"], locs[x]["Y"]))
+	input("right place?")
+'''
 
 '''
 x1 = 302
