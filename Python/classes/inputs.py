@@ -173,6 +173,24 @@ class Inputs():
 
 		return max_loc
 
+	def multi_image_search(self, x_start, y_start, x_end, y_end, image, threshold, debug=False):
+		bmp = self.get_bitmap()
+		# Bitmaps are created with a 8px border
+		search_area = bmp.crop((x_start + window.x + 8, y_start + window.y + 8,
+								x_end + window.x + 8, y_end + window.y + 8))
+	
+		if debug:
+			search_area.save("multi_image_search_debug.png")
+		
+		search_area = numpy.asarray(search_area)
+		search_area = cv2.cvtColor(search_area, cv2.COLOR_BGR2GRAY)
+		template = cv2.imread(image, 0)
+		res = cv2.matchTemplate(search_area, template, cv2.TM_CCOEFF_NORMED)
+		locations = numpy.where( res >= threshold)
+		
+		for x in range(len(loc[0])):
+			print(str(x) + " - X:" + str(loc[1][x]) + " - Y:" + str(loc[0][x]))
+		
 	def ocr(self, x_start, y_start, x_end, y_end, debug=False, bmp=None):
 		"""Perform an OCR of the supplied area, returns a string of the result.
 
