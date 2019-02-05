@@ -1,6 +1,8 @@
 import win32api
 import win32gui
 import time
+import cv2
+import numpy
 
 from classes.window import Window
 from classes.inputs import Inputs
@@ -22,6 +24,22 @@ except:
 i = Inputs()
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 
+def find_multi_image_search(scanImagePath, matchImagePath):
+	img_rgb = cv2.imread(scanImagePath)
+	img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+	template = cv2.imread(matchImagePath, 0)
+	w, h = template.shape[::-1]
+
+	res = cv2.matchTemplate(img_gray,template,cv2.TM_CCOEFF_NORMED)
+	threshold = 0.8
+	loc = numpy.where( res >= threshold)
+	
+	for x in range(len(loc[0])):
+		print(str(x) + " - X:" + str(loc[1][x]) + " - Y:" + str(loc[0][x]))
+	
+	for pt in zip(*loc[::-1]):
+		cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,0,255), 2)
+	cv2.imwrite('result.png',img_rgb)
 
 def get_pixel_color(x, y):
 	def rgb_to_hex(tup):
@@ -57,10 +75,10 @@ def get_pixel_color(x, y):
 					return x - 8, y - 8
 
 		return None
-	
 
-	
-	
+
+
+
 '''
 x1 = 302
 y1 = 446
