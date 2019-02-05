@@ -1024,18 +1024,24 @@ class Features(Navigation, Inputs):
 					   ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20, button="right")
 
 	def questing(self):
+		import datetime
+	
+	
 		print("Note: Respawn gear helps, script does not auto equip")
 		if not self._is_Quest_Active():
 			print("No Quest active, Starting new one")
 			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
 		else:
 			print("Quest is already active, continuing")
+
 		if not self._is_Major_Quest():
 			print("Completed all Major Quests")
 			return
+
 		questZone = self._get_Quest_Zone()
 		self.adventure(zone=ncon.QUESTING_ZONES[questZone]["floor"])
 
+		farm_start = time.time()
 		first = True
 		while not self._is_Quest_Done():
 			if first:
@@ -1049,7 +1055,10 @@ class Features(Navigation, Inputs):
 			#i.click(10, 10)
 			aaa = self.get_bitmap()
 			aaa.save("Pic\\questing_" + str(int(time.time())) + ".png")
-
+		if not first:
+			duration_sec = round(time.time() - self.farm_start)	
+			duration_converted = str(datetime.timedelta(seconds=duration_sec))
+			print(f"It took {duration_converted} to farm all quest items")
 		print("Quest done")
 		self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
 		
