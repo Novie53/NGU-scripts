@@ -122,6 +122,10 @@ DropChanceGear_Loadout = 3
 #feature.kill_titan("BEAST1")
 #exit()
 
+while feature.questing():
+	time.sleep(0.1)
+exit()
+
 while False:
 	#feature.merge_equipment()
 	feature.merge_inventory(14)

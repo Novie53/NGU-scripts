@@ -1036,12 +1036,9 @@ class Features(Navigation, Inputs):
 			time.sleep(0.1)
 
 	def questing(self):
-		print("Note: Respawn gear helps, script does not auto equip")
+		print("\tNote: Respawn gear helps, script does not auto equip")
 		if not self._is_Quest_Active():
-			print("No Quest active, Starting new one")
 			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
-		else:
-			print("Quest is already active, continuing")
 
 		if not self._is_Major_Quest():
 			print("Completed all Major Quests")
@@ -1058,7 +1055,7 @@ class Features(Navigation, Inputs):
 				first = False
 			self.NOV_boost_equipment("cube")
 			self.collect_Quest_Items(questZone)
-			self.snipe_hard(0, 120, mobs=0, attackType=2, forceStay=True)
+			self.snipe_hard(0, 60, mobs=0, attackType=2, forceStay=True)
 			
 			self.menu("inventory")
 			#i.click(10, 10)
