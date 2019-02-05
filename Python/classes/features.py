@@ -995,16 +995,22 @@ class Features(Navigation, Inputs):
 				return name
 		raise RuntimeError(f"Find no quest zone in \"{desc}\", not good")
 
+	def _is_Major_Quest(self):
+		self.menu("questing")
+		desc = self.ocr(ncon.QUESTING_MAJORQUEST_DESC_X1, ncon.QUESTING_MAJORQUEST_DESC_Y1, 
+						ncon.QUESTING_MAJORQUEST_DESC_X2, ncon.QUESTING_MAJORQUEST_DESC_Y2, debug=False)
+		return "major" in desc.lower()
+
 	def _is_Quest_Done(self):
 		self.menu("questing")
 		return self.get_pixel_color(ncon.QUESTING_DONE_TEXT_X, ncon.QUESTING_DONE_TEXT_Y) == "000000"
-		
+
 	def _is_Quest_Active(self):
 		self.menu("questing")
 		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
 						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
 		return not "start quest" in desc.lower()
-		
+
 	def collect_Quest_Items(self, questZone):
 		self.menu("inventory")
 		result = self.image_search(ncon.INVENTORY_GRID_REGION_X1,
@@ -1020,7 +1026,13 @@ class Features(Navigation, Inputs):
 	def questing(self):
 		print("Note: Respawn gear helps, script does not auto equip")
 		if not self._is_Quest_Active():
-			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)	
+			print("No Quest active, Starting new one")
+			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
+		else:
+			print("Quest is already active, continuing")
+		if not self._is_Major_Quest():
+			print("Completed all Major Quests")
+			return
 		questZone = self._get_Quest_Zone()
 		self.adventure(zone=ncon.QUESTING_ZONES[questZone]["floor"])
 
