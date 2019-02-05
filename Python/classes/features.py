@@ -11,6 +11,7 @@ import time
 import win32con as wcon
 import win32gui
 import usersettings as userset
+import datetime
 
 
 class Features(Navigation, Inputs):
@@ -986,7 +987,7 @@ class Features(Navigation, Inputs):
 		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
 						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
 		desc = desc.replace("\n", " ")
-		desc = desc[-10:]
+		desc = desc[-11:]
 		desc = desc.lower()
 		
 		for name in ncon.QUESTING_ZONES:
@@ -998,7 +999,7 @@ class Features(Navigation, Inputs):
 	def _is_Major_Quest(self):
 		self.menu("questing")
 		desc = self.ocr(ncon.QUESTING_MAJORQUEST_DESC_X1, ncon.QUESTING_MAJORQUEST_DESC_Y1, 
-						ncon.QUESTING_MAJORQUEST_DESC_X2, ncon.QUESTING_MAJORQUEST_DESC_Y2, debug=False)
+						ncon.QUESTING_MAJORQUEST_DESC_X2, ncon.QUESTING_MAJORQUEST_DESC_Y2, debug=True)
 		return "major" in desc.lower()
 
 	def _is_Quest_Done(self):
@@ -1011,7 +1012,7 @@ class Features(Navigation, Inputs):
 						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
 		return not "start quest" in desc.lower()
 
-	def collect_Quest_Items(self, questZone):
+	def collect_Quest_Items(self, questZone, cleanup=False):
 		self.menu("inventory")
 		result = self.image_search(ncon.INVENTORY_GRID_REGION_X1,
 								   ncon.INVENTORY_GRID_REGION_Y1,
@@ -1021,12 +1022,17 @@ class Features(Navigation, Inputs):
 								   0.9, debug=False)
 		if result != None:
 			self.click(ncon.INVENTORY_GRID_REGION_X1 + result[0] + 20,
-					   ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20, button="right")
+					   ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20, button="right", ctrl=cleanup)
+			return True
+		else:
+			return False
 
+	def cleanup_Old_Quest_Items(self, questZone):
+		print("Clean up old Quest Items")
+		while self.collect_Quest_Items(questZone, cleanup=True):
+			time.sleep(0.1)
+			
 	def questing(self):
-		import datetime
-	
-	
 		print("Note: Respawn gear helps, script does not auto equip")
 		if not self._is_Quest_Active():
 			print("No Quest active, Starting new one")
@@ -1056,9 +1062,10 @@ class Features(Navigation, Inputs):
 			aaa = self.get_bitmap()
 			aaa.save("Pic\\questing_" + str(int(time.time())) + ".png")
 		if not first:
-			duration_sec = round(time.time() - self.farm_start)	
+			duration_sec = round(time.time() - farm_start)	
 			duration_converted = str(datetime.timedelta(seconds=duration_sec))
 			print(f"It took {duration_converted} to farm all quest items")
 		print("Quest done")
 		self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
+		self.cleanup_Old_Quest_Items(questZone)
 		

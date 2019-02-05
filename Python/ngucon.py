@@ -417,8 +417,8 @@ QUESTING_DESCRIPTION_X1 = 302
 QUESTING_DESCRIPTION_Y1 = 300
 QUESTING_DESCRIPTION_X2 = 620
 QUESTING_DESCRIPTION_Y2 = 371
-QUESTING_MAJORQUEST_DESC_X1 = 301
-QUESTING_MAJORQUEST_DESC_Y1 = 413
+QUESTING_MAJORQUEST_DESC_X1 = 300
+QUESTING_MAJORQUEST_DESC_Y1 = 395
 QUESTING_MAJORQUEST_DESC_X2 = 456
 QUESTING_MAJORQUEST_DESC_Y2 = 431
 QUESTING_DONE_TEXT_X = 315
@@ -427,5 +427,5 @@ QUESTING_COMPLETE_BUTTON_X = 710
 QUESTING_COMPLETE_BUTTON_Y = 165
 QUESTING_ZONES = {"forest": {"filename": "Forest.png", "floor": 3}, #key is case sensitive
 				  "megaland": {"filename": "Mega Lands.png", "floor": 14},
+				  "beardverse": {"filename": "The Beardverse.png", "floor": 16},
 				  "sewers": {"filename": "Sewers.png", "floor": 2}}
-				  
