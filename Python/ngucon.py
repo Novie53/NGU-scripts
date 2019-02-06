@@ -425,6 +425,7 @@ QUESTING_COMPLETE_BUTTON_X = 710
 QUESTING_COMPLETE_BUTTON_Y = 165
 QUESTING_ZONES = {"sewers": {"filename": "Sewers.png", "floor": 2}, #key is case sensitive
 				  "forest": {"filename": "Forest.png", "floor": 3},
+				  "security": {"filename": "High Security Base.png", "floor": 6},
 				  "universe": {"filename": "The 2D Universe.png", "floor": 10},
 				  "strange": {"filename": "A Very Strange Place.png", "floor": 13},
 				  "megaland": {"filename": "Mega Lands.png", "floor": 14},

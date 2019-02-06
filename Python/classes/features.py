@@ -989,7 +989,7 @@ class Features(Navigation, Inputs):
 		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
 						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
 		desc = desc.replace("\n", " ")
-		desc = desc[-15:]
+		desc = desc[100:]
 		desc = desc.lower()
 		
 		for name in ncon.QUESTING_ZONES:
