@@ -1034,14 +1034,16 @@ class Features(Navigation, Inputs):
 		if result != None:
 			self.click(ncon.INVENTORY_GRID_REGION_X1 + result[0] + 20,
 					   ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20, button="right", ctrl=cleanup)
+			self.click(10, 10)
 			return True
 		else:
 			return False
 
-	def cleanup_Old_Quest_Items(self, questZone):
-		print("Clean up old Quest Items")
-		while self.collect_Quest_Items(questZone, cleanup=True):
-			time.sleep(0.1)
+	def cleanup_Old_Quest_Items(self):
+		print("Cleaning up old Quest Items")
+		for i in ncon.QUESTING_ZONES:
+			while self.collect_Quest_Items(i, cleanup=True):
+				time.sleep(0.1)
 
 	def questing(self):
 		print("\tNote: Respawn gear helps, script does not auto equip")
@@ -1075,6 +1077,6 @@ class Features(Navigation, Inputs):
 			print(f"It took {duration_converted} to farm all quest items")
 		print("Quest done")
 		self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
-		self.cleanup_Old_Quest_Items(questZone)
+		self.cleanup_Old_Quest_Items()
 		return True
 
