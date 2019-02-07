@@ -994,7 +994,7 @@ class Features(Navigation, Inputs):
 		
 		for name in ncon.QUESTING_ZONES:
 			if name in desc:
-				print(f"found \"{name}\" in \"{desc}\"")
+				#print(f"found \"{name}\" in \"{desc}\"")
 				return name
 		raise RuntimeError(f"Find no quest zone in \"{desc}\", not good")
 
