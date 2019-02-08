@@ -12,7 +12,7 @@ Fruit_Base_Seed_Reward = {1:1,
 						  8:3,
 						  9:3,
 						  10:5,
-						  11:6}# 6 eller 9
+						  11:6}
 						  #12:1,#Not verified
 						  #13:1}#Not verified
 Fruit_Base_Cost = {1:1,
@@ -136,52 +136,6 @@ for fruit in range(1, 12):
 		
 	print(f"{fruit}\t{upgrades}\t{ROI}\t{totalCost}\t{diff}")
 print("best fruit to upgrade is " + str(best_fruit))
-exit()
-		
-		
-for fruit in range(1, 12):
-	if current_fruits[fruit]["t"] == 24:
-		continue
-	current_seed_reward = get_daily_seeds(fruit, current_fruits[fruit]["t"])
-	next_seed_reward = get_daily_seeds(fruit, current_fruits[fruit]["t"] + 1)
-	next_upgrade_cost = get_upgrade_cost(fruit, current_fruits[fruit]["t"])
-	diff = next_seed_reward - current_seed_reward
-	ROI = round(diff / next_upgrade_cost, 2)
-	
-	if ROI > best_ROI:
-		best_fruit = fruit
-		best_ROI = ROI
-	
-	print(f"{fruit} - {ROI}")
-	#print(f"{fruit} - " + str(get_daily_seeds(fruit, current_fruits[fruit]["t"])))
-	#print(f"{fruit} - " + str(get_upgrade_cost(fruit, current_fruits[fruit]["t"])))
-#print(str(get_daily_seeds(3)))
-print("best upgrade is " + str(best_fruit))
-exit()
-	
-#print(str(get_seed_reward(10, 2, False, True, False)))
-#print(str(get_eat_reward(1, 24, True, False) * 7.272e27 * 60))
 
 
 
-
-
-for x in range(1, 11):
-	#if current_fruits[x]["t"] == 24:
-	#	continue
-	current_seed_reward = get_seed_reward(x, current_fruits[x]["t"], current_fruits[x]["h"], True, False)
-	current_seed_reward = round(current_seed_reward / current_fruits[x]["t"], 2) * 24
-	
-	next_seed_reward = get_seed_reward(x, current_fruits[x]["t"] + 1, current_fruits[x]["h"], True, False)
-	next_seed_reward = round(next_seed_reward / (current_fruits[x]["t"] + 1), 2) * 24
-	
-	diff = next_seed_reward - current_seed_reward if next_seed_reward > current_seed_reward else 0
-	next_tier_cost = get_upgrade_cost(x, current_fruits[x]["t"])
-	
-	print(str(current_seed_reward) + "\t\t" + str(next_seed_reward))
-	#print(str(x) + " - " + str(round(diff / next_tier_cost, 2)))
-	#print(f"Fruit {x} costs " + str(get_upgrade_cost(x, 0)))
-	
-
-#for i in range(24):
-#	print(str(i + 1) + " - " + str(get_upgrade_cost(1,i)))
