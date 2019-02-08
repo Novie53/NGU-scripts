@@ -30,18 +30,18 @@ Fruit_Base_Cost = {1:1,
 				   13:50000,
 				   14:100000}
 First_Harvest_Perk_Levels = 5
-Seed_Reward_Perk_Levels = 12
+Seed_Reward_Perk_Levels = 14
 Seed_Reward_Quirks_Levels = 25
 Equipment_Seed_Reward = 143 #%
 Equipment_Yeild_Reward = 10.6 #%
-NGU_Seed_Reward = 955.05 #%
+NGU_Seed_Reward = 1001.79 #%
 current_fruits = {1: {"t":24, "h":True}, #Gold
-				  2: {"t":24, "h":True}, #Power
+				  2: {"t":24, "h":True}, #Power Alpha
 				  3: {"t":9, "h":False}, #Adven
 				  4: {"t":7, "h":True}, #Know
-				  5: {"t":15, "h":True}, #Pom
+				  5: {"t":20, "h":True}, #Pom
 				  6: {"t":7, "h":False}, #Luck
-				  7: {"t":3, "h":True}, #Power
+				  7: {"t":5, "h":True}, #Power Beta
 				  8: {"t":7, "h":False}, #Arb
 				  9: {"t":8, "h":True}, #Numbers
 				  10: {"t":3, "h":False}, #Rage
@@ -116,7 +116,7 @@ def get_max_efford_upgrades(fruit, currentTier, seed_count):
 
 best_fruit = 0
 best_ROI = 0
-current_seed_count = 14573
+current_seed_count = 2489
 
 for fruit in range(1, 12):
 	if current_fruits[fruit]["t"] == 24:
