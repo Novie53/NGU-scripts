@@ -37,16 +37,16 @@ Equipment_Yeild_Reward = 10.6 #%
 NGU_Seed_Reward = 1001.79 #%
 current_fruits = {1: {"t":24, "h":True}, #Gold
 				  2: {"t":24, "h":True}, #Power Alpha
-				  3: {"t":9, "h":False}, #Adven
-				  4: {"t":7, "h":True}, #Know
-				  5: {"t":20, "h":True}, #Pom
+				  3: {"t":11, "h":False}, #Adven
+				  4: {"t":11, "h":True}, #Know
+				  5: {"t":24, "h":True}, #Pom
 				  6: {"t":7, "h":False}, #Luck
 				  7: {"t":5, "h":True}, #Power Beta
-				  8: {"t":7, "h":False}, #Arb
+				  8: {"t":8, "h":False}, #Arb
 				  9: {"t":8, "h":True}, #Numbers
 				  10: {"t":3, "h":False}, #Rage
 				  11: {"t":1, "h":False}} #Macguffin
-
+current_seed_count = 4880
 
 
 #TODO påverkar Equipment_Yeild_Reward någon av seed rewardsen?
@@ -116,7 +116,6 @@ def get_max_efford_upgrades(fruit, currentTier, seed_count):
 
 best_fruit = 0
 best_ROI = 0
-current_seed_count = 2489
 
 for fruit in range(1, 12):
 	if current_fruits[fruit]["t"] == 24:
