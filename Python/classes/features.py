@@ -1031,6 +1031,13 @@ class Features(Navigation, Inputs):
 								   ncon.INVENTORY_GRID_REGION_Y2,
 								   self.get_file_path("images", ncon.QUESTING_ZONES[questZone]["filename"]),
 								   0.9, debug=False)
+
+		#import win32api
+		#win32api.SetCursorPos((Window.x + ncon.INVENTORY_GRID_REGION_X1 + result[0], 
+		#						Window.y + ncon.INVENTORY_GRID_REGION_Y1 + result[1]))
+		#print(str(result))
+		#input("derp")
+
 		if result != None:
 			self.click(ncon.INVENTORY_GRID_REGION_X1 + result[0] + 20,
 					   ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20, button="right", ctrl=cleanup)
