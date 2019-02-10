@@ -85,7 +85,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke(101)
 	currentBoss = feature.get_current_boss_two()
 	feature.adventure(highest=True)
-	feature.time_machine(137e6, 236e6)
+	feature.time_machine(130e6, 230e6)
 	feature.augments({"EB": 1}, 1.8e9)
 	feature.augments({"CS": 1}, 0.9e9)
 
