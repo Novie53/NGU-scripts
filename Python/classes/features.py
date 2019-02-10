@@ -880,11 +880,11 @@ class Features(Navigation, Inputs):
 					value_coefficient = overcap / pixel_coefficient
 					energy = (value_coefficient * value) - value
 					
-					total_Needed = (value_coefficient * value)
-					print(f"estimated energy to BB this NGU is {Decimal(total_Needed):.2E}")
+					#total_Needed = (value_coefficient * value)
+					#print(f"estimated energy to BB this NGU is {Decimal(total_Needed):.2E}")
 					break
 			self.input_box()
-			self.send_string(str(int(energy)))
+			self.NOV_send_text(energy)
 			self.click(ncon.NGU_PLUSX, ncon.NGU_PLUSY + target * 35)
 
 	def advanced_training(self, value):
