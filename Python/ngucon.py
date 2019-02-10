@@ -429,4 +429,5 @@ QUESTING_ZONES = {"sewers": {"filename": "Sewers.png", "floor": 2}, #key is case
 				  "universe": {"filename": "The 2D Universe.png", "floor": 10},
 				  "strange": {"filename": "A Very Strange Place.png", "floor": 13},
 				  "megaland": {"filename": "Mega Lands.png", "floor": 14},
-				  "beardverse": {"filename": "The Beardverse.png", "floor": 16}}
+				  "beardverse": {"filename": "The Beardverse.png", "floor": 16},
+				  "chocolate": {"filename": "Chocolate World.png", "floor": 21}}
