@@ -86,8 +86,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = feature.get_current_boss_two()
 	feature.adventure(highest=True)
 	feature.time_machine(137e6, 236e6)
-	feature.augments({"EB": 1}, 2e9)
-	feature.augments({"CS": 1}, 1e9)
+	feature.augments({"EB": 1}, 1.8e9)
+	feature.augments({"CS": 1}, 0.9e9)
 
 	while time.time() < (end - 11):
 		if XP_Digger:
@@ -133,10 +133,10 @@ def Nov_SpeedRun_Two(duration, counter):
 				WANDOOS_magic_goal_reached = True
 
 		if WANDOOS_energy_goal_reached:
-			if not BB_NGU and time_since_start() > 45:
+			if not BB_NGU and time_since_start() > 40:
 				nav.menu("ngu")
 				i.click(565, 450)
-				feature.bb_ngu(0.9e9, [1,2,3,4,5,6])
+				feature.bb_ngu(1e9, [1,2,3,4,5,6])
 				BB_NGU = True
 			feature.assign_ngu(1e12, [7])
 				
