@@ -24,7 +24,7 @@ ADVENTURE_ZONE = {0: {"name": "Cave of Many Things", "boss": 37, "floor": 4, "sl
 				  10: {"name": "Boring-Ass Earth", "boss": 124, "floor": 19, "sleep": 5},
 				  11: {"name": "Chocolate World", "boss": 137, "floor": 21, "sleep": 9}}
 MAX_KILL_ADVENTURE_ZONE = 10 # 6 if you only want to kill up towards "Mega Lands", no more
-SCREENSHOT_BOOLEAN = {"aug" : {"Use" : False, "Menu" : "augmentations"},
+SCREENSHOT_BOOLEAN = {"aug" : {"Use" : True, "Menu" : "augmentations"},
 					  "TM" : {"Use" : False, "Menu" : "timemachine"},
 					  "blood" : {"Use" : False, "Menu" : "bloodmagic"},
 					  "wandoos" : {"Use" : False, "Menu" : "wandoos"},
@@ -86,8 +86,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = feature.get_current_boss_two()
 	feature.adventure(highest=True)
 	feature.time_machine(137e6, 236e6)
-	feature.augments({"SM": 1}, 270e6)
-	feature.augments({"AA": 1}, 90e6)
+	feature.augments({"EB": 1}, 2e9)
+	feature.augments({"CS": 1}, 1e9)
 
 	while time.time() < (end - 11):
 		if XP_Digger:
@@ -136,7 +136,7 @@ def Nov_SpeedRun_Two(duration, counter):
 			if not BB_NGU and time_since_start() > 45:
 				nav.menu("ngu")
 				i.click(565, 450)
-				feature.bb_ngu(0.8e9, [1,2,3,4,5,6])
+				feature.bb_ngu(0.9e9, [1,2,3,4,5,6])
 				BB_NGU = True
 			feature.assign_ngu(1e12, [7])
 				
@@ -152,7 +152,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	
 	debugScreenShot("ngu", counter)
 	
-	feature.pit(value=1e24)
+	feature.pit(value=1e27)
 	feature.speedrun_bloodpill()
 	
 	feature.deactivate_all_diggers()
