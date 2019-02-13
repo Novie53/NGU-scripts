@@ -101,7 +101,7 @@ def printTimeLeftToBoss():
 	print(f"Time left to next boss {nextTitan} - {hour}:{min}:{sec}")
 	return TimeLeftToTitan
 
-			
+
 w = Window()
 i = Inputs()
 nav = Navigation()
@@ -121,23 +121,23 @@ DropChanceGear_Loadout = 3
 
 #feature.kill_titan("BEAST1")
 #exit()
-
+	
 #while feature.questing():
 #	time.sleep(0.1)
 #exit()
 
 while True:
 	#feature.merge_equipment()
-	#feature.merge_inventory(12)
+	feature.merge_inventory(8)
 	#feature.boost_equipment(cube=False)
 	#feature.boost_inventory(1)
-	feature.NOV_boost_equipment("cube")
+	feature.NOV_boost_equipment("accessory5")
 	
 	#nav.menu("inventory")
 	#inv_pos = feature.get_Inventory_Slot_Pos(15)
 	#i.click(inv_pos[0], inv_pos[1], button="right")
 		
-	feature.snipe_hard(18, 80, highest=False, mobs=0, attackType=2, forceStay=True)
+	feature.snipe_hard(18, 80, highest=False, mobs=0, attackType=1, forceStay=True)
 	
 	#nav.menu("inventory")
 	#i.click(10, 10)
