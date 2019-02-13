@@ -1007,11 +1007,9 @@ class Features(Navigation, Inputs):
 			item_Y = ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20
 		
 			if clean_up:
-				input("clean up start")
 				self.click(item_X, item_Y)
 				self.send_string("d")
 				self.click(item_X, item_Y, button="right", ctrl=True)
-				input("clean up end")
 			else: #Normal
 				self.click(item_X, item_Y, button="right")
 
