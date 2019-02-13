@@ -176,6 +176,60 @@ print(w.x, w.y)
 
 
 
+
+
+def test_ygg():
+	i.click(340, 115)	
+	for counter in range(1, 15):
+		if counter == 10:
+			i.click(410, 115)
+		counter = counter - 9 if counter > 9 else counter
+		if i.get_pixel_color(YGG_FIRST_PIXEL[counter]["X"], YGG_FIRST_PIXEL[counter]["Y"]) \
+				 == "FFFFFF":
+			print(str(counter) + " is maybe done")
+			#return
+
+YGG_FIRST_PIXEL = {1: {"X":321, "Y":150}, #same on page 2
+				   2: {"X":532, "Y":150}, #same on page 2
+				   3: {"X":744, "Y":150}, #same on page 2
+				   4: {"X":322, "Y":250}, #same on page 2
+				   5: {"X":533, "Y":250}, #same on page 2
+				   6: {"X":744, "Y":250},
+				   7: {"X":321, "Y":350},
+				   8: {"X":532, "Y":350},
+				   9: {"X":744, "Y":350}}
+				   
+nav.menu("yggdrasil")
+test_ygg()
+exit()
+				   
+
+while True:
+	col = i.get_pixel_color(322, 252)
+	print(f"X=322, Y=252, Color={col}")
+	col = i.get_pixel_color(321, 252)
+	print(f"X=321, Y=252, Color={col}")
+	print("---------------------")
+	time.sleep(0.1)
+exit()
+
+
+for x in range(325, 315, -1):
+	col = i.get_pixel_color(x, 252)		#row 2 = 252, row 3 = 341
+	print(f"X={x}, color={col}")
+exit()
+
+
+#321, 341	"FFFFFF"
+#320, 341	"101010"
+#319, 341	"A1DDB5"	#Helt Vit
+
+image = i.get_bitmap()
+text = i.ocr(326, 141, 499, 159, bmp=image)
+print(str(text))
+exit()
+
+
 c = Challenge()
 ScriptStart = time.time()
 runCounter = 0
