@@ -983,47 +983,17 @@ class Features(Navigation, Inputs):
 
 			
 #-------------- Questing ---------------
-	def _get_Quest_Zone(self):
+
+	def get_Quest_Text(self):
 		self.menu("questing")
 		self.click(10, 10)
-		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
-						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
-		desc = desc.replace("\n", " ")
-		desc = desc[100:]
-		desc = desc.lower()
+		text = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
+						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_STATUS_TEXT_Y2, debug=False)
+		text = text.lower()
+		text = text.replace("\n", " ")
+		return text
 		
-		for name in ncon.QUESTING_ZONES:
-			if name in desc:
-				#print(f"found \"{name}\" in \"{desc}\"")
-				return name
-		raise RuntimeError(f"Find no quest zone in \"{desc}\", not good")
-
-	def _is_Major_Quest(self):
-		self.menu("questing")
-		self.click(10, 10)
-		desc = self.ocr(ncon.QUESTING_STATUS_TEXT_X1, ncon.QUESTING_STATUS_TEXT_Y1, 
-						ncon.QUESTING_STATUS_TEXT_X2, ncon.QUESTING_STATUS_TEXT_Y2, debug=False)
-		desc = desc.replace("\n", " ")
-		return "major" in desc.lower()
-
-	def _is_Quest_Done(self):
-		self.menu("questing")
-		self.click(10, 10)
-		desc = self.ocr(ncon.QUESTING_STATUS_TEXT_X1, ncon.QUESTING_STATUS_TEXT_Y1, 
-						ncon.QUESTING_STATUS_TEXT_X2, ncon.QUESTING_STATUS_TEXT_Y2, debug=False)
-		desc = desc.replace("\n", " ")
-		return "handed in" in desc.lower()
-
-	def _is_Quest_Active(self):
-		self.menu("questing")
-		self.click(10, 10)
-		desc = self.ocr(ncon.QUESTING_DESCRIPTION_X1, ncon.QUESTING_DESCRIPTION_Y1, 
-						ncon.QUESTING_DESCRIPTION_X2, ncon.QUESTING_DESCRIPTION_Y2, debug=False)
-		return not "start quest" in desc.lower()
-
-	def collect_Quest_Items(self, questZone, cleanup=False):
-		#ToDo: could use input.multi_image_search instead of single image_search when doing cleanup
-		#		to save some IO requests and CPU time
+	def collect_Quest_Items(self, questZone, clean_up=False):
 		self.menu("inventory")
 		result = self.image_search(ncon.INVENTORY_GRID_REGION_X1,
 								   ncon.INVENTORY_GRID_REGION_Y1,
@@ -1032,58 +1002,69 @@ class Features(Navigation, Inputs):
 								   self.get_file_path("images", ncon.QUESTING_ZONES[questZone]["filename"]),
 								   0.9, debug=False)
 
-		#import win32api
-		#win32api.SetCursorPos((Window.x + ncon.INVENTORY_GRID_REGION_X1 + result[0], 
-		#						Window.y + ncon.INVENTORY_GRID_REGION_Y1 + result[1]))
-		#print(str(result))
-		#input("derp")
-
 		if result != None:
-			self.click(ncon.INVENTORY_GRID_REGION_X1 + result[0] + 20,
-					   ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20, button="right", ctrl=cleanup)
-			self.click(10, 10)
-			return True
-		else:
-			return False
+			item_X = ncon.INVENTORY_GRID_REGION_X1 + result[0] + 20
+			item_Y = ncon.INVENTORY_GRID_REGION_Y1 + result[1] + 20
+		
+			if clean_up:
+				input("clean up start")
+				self.click(item_X, item_Y)
+				self.send_string("d")
+				self.click(item_X, item_Y, button="right", ctrl=True)
+				input("clean up end")
+			else: #Normal
+				self.click(item_X, item_Y, button="right")
 
-	def cleanup_Old_Quest_Items(self):
-		print("Cleaning up old Quest Items")
-		for i in ncon.QUESTING_ZONES:
-			while self.collect_Quest_Items(i, cleanup=True):
-				time.sleep(0.1)
+	def questing(self, duration=60):
+		quest_Text = self.get_Quest_Text()
 
-	def questing(self):
-		print("\tNote: Respawn gear helps, script does not auto equip")
-		if not self._is_Quest_Active():
-			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
+		if "handed in" in quest_Text: #Quest is completed
+			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y) #Hands in the Quest
+			time.sleep(userset.LONG_SLEEP)
+			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y) #Starts a new Quest
+			quest_Text = self.get_Quest_Text()
 
-		if not self._is_Major_Quest():
+		if "start quest" in quest_Text: #No Quest is active
+			self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y) #Starts a new Quest
+			quest_Text = self.get_Quest_Text()
+
+		if not "major quest" in quest_Text:
 			print("Completed all Major Quests")
 			return False
 
-		questZone = self._get_Quest_Zone()
+		questZone = "?"
+		for name in ncon.QUESTING_ZONES:
+			if name in quest_Text:
+				questZone = name
+		if questZone == "?":
+			raise RuntimeError(f"Find no quest zone in \"{quest_Text}\"")
+
+
+
 		farm_start = time.time()
-		first = True
-		while not self._is_Quest_Done():
-			if first:
-				print("Farming quest items")
-				self.adventure(zone=ncon.QUESTING_ZONES[questZone]["floor"])
-				first = False
-			self.snipe_hard(0, 60, mobs=0, attackType=2, forceStay=True)
-			
+		self.adventure(zone=ncon.QUESTING_ZONES[questZone]["floor"])
+
+		while not "handed in" in quest_Text: #while quest not done
+			self.snipe_hard(0, duration, mobs=0, attackType=2, forceStay=True)
+
+			'''
 			self.menu("inventory")
-			#i.click(10, 10)
+			i.click(10, 10)
 			aaa = self.get_bitmap()
 			aaa.save("Pic\\questing_" + str(int(time.time())) + ".png")
-			
+			'''
+
 			self.collect_Quest_Items(questZone)
 			self.NOV_boost_equipment("cube")
-		if not first:
-			duration_sec = round(time.time() - farm_start)	
-			duration_converted = str(datetime.timedelta(seconds=duration_sec))
-			print(f"It took {duration_converted} to farm all quest items")
-		print("Quest done")
+			quest_Text = self.get_Quest_Text()
+
+
+		#duration_sec = round(time.time() - farm_start)	
+		#duration_converted = str(datetime.timedelta(seconds=duration_sec))
+		duration_converted = str(datetime.timedelta(seconds=round(time.time() - farm_start)))
+		print(f"It took {duration_converted} to complete the Quest")
+		self.menu("questing")
 		self.click(ncon.QUESTING_COMPLETE_BUTTON_X, ncon.QUESTING_COMPLETE_BUTTON_Y)
-		self.cleanup_Old_Quest_Items()
+		self.collect_Quest_Items(questZone, True)
 		return True
 
