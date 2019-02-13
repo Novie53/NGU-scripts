@@ -12,8 +12,8 @@ Fruit_Base_Seed_Reward = {1:1,
 						  8:3,
 						  9:3,
 						  10:5,
-						  11:6}
-						  #12:1,#Not verified
+						  11:6,
+						  12:7}
 						  #13:1}#Not verified
 Fruit_Base_Cost = {1:1,
 				   2:10,
@@ -30,11 +30,11 @@ Fruit_Base_Cost = {1:1,
 				   13:50000,
 				   14:100000}
 First_Harvest_Perk_Levels = 5
-Seed_Reward_Perk_Levels = 14
-Seed_Reward_Quirks_Levels = 25
+Seed_Reward_Perk_Levels = 20 #20 = Max
+Seed_Reward_Quirks_Levels = 25# 25 = Max
 Equipment_Seed_Reward = 143 #%
 Equipment_Yeild_Reward = 10.6 #%
-NGU_Seed_Reward = 1001.79 #%
+NGU_Seed_Reward = 1123.4 #%
 current_fruits = {1: {"t":24, "h":True}, #Gold
 				  2: {"t":24, "h":True}, #Power Alpha
 				  3: {"t":11, "h":False}, #Adven
@@ -45,8 +45,9 @@ current_fruits = {1: {"t":24, "h":True}, #Gold
 				  8: {"t":8, "h":False}, #Arb
 				  9: {"t":8, "h":True}, #Numbers
 				  10: {"t":3, "h":False}, #Rage
-				  11: {"t":1, "h":False}} #Macguffin
-current_seed_count = 4880
+				  11: {"t":1, "h":False}, #Macguffin
+				  12: {"t":1, "h":False}} #Power Omega
+current_seed_count = 274987
 
 
 #TODO påverkar Equipment_Yeild_Reward någon av seed rewardsen?
@@ -112,12 +113,18 @@ def get_max_efford_upgrades(fruit, currentTier, seed_count):
 			upgrades += 1
 			total_cost += next_upgrade_cost
 			seed_count -= next_upgrade_cost
-		
+
+
+
+#print(str(get_seed_reward(12, current_fruits[12]["t"], current_fruits[12]["h"], True, False)))
+#exit()
+
 
 best_fruit = 0
 best_ROI = 0
 
-for fruit in range(1, 12):
+#for fruit in range(1, 12):
+for fruit in current_fruits:
 	if current_fruits[fruit]["t"] == 24:
 		continue
 	upgrades, totalCost = get_max_efford_upgrades(fruit, current_fruits[fruit]["t"], current_seed_count)
