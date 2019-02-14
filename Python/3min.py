@@ -85,9 +85,9 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.nuke(101)
 	currentBoss = feature.get_current_boss_two()
 	feature.adventure(highest=True)
-	feature.time_machine(100e6, 200e6)
-	feature.augments({"EB": 1}, 1.1e9)
-	feature.augments({"CS": 1}, 0.4e9)
+	feature.time_machine(90e6, 180e6)
+	feature.augments({"EB": 1}, 0.99e9)
+	feature.augments({"CS": 1}, 0.36e9)
 
 	while time.time() < (end - 11):
 		if XP_Digger:
@@ -133,15 +133,15 @@ def Nov_SpeedRun_Two(duration, counter):
 				WANDOOS_magic_goal_reached = True
 
 		if WANDOOS_energy_goal_reached:
-			if not BB_NGU and time_since_start() > 40:
+			if not BB_NGU and time_since_start() > 50:
 				nav.menu("ngu")
 				i.click(565, 450)
-				feature.bb_ngu(3e9, [1,2,4,5,6])
+				feature.bb_ngu(5e9, [1,2,4,5,6])
 				BB_NGU = True
 			feature.assign_ngu(1e12, [7])
 				
 		if WANDOOS_magic_goal_reached:
-			feature.assign_ngu(1e12, [3], magic=True)
+			feature.assign_ngu(1e12, [2], magic=True)
 
 	debugScreenShot("TM", counter)
 	debugScreenShot("aug", counter)
@@ -176,7 +176,7 @@ feature = Features()
 
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
-u = Upgrade(37500, 37500, 2.2, 2.2, 2)
+u = Upgrade(37500, 37500, 2.3, 2.3, 2)
 print(w.x, w.y)
 tracker = NOV_Tracker()
 
@@ -194,7 +194,7 @@ while True:
 	Rätt Blood Auto(Number / Gold)
 	"""
 	Nov_SpeedRun_Two(3, runCounter)
-	if runCounter % 10 == 0:
-		u.em()
-		tracker.adjustxp()
+	#if runCounter % 10 == 0:
+	#	u.em()
+	#	tracker.adjustxp()
 	runCounter += 1

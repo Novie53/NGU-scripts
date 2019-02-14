@@ -67,6 +67,7 @@ def kill_Titans_Two(timeToWait):
 		feature.assign_ngu(1e12, [3], magic=True)
 	elif not DropChanceEquipment and current_Gear_Loadout != MainGear_Loadout:
 		print("Equipping NGU gear")
+		nav.menu("inventory")
 		nav.reclaim_all_magic()
 		nav.reclaim_all_energy()
 		feature.loadout(MainGear_Loadout) #Equip dropchance Gear
@@ -112,37 +113,34 @@ nav.menu("inventory")
 
 
 #settings
-FarmInZoneDuration = 110 #120
+FarmInZoneDuration = 120
 NoRebirth_Challenge_Count = 36
 ZoneToFarmIn = 21 #21 = Chocolate World, 19 = Boring-Ass Earth, 18 = Badly Drawn World
-MainGear_Loadout = 3 #2
+MainGear_Loadout = 2
 DropChanceGear_Loadout = 3
+diggers_Loadout = [4, 5, 6, 9, 10]#ITOPOD
 
 
 #feature.kill_titan("BEAST1")
 #exit()
 	
-#while feature.questing():
-#	time.sleep(0.1)
+while feature.questing():
+	time.sleep(0.1)
 #exit()
 
-while True:
+while False:
 	#feature.merge_equipment()
-	feature.merge_inventory(8)
+	#feature.merge_inventory(8)
 	#feature.boost_equipment(cube=False)
 	#feature.boost_inventory(1)
-	feature.NOV_boost_equipment("accessory5")
+	#feature.NOV_boost_equipment("accessory5")
+	feature.NOV_boost_equipment("cube")
 	
 	#nav.menu("inventory")
 	#inv_pos = feature.get_Inventory_Slot_Pos(15)
 	#i.click(inv_pos[0], inv_pos[1], button="right")
 		
-	feature.snipe_hard(18, 80, highest=False, mobs=0, attackType=1, forceStay=True)
-	
-	#nav.menu("inventory")
-	#i.click(10, 10)
-	#aaa = i.get_bitmap()
-	#aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
+	feature.snipe_hard(18, 120, highest=False, mobs=0, attackType=2, forceStay=True)
 
 
 current_Gear_Loadout = 1
@@ -154,27 +152,29 @@ durationOffsetCount = 0
 for x in TITANS.keys():
 	createTimeStamp(x, feature.kill_titan(x))
 	if int(TITANS[x]["KillTime"] - time.time()) <= 0:
-		print("error 23")
-		input("should not happen")
-feature.adventure(zone=ZoneToFarmIn)
+		createTimeStamp(x, feature.kill_titan(x))
+
+feature.adventure(itopod=True, itopodauto=True)
+#feature.adventure(zone=ZoneToFarmIn)
 
 while True:
 	printTimeLeftToBoss()
 	if kill_Titans_Two(FarmInZoneDuration + 30):
-		feature.adventure(zone=ZoneToFarmIn)
+		#feature.adventure(zone=ZoneToFarmIn)
+		feature.adventure(itopod=True, itopodauto=True)
 
 	
 	tempZoneDuration = FarmInZoneDuration - durationOffset
 	before = time.time()
-	feature.snipe_hard(ZoneToFarmIn, tempZoneDuration, highest=True, mobs=1, attackType=1, forceStay=False)
+	feature.snipe_hard(ZoneToFarmIn, tempZoneDuration, highest=True, mobs=0, attackType=2, forceStay=True)
 	durationOffsetTotal += (time.time() - before) - tempZoneDuration
 	durationOffsetCount += 1
 	durationOffset = round(durationOffsetTotal / durationOffsetCount, 2)
 
-	nav.menu("inventory")
+	#nav.menu("inventory")
 	#i.click(10, 10)
-	aaa = i.get_bitmap()
-	aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
+	#aaa = i.get_bitmap()
+	#aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
 
 	#feature.merge_equipment()
 	#feature.merge_inventory(11) #mergar de första 25 slotsen
@@ -185,15 +185,15 @@ while True:
 	
 	
 	
-	feature.ygg()
+	#feature.ygg()
 	feature.pit()
 	if feature.speedrun_bloodpill():
 		nav.reclaim_all_energy()
 		nav.reclaim_all_magic()
 		feature.deactivate_all_diggers()
-		feature.gold_diggers([1,4,5,6,10])
+		feature.gold_diggers(diggers_Loadout)
 	feature.spin()
 	feature.save_check()	
 	
-	feature.assign_ngu(1e12, [1])
-	feature.assign_ngu(1e12, [3], magic=True)
+	feature.assign_ngu(1e12, [8])
+	feature.assign_ngu(1e12, [2], magic=True)
