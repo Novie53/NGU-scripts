@@ -87,8 +87,8 @@ def Nov_SpeedRun_Two(duration, counter):
 	currentBoss = feature.get_current_boss_two()
 	feature.adventure(highest=True)
 	feature.time_machine(90e6, 180e6)
-	feature.augments({"EB": 1}, 0.99e9)
-	feature.augments({"CS": 1}, 0.36e9)
+	feature.augments({"EB": 1}, 900e6)
+	feature.augments({"CS": 1}, 260e6)
 
 	while time.time() < (end - 11):
 		if XP_Digger:
@@ -114,10 +114,10 @@ def Nov_SpeedRun_Two(duration, counter):
 		if time_since_start() > 150 and not XP_Digger:
 			feature.deactivate_all_diggers()
 			feature.gold_diggers([12])
-			feature.gold_diggers([5,6,8,9])
+			feature.gold_diggers([2,5,6,9])
 			XP_Digger = True
 		else:
-			feature.gold_diggers([5,6,8,9,12])
+			feature.gold_diggers([2,5,6,9,12])
 
 		feature.wandoos(True)
 
@@ -204,7 +204,7 @@ while True:
 	Rätt Blood Auto(Number / Gold)
 	"""
 	Nov_SpeedRun_Two(3, runCounter)
-	#if runCounter % 10 == 0:
-	#	u.em()
-	#	tracker.adjustxp()
+	if runCounter % 10 == 0:
+		u.em()
+		tracker.adjustxp()
 	runCounter += 1

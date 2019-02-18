@@ -176,8 +176,7 @@ print(w.x, w.y)
 
 
 
-
-
+'''
 def test_ygg():
 	i.click(340, 115)	
 	for counter in range(1, 15):
@@ -228,15 +227,16 @@ image = i.get_bitmap()
 text = i.ocr(326, 141, 499, 159, bmp=image)
 print(str(text))
 exit()
+'''
 
 
 c = Challenge()
 ScriptStart = time.time()
 runCounter = 0
 while True:
-	feature.NOV_boost_equipment("cube")
+	#feature.NOV_boost_equipment("cube")
 	before = time.time()
-	c.start_challenge(3)
+	c.start_challenge(2)
 	duration = time.time() - before # sec
 	runCounter += 1
 	

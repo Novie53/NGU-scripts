@@ -2,8 +2,8 @@ import time
 import datetime
 
 Max = 10
-Current = 6
-TimeLeft = "0:3" #"Hours:Minutes" for example "1:24"
+Current = 1
+TimeLeft = "6:45" #"Hours:Minutes" for example "1:24"
 Reduced_Time_Buff = False
 
 

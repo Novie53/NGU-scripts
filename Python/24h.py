@@ -177,15 +177,15 @@ while True:
 	#aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
 
 	#feature.merge_equipment()
-	#feature.merge_inventory(11) #mergar de första 25 slotsen
+	#feature.merge_inventory(4)
 	
 	#feature.boost_equipment(cube=False) #boostar också Cube
-	#feature.boost_inventory(3)
+	#feature.boost_inventory(2)
 	feature.NOV_boost_equipment("cube")
 	
 	
 	
-	#feature.ygg()
+	feature.ygg()
 	feature.pit()
 	if feature.speedrun_bloodpill():
 		nav.reclaim_all_energy()
