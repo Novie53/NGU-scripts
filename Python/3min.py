@@ -76,6 +76,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	Augment_Assigned = False
 	XP_Digger = False
 	BB_NGU = False
+	BB_Magic_NGU = False
 		
 	feature.do_rebirth()
 	start = time.time()
@@ -135,13 +136,22 @@ def Nov_SpeedRun_Two(duration, counter):
 		if WANDOOS_energy_goal_reached:
 			if not BB_NGU and time_since_start() > 50:
 				nav.menu("ngu")
-				i.click(565, 450)
-				feature.bb_ngu(5e9, [1,2,4,5,6])
+				i.click(ncon.NGU_PLUSX + 25, ncon.NGU_PLUSY + 7 * 35)#Remove energy form [7]
+				#i.click(565, 450)
+				feature.bb_ngu(5e9, [1,2,3,4,5,6])
+
 				BB_NGU = True
 			feature.assign_ngu(1e12, [7])
 				
 		if WANDOOS_magic_goal_reached:
-			feature.assign_ngu(1e12, [2], magic=True)
+			if not BB_Magic_NGU and time_since_start() > 50:
+				nav.ngu_magic()
+				i.click(ncon.NGU_PLUSX + 25, ncon.NGU_PLUSY + 7 * 35)#Remove energy form [7]
+				feature.bb_ngu(5e9, [1,2], magic=True)
+				
+				BB_Magic_NGU = True
+				
+			feature.assign_ngu(1e12, [7], magic=True)
 
 	debugScreenShot("TM", counter)
 	debugScreenShot("aug", counter)
