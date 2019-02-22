@@ -36,21 +36,20 @@ Equipment_Seed_Reward = 143 #%
 Equipment_Yeild_Reward = 10.6 #%
 NGU_Seed_Reward = 1123.4 #%
 current_fruits = {1: {"t":24, "h":True, "p":False}, #Gold
-				  2: {"t":24, "h":True, "p":False}, #Power Alpha
-				  3: {"t":24, "h":False, "p":False}, #Adven
+				  2: {"t":24, "h":False, "p":False}, #Power Alpha
+				  3: {"t":24, "h":False, "p":True}, #Adven
 				  4: {"t":24, "h":True, "p":False}, #Know
-				  5: {"t":24, "h":True, "p":True}, #Pom
-				  6: {"t":23, "h":False, "p":False}, #Luck
-				  7: {"t":7, "h":True, "p":False}, #Power Beta
-				  8: {"t":10, "h":False, "p":False}, #Arb
-				  9: {"t":8, "h":True, "p":False}, #Numbers
+				  5: {"t":24, "h":False, "p":True}, #Pom
+				  6: {"t":24, "h":False, "p":True}, #Luck
+				  7: {"t":7, "h":False, "p":False}, #Power Beta
+				  8: {"t":11, "h":False, "p":False}, #Arb
+				  9: {"t":8, "h":False, "p":False}, #Numbers
 				  10: {"t":3, "h":False, "p":False}, #Rage
 				  11: {"t":1, "h":False, "p":False}, #Macguffin
 				  12: {"t":1, "h":False, "p":False}} #Power Omega
-current_seed_count = 6951
+current_seed_count = 8079
 
 
-#TODO påverkar Equipment_Yeild_Reward någon av seed rewardsen?
 def get_seed_reward(fruit, tier, harvest = False, first_Harvest = False, poop = False):
 	if tier > 24 or tier < 1:
 		print("out of bounds")
@@ -120,6 +119,7 @@ def get_max_efford_upgrades(fruit, currentTier, seed_count):
 #print(str(get_seed_reward(abctier, current_fruits[abctier]["t"], current_fruits[abctier]["h"], True, current_fruits[fruit]["p"])))
 #exit()
 
+'''
 dailySeed = 0
 seedRewards = []
 for fruit in current_fruits:
@@ -132,13 +132,12 @@ for i in range(len(seedRewards)):
 	print(f"{i+1}\t{procent}%\t{seedRewards[i]}")
 	#print(str(i + 1))
 exit()
-
+'''
 
 
 best_fruit = 0
 best_ROI = 0
 
-#for fruit in range(1, 12):
 for fruit in current_fruits:
 	if current_fruits[fruit]["t"] == 24:
 		continue
