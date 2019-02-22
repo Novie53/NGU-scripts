@@ -34,10 +34,9 @@ Farm_In_ITOPOD = True
 
 
 def assaign_NGU():
-	print("herp")
 	feature.assign_ngu(1e12, [1])
 	feature.assign_ngu(1e12, [3], magic=True)
-		  
+
 def clearConsole():
     os.system('cls' if os.name=='nt' else 'clear')
 
