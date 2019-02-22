@@ -19,6 +19,25 @@ TITANS = {#"GRB": {"LootGear": False, "KillTime": 0},
 		  "BEAST1": {"LootGear": True, "KillTime": 0, "ManualKill":True, "BaseCoolDown":210}}
 
 
+#settings
+FarmInZoneDuration = 120
+NoRebirth_Challenge_Count = 36
+ZoneToFarmIn = 21 #21 = Chocolate World, 19 = Boring-Ass Earth, 18 = Badly Drawn World
+MainGear_Loadout = 2
+DropChanceGear_Loadout = 3
+diggers_Loadout = [4, 5, 6, 9, 10]#ITOPOD
+Farm_In_ITOPOD = True
+
+
+
+
+
+
+def assaign_NGU():
+	print("herp")
+	feature.assign_ngu(1e12, [1])
+	feature.assign_ngu(1e12, [3], magic=True)
+		  
 def clearConsole():
     os.system('cls' if os.name=='nt' else 'clear')
 
@@ -37,10 +56,31 @@ def createTimeStamp(TITAN, timeLeft):
 	
 	TITANS[TITAN]["KillTime"] = time.time() + sec
 
+def timeLeft_until_next_boss(consolePrint=False):
+	TimeLeftToTitan = 9999
+	nextTitan = ""
+	
+	for BossID in TITANS:
+		duration = int(TITANS[BossID]["KillTime"] - time.time())
+		if duration < TimeLeftToTitan:
+			TimeLeftToTitan = duration
+			nextTitan = BossID
+			
+	if consolePrint:
+		hour = int(TimeLeftToTitan / 3600)
+		min = int((TimeLeftToTitan - hour * 3600) / 60)
+		sec = TimeLeftToTitan - hour * 3600 - min * 60
+	
+		min = min if min > 9 else "0" + str(min)
+		sec = sec if sec > 9 else "0" + str(sec)
+		print(f"Time left to next boss {nextTitan} - {hour}:{min}:{sec}")
+
+	return nextTitan, TimeLeftToTitan
+	
 def kill_Titans_Two(timeToWait):
 	global current_Gear_Loadout
 
-	DropChanceEquipment = False
+	Equip_Drop_Gear = False
 	ManualKillList = []
 
 	for BossID in TITANS.keys():
@@ -52,20 +92,20 @@ def kill_Titans_Two(timeToWait):
 			TITANS[BossID]["KillTime"] += realTitanCoolDown * 60
 		elif duration <= timeToWait:
 			print("Lets Kill: " + BossID)
-			DropChanceEquipment = DropChanceEquipment or TITANS[BossID]["LootGear"]
+			Equip_Drop_Gear = Equip_Drop_Gear or TITANS[BossID]["LootGear"]
 			if TITANS[BossID]["ManualKill"]:
 				ManualKillList.append(BossID)
 	
-	if DropChanceEquipment and current_Gear_Loadout != DropChanceGear_Loadout:
+	if Equip_Drop_Gear and current_Gear_Loadout != DropChanceGear_Loadout:
 		print("Equipping loot gear")
+		nav.menu("inventory")
 		nav.reclaim_all_magic()
 		nav.reclaim_all_energy()
 		feature.loadout(DropChanceGear_Loadout) #Equip dropchance Gear
 		current_Gear_Loadout = DropChanceGear_Loadout
 		
-		feature.assign_ngu(1e12, [1])
-		feature.assign_ngu(1e12, [3], magic=True)
-	elif not DropChanceEquipment and current_Gear_Loadout != MainGear_Loadout:
+		assaign_NGU()
+	elif not Equip_Drop_Gear and current_Gear_Loadout != MainGear_Loadout:
 		print("Equipping NGU gear")
 		nav.menu("inventory")
 		nav.reclaim_all_magic()
@@ -73,8 +113,7 @@ def kill_Titans_Two(timeToWait):
 		feature.loadout(MainGear_Loadout) #Equip dropchance Gear
 		current_Gear_Loadout = MainGear_Loadout
 		
-		feature.assign_ngu(1e12, [1])
-		feature.assign_ngu(1e12, [3], magic=True)
+		assaign_NGU()
 
 	NotInFarmZone = False
 	for x in ManualKillList:
@@ -84,23 +123,6 @@ def kill_Titans_Two(timeToWait):
 			createTimeStamp(x, feature.kill_titan(x))
 	return NotInFarmZone
 
-def printTimeLeftToBoss():
-	TimeLeftToTitan = 9999
-	nextTitan = ""
-	
-	for BossID in TITANS.keys():
-		duration = int(TITANS[BossID]["KillTime"] - time.time())
-		if duration < TimeLeftToTitan:
-			TimeLeftToTitan = duration
-			nextTitan = BossID
-	hour = int(TimeLeftToTitan / 3600)
-	min = int((TimeLeftToTitan - hour * 3600) / 60)
-	sec = TimeLeftToTitan - hour * 3600 - min * 60
-	
-	min = min if min > 9 else "0" + str(min)
-	sec = sec if sec > 9 else "0" + str(sec)
-	print(f"Time left to next boss {nextTitan} - {hour}:{min}:{sec}")
-	return TimeLeftToTitan
 
 
 w = Window()
@@ -112,13 +134,6 @@ Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 nav.menu("inventory")
 
 
-#settings
-FarmInZoneDuration = 120
-NoRebirth_Challenge_Count = 36
-ZoneToFarmIn = 21 #21 = Chocolate World, 19 = Boring-Ass Earth, 18 = Badly Drawn World
-MainGear_Loadout = 2
-DropChanceGear_Loadout = 3
-diggers_Loadout = [4, 5, 6, 9, 10]#ITOPOD
 
 
 #feature.kill_titan("BEAST1")
@@ -143,25 +158,32 @@ while False:
 	feature.snipe_hard(18, 120, highest=False, mobs=0, attackType=2, forceStay=True)
 
 
+
+
 current_Gear_Loadout = 1
 durationOffset = 0
 durationOffsetTotal = 0
 durationOffsetCount = 0
 
 
-for x in TITANS.keys():
+for x in TITANS:
 	createTimeStamp(x, feature.kill_titan(x))
 	if int(TITANS[x]["KillTime"] - time.time()) <= 0:
 		createTimeStamp(x, feature.kill_titan(x))
 
-feature.adventure(itopod=True, itopodauto=True)
-#feature.adventure(zone=ZoneToFarmIn)
+if Farm_In_ITOPOD:
+	feature.adventure(itopod=True, itopodauto=True)
+else:
+	feature.adventure(zone=ZoneToFarmIn)
 
 while True:
-	printTimeLeftToBoss()
+	timeLeft_until_next_boss(consolePrint=True)
+	
 	if kill_Titans_Two(FarmInZoneDuration + 30):
-		#feature.adventure(zone=ZoneToFarmIn)
-		feature.adventure(itopod=True, itopodauto=True)
+		if Farm_In_ITOPOD:
+			feature.adventure(itopod=True, itopodauto=True)
+		else:
+			feature.adventure(zone=ZoneToFarmIn)
 
 	
 	tempZoneDuration = FarmInZoneDuration - durationOffset
@@ -185,7 +207,7 @@ while True:
 	
 	
 	
-	feature.ygg()
+	#feature.ygg()
 	feature.pit()
 	if feature.speedrun_bloodpill():
 		nav.reclaim_all_energy()
@@ -195,5 +217,4 @@ while True:
 	feature.spin()
 	feature.save_check()	
 	
-	feature.assign_ngu(1e12, [8])
-	feature.assign_ngu(1e12, [2], magic=True)
+	assaign_NGU()

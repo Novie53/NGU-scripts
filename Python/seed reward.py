@@ -35,18 +35,18 @@ Seed_Reward_Quirks_Levels = 25# 25 = Max
 Equipment_Seed_Reward = 143 #%
 Equipment_Yeild_Reward = 10.6 #%
 NGU_Seed_Reward = 1123.4 #%
-current_fruits = {1: {"t":24, "h":True}, #Gold
-				  2: {"t":24, "h":True}, #Power Alpha
-				  3: {"t":24, "h":False}, #Adven
-				  4: {"t":24, "h":True}, #Know
-				  5: {"t":24, "h":True}, #Pom
-				  6: {"t":20, "h":False}, #Luck
-				  7: {"t":7, "h":True}, #Power Beta
-				  8: {"t":10, "h":False}, #Arb
-				  9: {"t":8, "h":True}, #Numbers
-				  10: {"t":3, "h":False}, #Rage
-				  11: {"t":1, "h":False}, #Macguffin
-				  12: {"t":1, "h":False}} #Power Omega
+current_fruits = {1: {"t":24, "h":True, "p":False}, #Gold
+				  2: {"t":24, "h":True, "p":False}, #Power Alpha
+				  3: {"t":24, "h":False, "p":False}, #Adven
+				  4: {"t":24, "h":True, "p":False}, #Know
+				  5: {"t":24, "h":True, "p":True}, #Pom
+				  6: {"t":23, "h":False, "p":False}, #Luck
+				  7: {"t":7, "h":True, "p":False}, #Power Beta
+				  8: {"t":10, "h":False, "p":False}, #Arb
+				  9: {"t":8, "h":True, "p":False}, #Numbers
+				  10: {"t":3, "h":False, "p":False}, #Rage
+				  11: {"t":1, "h":False, "p":False}, #Macguffin
+				  12: {"t":1, "h":False, "p":False}} #Power Omega
 current_seed_count = 6951
 
 
@@ -84,7 +84,7 @@ def get_upgrade_cost(fruit, currentTier):
 
 def get_daily_seeds(fruit, tier):
 	if tier == 24:
-		return get_seed_reward(fruit, tier, current_fruits[fruit]["h"], True, False)
+		return get_seed_reward(fruit, tier, current_fruits[fruit]["h"], True, current_fruits[fruit]["p"])
 	else:
 		hours_left = 24
 		seed_count = 0
@@ -116,8 +116,23 @@ def get_max_efford_upgrades(fruit, currentTier, seed_count):
 
 
 
-#print(str(get_seed_reward(12, current_fruits[12]["t"], current_fruits[12]["h"], True, False)))
+#abctier = 5
+#print(str(get_seed_reward(abctier, current_fruits[abctier]["t"], current_fruits[abctier]["h"], True, current_fruits[fruit]["p"])))
 #exit()
+
+dailySeed = 0
+seedRewards = []
+for fruit in current_fruits:
+	current_seed = get_daily_seeds(fruit, current_fruits[fruit]["t"])
+	dailySeed += current_seed
+	seedRewards.append(current_seed)
+print(str(dailySeed))
+for i in range(len(seedRewards)):
+	procent = round(seedRewards[i] / dailySeed, 2)
+	print(f"{i+1}\t{procent}%\t{seedRewards[i]}")
+	#print(str(i + 1))
+exit()
+
 
 
 best_fruit = 0
