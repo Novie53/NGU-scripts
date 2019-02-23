@@ -16,7 +16,7 @@ TITANS = {#"GRB": {"LootGear": False, "KillTime": 0},
 		  #"jake": {"LootGear": True, "KillTime": 0},
 		  #"UUG": {"LootGear": True, "KillTime": 0},
 		  #"walderp": {"LootGear": True, "KillTime": 0, "ManualKill":False, "BaseCoolDown":180},
-		  "BEAST1": {"LootGear": True, "KillTime": 0, "ManualKill":True, "BaseCoolDown":210}}
+		  "BEAST1": {"LootGear": True, "KillTime": 0, "ManualKill":False, "BaseCoolDown":210}}
 
 
 #settings
@@ -30,7 +30,7 @@ Farm_In_ITOPOD = True
 
 
 
-
+print("TODO: Ändra ygg[2] till harvest när den inte behövs för att nå boss 301")
 
 
 def assaign_NGU():
