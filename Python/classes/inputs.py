@@ -137,6 +137,7 @@ class Inputs():
 				if y > height or x > width:
 					continue
 				t = bmp.getpixel((x, y))
+				#print(f"x:{x}, y:{y}")
 				if (self.rgb_to_hex(t) == color):
 					return x - 8, y - 8
 
