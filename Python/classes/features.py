@@ -12,6 +12,7 @@ import win32con as wcon
 import win32gui
 import usersettings as userset
 import datetime
+import re
 
 
 class Features(Navigation, Inputs):
@@ -1066,3 +1067,26 @@ class Features(Navigation, Inputs):
 		self.collect_Quest_Items(questZone, True)
 		return True
 
+#-------------- Misc -------------------
+
+	def get_rebirth_time(self, bmp=None):
+		#Stolen from @migetno1#4481 in discord. Credit to him/her
+
+		the_time = self.ocr(37, 387, 146, 408, False, bmp)
+		x = re.search("((?P<days>[0-9]) day )?((?P<hours>[0-9]+):)?(?P<minutes>[0-9]+):(?P<seconds>[0-9]+)", the_time)
+		seconds = 0
+
+		if x is not None:
+			if x.group('days') is not None:
+				seconds += 24 * 60 * int(x.group('days')) * 60
+
+			if x.group('hours') is not None:
+				seconds += 60 * 60 * int(x.group('hours'))
+
+			if x.group('minutes') is not None:
+				seconds += int(x.group('minutes')) * 60
+
+			if x.group('seconds') is not None:
+				seconds += int(x.group('seconds'))
+
+		return seconds
