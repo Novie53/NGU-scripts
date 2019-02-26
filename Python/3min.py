@@ -74,7 +74,7 @@ def Nov_SpeedRun_Two(duration, counter):
 	WANDOOS_energy_goal_reached = False
 	WANDOOS_magic_goal_reached = False
 	Augment_Assigned = False
-	XP_Digger = False
+	Diggers_Active = False
 	BB_NGU = False
 	BB_Magic_NGU = False
 		
@@ -91,12 +91,12 @@ def Nov_SpeedRun_Two(duration, counter):
 	feature.augments({"CS": 1}, 260e6)
 
 	while time.time() < (end - 11):
-		if XP_Digger:
+		if Diggers_Active:
 			feature.nuke()
 			feature.fight()
 			currentBoss = feature.get_current_boss_two()
 		
-		if time_since_start() < 60:
+		if time_since_start() < 20:
 			var1, var2 = kill_bosses(currentBoss, 0, GoldClearLevels)
 			if var1:
 				feature.adventure(itopod=True, itopodauto=True)
@@ -111,13 +111,10 @@ def Nov_SpeedRun_Two(duration, counter):
 			#feature.augments({"AA": 1}, 30e6)
 			Augment_Assigned = True
 
-		if time_since_start() > 150 and not XP_Digger:
-			feature.deactivate_all_diggers()
-			feature.gold_diggers([12])
-			feature.gold_diggers([2,5,6,9])
-			XP_Digger = True
-		else:
-			feature.gold_diggers([2,5,6,9,12])
+		feature.gold_diggers([4,5,6,9,10,12])
+		if not Diggers_Active:
+			feature.adventure(itopod=True, itopodauto=True)
+			Diggers_Active = True			
 
 		feature.wandoos(True)
 
@@ -134,20 +131,22 @@ def Nov_SpeedRun_Two(duration, counter):
 				WANDOOS_magic_goal_reached = True
 
 		if WANDOOS_energy_goal_reached:
-			if not BB_NGU and time_since_start() > 50:
+			if not BB_NGU and time_since_start() > 37:
 				nav.menu("ngu")
-				i.click(ncon.NGU_PLUSX + 25, ncon.NGU_PLUSY + 7 * 35)#Remove energy form [7]
+				i.click(ncon.NGU_PLUSX + 25, ncon.NGU_PLUSY + 9 * 35)#Remove energy form [7]
 				#i.click(565, 450)
-				feature.bb_ngu(5e9, [1,2,3,4,5,6])
+				feature.bb_ngu(1e9, [1,2,3,4,5,6])
+				feature.bb_ngu(30e9, [7,8])
 
 				BB_NGU = True
-			feature.assign_ngu(1e12, [7])
+			feature.assign_ngu(1e12, [9])
 				
 		if WANDOOS_magic_goal_reached:
 			if not BB_Magic_NGU and time_since_start() > 50:
 				nav.ngu_magic()
 				i.click(ncon.NGU_PLUSX + 25, ncon.NGU_PLUSY + 7 * 35)#Remove energy form [7]
-				feature.bb_ngu(5e9, [1,2], magic=True)
+				feature.bb_ngu(3e9, [1], magic=True)
+				feature.bb_ngu(10e9, [2,3,4,5], magic=True)
 				
 				BB_Magic_NGU = True
 				
@@ -204,7 +203,7 @@ while True:
 	Rätt Blood Auto(Number / Gold)
 	"""
 	Nov_SpeedRun_Two(3, runCounter)
-	if runCounter % 10 == 0:
-		u.em()
-		tracker.adjustxp()
-	runCounter += 1
+	#if runCounter % 10 == 0:
+	#	u.em()
+	#	tracker.adjustxp()
+	#runCounter += 1
