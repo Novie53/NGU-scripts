@@ -31,6 +31,7 @@ Farm_In_ITOPOD = True
 
 
 print("TODO: Ändra ygg[2] till harvest när den inte behövs för att nå boss 301")
+print("TODO: Ändra tillbaka till special boost när jag inte längre är soft cappad i toughness")
 
 
 def assaign_NGU():
@@ -140,13 +141,15 @@ nav.menu("inventory")
 	
 while feature.questing():
 	time.sleep(0.1)
+#feature.adventure(itopod=True, itopodauto=True)
 #exit()
 
-while False:
+
+while True:
 	#feature.merge_equipment()
-	#feature.merge_inventory(8)
+	#feature.merge_inventory(2)
 	#feature.boost_equipment(cube=False)
-	#feature.boost_inventory(1)
+	#feature.boost_inventory(3)
 	#feature.NOV_boost_equipment("accessory5")
 	feature.NOV_boost_equipment("cube")
 	
@@ -198,10 +201,10 @@ while True:
 	#aaa.save("Pic\\24h_" + str(int(time.time())) + ".png")
 
 	#feature.merge_equipment()
-	#feature.merge_inventory(4)
+	#feature.merge_inventory(2)
 	
 	#feature.boost_equipment(cube=False) #boostar också Cube
-	#feature.boost_inventory(2)
+	feature.boost_inventory(2)
 	feature.NOV_boost_equipment("cube")
 	
 	
