@@ -20,7 +20,7 @@ except:
 		w = Window()
 	else:
 		print("closing script")
-		quit()	
+		quit()
 i = Inputs()
 Window.x, Window.y = i.pixel_search(ncon.TOP_LEFT_COLOR, 10, 10, 400, 600)
 
