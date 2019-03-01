@@ -43,11 +43,11 @@ current_fruits = {1: {"t":24, "h":True, "p":False}, #Gold
 				  6: {"t":24, "h":False, "p":True}, #Luck
 				  7: {"t":24, "h":False, "p":False}, #Power Beta
 				  8: {"t":24, "h":False, "p":False}, #Arb
-				  9: {"t":19, "h":False, "p":False}, #Numbers
-				  10: {"t":6, "h":False, "p":False}, #Rage
-				  11: {"t":3, "h":False, "p":False}, #Macguffin
+				  9: {"t":24, "h":False, "p":False}, #Numbers
+				  10: {"t":12, "h":False, "p":False}, #Rage
+				  11: {"t":5, "h":False, "p":False}, #Macguffin
 				  12: {"t":2, "h":False, "p":False}} #Power Omega
-current_seed_count = 60000
+current_seed_count = 265000
 
 
 def get_seed_reward(fruit, tier, harvest = False, first_Harvest = False, poop = False):
