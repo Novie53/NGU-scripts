@@ -13,8 +13,8 @@ Fruit_Base_Seed_Reward = {1:1,
 						  9:3,
 						  10:5,
 						  11:6,
-						  12:7}
-						  #13:1}#Not verified
+						  12:7,
+						  13:24}#Not verified
 Fruit_Base_Cost = {1:1,
 				   2:10,
 				   3:25,
@@ -29,12 +29,12 @@ Fruit_Base_Cost = {1:1,
 				   12:30000,
 				   13:50000,
 				   14:100000}
-First_Harvest_Perk_Levels = 5
+First_Harvest_Perk_Levels = 5 #5 = Max
 Seed_Reward_Perk_Levels = 20 #20 = Max
 Seed_Reward_Quirks_Levels = 25# 25 = Max
-Equipment_Seed_Reward = 143 #%
-Equipment_Yeild_Reward = 10.6 #%
-NGU_Seed_Reward = 1123.4 #%
+Equipment_Seed_Reward = 190 #%
+Equipment_Yeild_Reward = 20 #%
+NGU_Seed_Reward = 2307.14 #%
 current_fruits = {1: {"t":24, "h":True, "p":False}, #Gold
 				  2: {"t":24, "h":False, "p":False}, #Power Alpha
 				  3: {"t":24, "h":False, "p":True}, #Adven
@@ -44,10 +44,11 @@ current_fruits = {1: {"t":24, "h":True, "p":False}, #Gold
 				  7: {"t":24, "h":False, "p":False}, #Power Beta
 				  8: {"t":24, "h":False, "p":False}, #Arb
 				  9: {"t":24, "h":False, "p":False}, #Numbers
-				  10: {"t":12, "h":False, "p":False}, #Rage
+				  10: {"t":13, "h":False, "p":False}, #Rage
 				  11: {"t":5, "h":False, "p":False}, #Macguffin
-				  12: {"t":2, "h":False, "p":False}} #Power Omega
-current_seed_count = 265000
+				  12: {"t":3, "h":False, "p":False}, #Power Omega
+				  13: {"t":4, "h":False, "p":False}} #Watermelon
+current_seed_count = 524710
 
 
 def get_seed_reward(fruit, tier, harvest = False, first_Harvest = False, poop = False):
@@ -63,7 +64,7 @@ def get_seed_reward(fruit, tier, harvest = False, first_Harvest = False, poop = 
 	a *= 1 + (Equipment_Seed_Reward / 100)
 	a *= (NGU_Seed_Reward / 100)
 	#a *= 1 + (Equipment_Yeild_Reward / 100)
-	a *= 2 if (harvest and fruit != 5) else 1#Pomegranate is not effect by harvest/eat
+	a *= 2 if (harvest and not(fruit == 5 or fruit == 13)) else 1#Pomegranate is not effect by harvest/eat
 	a *= 1.5 if poop else 1
 	a = math.ceil(a)
 	
@@ -116,7 +117,7 @@ def get_max_efford_upgrades(fruit, currentTier, seed_count):
 
 
 #abctier = 5
-#print(str(get_seed_reward(abctier, current_fruits[abctier]["t"], current_fruits[abctier]["h"], True, current_fruits[fruit]["p"])))
+#print(str(get_seed_reward(abctier, current_fruits[abctier]["t"], current_fruits[abctier]["h"], True, current_fruits[abctier]["p"])))
 #exit()
 
 '''
