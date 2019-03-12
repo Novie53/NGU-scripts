@@ -447,9 +447,9 @@ class Features(Navigation, Inputs):
 				self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
 				return
 			self.click(ncon.ITOPODSTARTX, ncon.ITOPODSTARTY)
-			self.send_string(str(itopod))
+			self.NOV_send_text(itopod)
 			self.click(ncon.ITOPODENDX, ncon.ITOPODENDY)
-			self.send_string(str(itopod))
+			self.NOV_send_text(itopod)
 			self.click(ncon.ITOPOD_ENTER_X, ncon.ITOPOD_ENTER_Y)
 			return
 		if highest:
@@ -884,9 +884,10 @@ class Features(Navigation, Inputs):
 					#total_Needed = (value_coefficient * value)
 					#print(f"estimated energy to BB this NGU is {Decimal(total_Needed):.2E}")
 					break
-			self.input_box()
-			self.NOV_send_text(energy)
-			self.click(ncon.NGU_PLUSX, ncon.NGU_PLUSY + target * 35)
+			if energy > 0:
+				self.input_box()
+				self.NOV_send_text(energy)
+				self.click(ncon.NGU_PLUSX, ncon.NGU_PLUSY + target * 35)
 
 	def advanced_training(self, value):
 		self.menu("advtraining")
@@ -1073,9 +1074,10 @@ class Features(Navigation, Inputs):
 		#Stolen from @migetno1#4481 in discord. Credit to him/her
 
 		the_time = self.ocr(37, 387, 146, 408, False, bmp)
-		x = re.search("((?P<days>[0-9]) day )?((?P<hours>[0-9]+):)?(?P<minutes>[0-9]+):(?P<seconds>[0-9]+)", the_time)
+		#x = re.search("((?P<days>[0-9]) day )?((?P<hours>[0-9]+):)?(?P<minutes>[0-9]+):(?P<seconds>[0-9]+)", the_time)
+		x = re.search("((?P<days>[0-9]+) days? )?((?P<hours>[0-9]+):)?(?P<minutes>[0-9]+):(?P<seconds>[0-9]+)", the_time)
 		seconds = 0
-
+		
 		if x is not None:
 			if x.group('days') is not None:
 				seconds += 24 * 60 * int(x.group('days')) * 60
