@@ -239,12 +239,9 @@ NGU_BAR_GRAY = "FAFAFA"
 
 #ADVTRAINING 
 
-ADV_TRAININGX = 890
-ADV_TRAINING1Y = 230
-ADV_TRAINING2Y = 270
-ADV_TRAINING3Y = 310
-ADV_TRAINING4Y = 350
-ADV_TRAINING5Y = 390
+ADV_TRAINING_ADD_X = 890
+ADV_TRAINING_ADD_Y = 230
+ADV_TRAINING_ADD_Y_OFFSET = 40
 
 #YGGDRASIL OFFSETS
 
@@ -426,4 +423,6 @@ QUESTING_ZONES = {"sewers": {"filename": "Sewers.png", "floor": 2}, #key is case
 				  "strange": {"filename": "A Very Strange Place.png", "floor": 13},
 				  "megaland": {"filename": "Mega Lands.png", "floor": 14},
 				  "beardverse": {"filename": "The Beardverse.png", "floor": 16},
-				  "chocolate": {"filename": "Chocolate World.png", "floor": 21}}
+				  "chocolate": {"filename": "Chocolate World.png", "floor": 21},
+				  "evilverse": {"filename": "Evilverse.png", "floor": 22},
+				  "pink princess": {"filename": "Pretty Pink Princess.png", "floor": 23}}
