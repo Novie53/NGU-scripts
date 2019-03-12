@@ -760,76 +760,6 @@ class Features(Navigation, Inputs):
 		else: #Reduce from Magic
 			self.click(ncon.WANDOOS_MINUS_X, ncon.WANDOOS_MAGIC_BUTTONS_Y)
 
-	def set_ngu(self, ngu, magic=False):
-		"""Handle NGU upgrades in a non-dumb way.
-
-		Function will check target levels of selected NGU's and equalize the
-		target levels. This means that if one upgrade is ahead of the others,
-		the target level for all NGU's that are behind will be set to the
-		level of the highest upgrade.
-
-		If they are even, it will instead increase target level
-		by 25% of current level. Since the NGU's level at different speeds, I
-		would recommend that you currently set the slower separate from the
-		faster upgrades, unless energy/magic is a non issue.
-
-		Function returns False if NGU's are uneven, so you know to check back
-		occasionally for the proper 25% increase, which can be left unchecked
-		for a longer period of time.
-
-		Keyword arguments:
-
-		ngu -- Dictionary containing information on which energy NGU's you
-			   wish to upgrade. Example: {7: True, 8: False, 9: False} - this
-			   will use NGU 7 (drop chance), 8 (magic NGU), 9 (PP) in the
-			   comparisons.
-
-		magic -- Set to True if these are magic NGU's
-		"""
-		if magic:
-			self.ngu_magic()
-		else:
-			self.menu("ngu")
-
-		bmp = self.get_bitmap()
-		current_ngu = {}
-		try:
-			for k in ngu:
-				y1 = ncon.OCR_NGU_E_Y1 + k * 35
-				y2 = ncon.OCR_NGU_E_Y2 + k * 35
-				# remove commas from sub level 1 million NGU's.
-				res = re.sub(',', '', self.ocr(ncon.OCR_NGU_E_X1, y1,
-											   ncon.OCR_NGU_E_X2, y2, False,
-											   bmp))
-				current_ngu[k] = res
-			# find highest and lowest NGU's.
-			high = max(current_ngu.keys(),
-					   key=(lambda i: float(current_ngu[i])))
-			low = min(current_ngu.keys(),
-					  key=(lambda i: float(current_ngu[i])))
-
-			# If one NGU is ahead of the others, fix this.
-			if high != low:
-				for k in current_ngu:
-					if float(current_ngu[k]) <= float(current_ngu[high]):
-						self.click(ncon.NGU_TARGETX, ncon.NGU_TARGETY + 35 * k)
-
-						"""We're casting as float to convert scientific notation
-						into something usable, then casting as int to get rid
-						of decimal."""
-
-						self.send_string(str(int(float(current_ngu[high]))))
-				return False
-			# Otherwise increase target level by 25%.
-			else:
-				for k in current_ngu:
-					self.click(ncon.NGU_TARGETX, ncon.NGU_TARGETY + 35 * k)
-					self.send_string(str(int(float(current_ngu[k]) * 1.25)))
-				return True
-
-		except ValueError:
-			print("Something went wrong with the OCR reading for NGU's")
-
 	def assign_ngu(self, value, targets, magic=False):
 		"""Assign energy/magic to NGU's.
 
@@ -889,14 +819,20 @@ class Features(Navigation, Inputs):
 				self.NOV_send_text(energy)
 				self.click(ncon.NGU_PLUSX, ncon.NGU_PLUSY + target * 35)
 
-	def advanced_training(self, value):
+	def advanced_training(self, value, wandoos=0):
 		self.menu("advtraining")
-		value = value // 2
 		self.input_box()
-		self.send_string(value)
-		self.click(ncon.ADV_TRAININGX, ncon.ADV_TRAINING1Y)
-		self.click(ncon.ADV_TRAININGX, ncon.ADV_TRAINING2Y)
-
+		self.NOV_send_text(value)
+		self.click(ncon.ADV_TRAINING_ADD_X, ncon.ADV_TRAINING_ADD_Y)
+		self.click(ncon.ADV_TRAINING_ADD_X, ncon.ADV_TRAINING_ADD_Y + ncon.ADV_TRAINING_ADD_Y_OFFSET)
+		
+		if wandoos > 0:
+			if wandoos > 1 and wandoos != value:
+				self.input_box()
+				self.NOV_send_text(wandoos)
+			self.click(ncon.ADV_TRAINING_ADD_X, ncon.ADV_TRAINING_ADD_Y + 3 * ncon.ADV_TRAINING_ADD_Y_OFFSET)
+			self.click(ncon.ADV_TRAINING_ADD_X, ncon.ADV_TRAINING_ADD_Y + 4 * ncon.ADV_TRAINING_ADD_Y_OFFSET)
+			
 	def save_check(self):
 		"""Check if we can do the daily save for AP.
 
